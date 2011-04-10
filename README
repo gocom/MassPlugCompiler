@@ -1,6 +1,10 @@
-Compiles Textpattern's plugin installer packages from sources
+MassPlugCompiler/rah_plugcompiler - Compiles Textpattern's plugin installer packages from sources.
 
-Build in couple minutes some years ago to ease building installer files for new Textpattern releases.
+Copyright (C) 2011 Jukka Svahn <http://rahforum.biz>
+Licensed under GNU Genral Public License version 2
+http://www.gnu.org/licenses/gpl-2.0.html
+
+Originally build in couple minutes some years ago to ease building installer files for new Textpattern releases.
 
 Main difference to the official 4.x plugin template, is that "MassPlugCompiler" builds packages from separated source files instead of using single template files. TextPacks (translations), source code and help files can be split into individual files. That way translators don't need to fiddle with code and can freely use text auto-correction and dictionary tools.
 

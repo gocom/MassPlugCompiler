@@ -1,5 +1,14 @@
 <?php
 
+/**
+	MassPlugCompiler/rah_plugcompiler - Compiles Textpattern's plugin installer packages from sources.
+	by Jukka Svahn
+
+	Copyright (c) 2011 Jukka Svahn <http://rahforum.biz>
+	Licensed under GNU Genral Public License version 2
+	http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
 	rah_plugcompile();
 
 	if(@txpinterface == 'admin')
