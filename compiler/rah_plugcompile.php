@@ -224,15 +224,7 @@
 					continue;
 			
 				$data = trim(file_get_contents($dir.'/'.$file));
-				
-				/*
-					Plugin can not be codeless.
-					Would just cause fatal errors.
-				*/
-				
-				if($file == 'code.php' && !$data)
-					break;
-				
+
 				/*
 					If source code, do clean up
 				*/
@@ -243,6 +235,14 @@
 					
 					if(substr($data,-2,2) == '?>')
 						$data = rtrim(substr_replace($data,'',-2,2));
+					
+					/*
+						Plugin can not be codeless.
+						Would just cause fatal errors.
+					*/
+					
+					if(!trim($data))
+						break;
 				}
 				
 				/*
