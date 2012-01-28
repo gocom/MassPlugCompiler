@@ -116,21 +116,6 @@ class rah_plugcompile {
 		if(!self::$rundir) {
 			self::$rundir = dirname(__FILE__);
 		}
-		
-		$this->plugin = array(
-			'name' => '',
-			'version' => '0.1',
-			'author' => '',
-			'author_uri' => '',
-			'description' => '',
-			'help' => '',
-			'code' => '',
-			'type' => 0,
-			'order' => 5,
-			'load_order' => NULL,
-			'flags' => '',
-			'textpack' => '',
-		);
 	}
 	
 	/**
@@ -273,6 +258,21 @@ class rah_plugcompile {
 	 */
 	
 	public function package() {
+		
+		$this->plugin = array(
+			'name' => '',
+			'version' => '0.1',
+			'author' => '',
+			'author_uri' => '',
+			'description' => '',
+			'help' => '',
+			'code' => '',
+			'type' => 0,
+			'order' => 5,
+			'load_order' => NULL,
+			'flags' => '',
+			'textpack' => '',
+		);
 		
 		$this->collect_sources();
 	
