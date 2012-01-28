@@ -1,323 +1,424 @@
 <?php
 
 /**
-	MassPlugCompiler/rah_plugcompiler - Compiles Textpattern's plugin installer packages from sources.
-	by Jukka Svahn
+ * MassPlugCompiler/rah_plugcompiler - Compiles Textpattern's plugin installer packages from sources.
+ *
+ * @author Jukka Svahn
+ * @copyright (c) 2011 Jukka Svahn
+ * @license GNU GPLv2
+ * @link https://github.com/gocom/MassPlugCompiler
+ *
+ * Copyright (c) 2011 Jukka Svahn <http://rahforum.biz>
+ * Licensed under GNU Genral Public License version 2
+ * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Requires PHP 5.2.0
+ *
+ * <code>
+ *		rah_plugcompile::instance()
+ *			->set('cache', '/path/to');
+ *			->set('source', '/path/to')
+ *			->package()
+ *			->get();
+ * </code>
+ */
 
-	Copyright (c) 2011 Jukka Svahn <http://rahforum.biz>
-	Licensed under GNU Genral Public License version 2
-	http://www.gnu.org/licenses/gpl-2.0.html
-*/
+class rah_plugcompile {
 
-	rah_plugcompile();
+	const GET_NORMAL = -1;
+	const GET_COMPRESSED = -2;
+	const INSTANCE_NEW = true;
 
-	if(@txpinterface == 'admin')
-		rah_plugcompile_installer();
-
-/**
-	Does installing and sets language strings
-*/
-
-	function rah_plugcompile_installer() {
-		
-		global $event, $prefs, $textarray;
-		
-		if($event != 'prefs')
-			return;
-		
-		foreach(
-			array(
-				'rah_plugcompile_active' => 'Use automatic plugin package compiler?',
-				'rah_plugcompile_releases' => 'Path to rah_plugin_dev\'s releases directory',
-				'rah_plugcompile_packages' => 'Path to packages destination'
-			) as $string => $translation
-		)
-			if(!isset($textarray[$string]))
-				$textarray[$string] = $translation;
-		
-		if(!isset($prefs['rah_plugcompile_active']))
-			safe_insert(
-				'txp_prefs',
-				"prefs_id=1,
-				name='rah_plugcompile_active',
-				val=0,
-				type=1,
-				event='admin',
-				html='yesnoradio',
-				position=102"
-			);
-		
-		foreach(
-			array(
-				'rah_plugcompile_releases',
-				'rah_plugcompile_packages'
-			) as $name
-		)
-			if(!isset($prefs[$name]))
-				safe_insert(
-					'txp_prefs',
-					"prefs_id=1,
-					name='{$name}',
-					val='',
-					type=1,
-					event='admin',
-					html='text_input',
-					position=102"
-				);
-	}
-
-/**
-	The automatic compiler. Goes thru projects directory
-	and compiles every release
-*/
+	/**
+	 * @var string Source directory.
+	 */
 	
-	function rah_plugcompile() {
+	public $source;
+	
+	/**
+	 * @var string Cache directory.
+	 */
+	
+	public $cache;
+	
+	/**
+	 * @var bool Compress
+	 */
+	
+	public $compress = false;
+	
+	/**
+	 * @var
+	 */
+	
+	public $output = 'package';
+	
+	/**
+	 * @var array Plugin data
+	 */
+	
+	protected $plugin;
+	
+	/**
+	 * @var obj Manifest file
+	 */
+	
+	protected $manifest;
+	
+	/**
+	 * @var string $path Details of the current file.
+	 */
+	
+	protected $path;
+	
+	/**
+	 * @var array $pathinfo
+	 */
+	
+	protected $pathinfo;
+	
+	/**
+	 * @var array Packages
+	 */
+	
+	protected $package = array();
+	
+	static public $package_cache = NULL;
+	static public $classTextile = NULL;
+	static public $plugin_types = array();
+	static public $instance;
+	static public $rundir;
+	
+	/**
+	 * Constructor
+	 */
+	
+	public function __construct() {
 		
-		global $prefs;
+		if(self::$classTextile === NULL) {
+			
+			if(!class_exists('Textile')) {
+				@include_once txpath.'/lib/classTextile.php';
+			}
+			
+			self::$classTextile = new Textile();
+		}
 		
-		/*
-			If not active, end here
-		*/
-		
-		if(!isset($prefs['rah_plugcompile_active']) || !$prefs['rah_plugcompile_active'])
-			return;
-		
-		/*
-			Clean up the paths, or if not set
-			use defaults
-		*/
-		
-		$project =
-			$prefs['rah_plugcompile_releases'] ? 
-				$prefs['rah_plugcompile_releases']
-			: 
-				'../plugins/releases'
-			;
-		
-		$cache =
-			$prefs['rah_plugcompile_packages'] ? 
-				$prefs['rah_plugcompile_packages']
-			: 
-				'../plugins/packages'
-			;
-		
-		$project = rtrim($project, '\\/') . '/';
-		$cache = rtrim($cache, '\\/') . '/';
-		
-		/*
-			Check that the directories are configured
-			properly
-		*/
-		
-		foreach(
-			array(
-				'file_exists',
-				'is_dir',
-				'is_readable',
-				'is_writeable'
-			) as $func
-		)
-			if(($func != 'is_writeable' && !$func($project)) || !$func($cache))
-				return;
-		
-		/*
-			Include Textile library
-		*/
-		
-		@include_once txpath.'/lib/classTextile.php';
-		
-		/*
-			File to include in the plugin template
-		*/
-		
-		$files = 
-			array(
-				'name.txt',
-				'author.txt',
-				'author_uri.txt',
-				'description.txt',
-				'help.txt',
-				'code.php',
-				'type.txt',
-				'load_order.txt',
-				'flags.txt',
-				'textpack.txt'
-			);
-		
-		/*
-			Plugin types
-		*/
-		
-		$types = 
-			array(
+		if(!self::$plugin_types) {
+			self::$plugin_types = array(
 				'Client side',
 				'Admin/Client side',
 				'Library',
-				'Admin only'
+				'Admin only',
 			);
+		}
 		
-		/*
-			List through the directories
-				/releases/
-					rah_pluginname/
-						0.1
-						0.2
-						0.3
-					rah_pluginname/
-						0.5
-						0.6
-		*/
+		if(!self::$rundir) {
+			self::$rundir = dirname(__FILE__);
+		}
 		
-		foreach(
-			glob($project.'*_*/'.'*', GLOB_ONLYDIR) as $dir
-		) {
-			
-			/*
-				If not readable, end here
-			*/
-
-			if(!is_readable($dir))
-				continue;
-				
-			/*
-				Get the plugin's name and version from
-				the path
-			*/
-			
-			$name = basename(dirname($dir));
-			$version = basename($dir);
-			
-			/*
-				Check that the plugin has valid prefix,
-				if not skip
-			*/
-			
-			if(!isset($name[3]) || $name[3] !== '_') {
-				continue;
+		$this->plugin = array(
+			'name' => '',
+			'version' => '0.1',
+			'author' => '',
+			'author_uri' => '',
+			'description' => '',
+			'help' => '',
+			'code' => '',
+			'type' => 0,
+			'order' => 5,
+			'load_order' => NULL,
+			'flags' => '',
+			'textpack' => '',
+		);
+	}
+	
+	/**
+	 * Get instance
+	 * @param bool $new_instance
+	 */
+	
+	static public function instance($new_instance=false) {
+		
+		if(!self::$instance || $new_instance == true) {
+			$class = __CLASS__;
+			self::$instance = new $class();
+		}
+		
+		return self::$instance;
+	}
+	
+	/**
+	 * Set a property
+	 * @param string $name
+	 * @param mixed $value
+	 * @return obj
+	 */
+	
+	public function set($name, $value) {
+		
+		if(!property_exists($this, $name)) {
+			return $this;
+		}
+		
+		$this->$name = $value;
+		return $this;
+	}
+	
+	/**
+	 * Build plugin's Textpack
+	 * @return nothing
+	 */
+	
+	private function format_textpack() {
+		
+		if(!is_readable($this->path))
+			return;
+	
+		if(is_dir($this->path)) {
+			foreach(glob($this->glob_escape($this->path) . '/*.textpack', GLOB_NOSORT) as $file) {
+				$this->plugin['textpack'] = $this->read($file)."\n";
 			}
+		}
+		
+		elseif(is_file($this->path)) {
+			$this->plugin['textpack'] = $this->read($this->path);
+		}
+	}
+	
+	/**
+	 * Build plugin's meta data from manifest file
+	 * @return nothing
+	 */
+	
+	private function format_manifest() {
+		$file = $this->read($this->path);
+		
+		if($file) {
+			$this->manifest = new SimpleXMLElement($file, LIBXML_NOCDATA);
 			
-			/*
-				Check if the plugin is already in packages
-			*/
-			
-			$pack['normal'] = $cache . '/' . $name . '_v' . $version . '.txt';
-			$pack['zip'] = $cache . '/' . $name . '_v' . $version . '_zip.txt';
-			
-			if(file_exists($pack['normal']))
-				$pack['normal'] = false;
-			
-			if(!function_exists('gzencode') || file_exists($pack['zip']))
-				$pack['zip'] = false;
-			
-			if(!$pack['zip'] && !$pack['normal'])
-				continue;
+			foreach($this->manifest as $name => $value) {
 				
-			/*
-				Fetch the files
-			*/
-			
-			$plugin = array();
-			
-			foreach($files as $file) {
-
-				if(!is_readable($dir.'/'.$file) || is_dir($dir.'/'.$file))
-					continue;
-			
-				$data = trim(file_get_contents($dir.'/'.$file));
-
-				/*
-					If source code, do clean up
-				*/
+				$name = (string) $name;
 				
-				if($file == 'code.php') {
-					if(substr($data,0,5) == '<?php')
-						$data = substr_replace($data,'',0,5);
-					
-					if(substr($data,-2,2) == '?>')
-						$data = rtrim(substr_replace($data,'',-2,2));
-					
-					/*
-						Plugin can not be codeless.
-						Would just cause fatal errors.
-					*/
-					
-					if(!trim($data))
-						break;
-				}
-				
-				/*
-					Plugin template expects order instead of
-					load_order
-				*/
-				
-				elseif($file == 'load_order.txt') {
-					$file = 'order.txt';
-				}
-				
-				/*
-					Textile the help file if the help starts with h1.
-				*/
-				
-				elseif($file == 'help.txt') {
-					if(!empty($data) && preg_match('/h1(\(.*\))?\./',$data)) {
-						$textile = new Textile();
-						$data = $textile->TextileThis($data);
-					}
-				}
-				
-				/*
-					Create the plugin data array
-					for the template
-				*/
-				
-				$plugin[substr($file,0,-4)] = $data;
-			}
-			
-			/*
-				We didn't get code, end here
-			*/
-			
-			if(!isset($plugin['code']))
-				continue;
-				
-			/*
-				Generate md5 checksum, set name and version
-				to the data array
-			*/
-			
-			$plugin['md5'] = md5($plugin['code']);
-			$plugin['name'] = $name;
-			$plugin['version'] = $version;
-			
-			/*
-				Generate the template and save the files
-			*/
-			
-			foreach($pack as $type => $path) {
-				
-				if(!$path)
+				if(!isset($this->plugin[$name]))	
 					continue;
 				
-				$package =
-					'# Name: '.$plugin['name'].' v'.$plugin['version'].($type == 'zip' ? ' (compressed)' : '').n.
-					'# Type: '.(isset($types[$plugin['type']]) ? $types[$plugin['type']] : 'Unknown').' plugin'.n.
-					'# '.$plugin['description'].n.
-					'# Author: '.$plugin['author'].n.
-					'# URL: '.$plugin['author_uri'].n.
-					'# Recommended load order: '.$plugin['order'].n.n.
-					'# .....................................................................'.n.
-					'# This is a plugin for Textpattern - http://textpattern.com/'.n.
-					'# To install: textpattern > admin > plugins'.n.
-					'# Paste the following text into the \'Install plugin\' box:'.n.
-					'# .....................................................................'.n.n.	
-					($type == 'zip' ? 
-						chunk_split(base64_encode(gzencode(serialize($plugin))), 72)
-					:
-						chunk_split(base64_encode(serialize($plugin)), 72))
-				;
+				$method = 'format_'.$name;
 				
-				file_put_contents($path, $package);
+				if(isset($value->attributes()->file) && method_exists($this, $method)) {
+					$this->path = (string) $value->attributes()->file;
+					$this->pathinfo = pathinfo($this->path);
+					$this->$method();
+				}
+				
+				else $this->plugin[$name] = (string) $value;
 			}
 		}
 	}
+
+	/**
+	 * Format source code. Removes PHP tags and so on.
+	 * @return nothing
+	 */
+	
+	private function format_code() {
+		
+		$this->plugin['code'] = $this->read($this->path);
+	
+		if(substr($this->plugin['code'], 0, 5) == '<?php')
+			$this->plugin['code'] = substr_replace($this->plugin['code'], '', 0, 5);
+		
+		if(substr($this->plugin['code'], -2, 2) == '?>')
+			$this->plugin['code'] = rtrim(substr_replace($this->plugin['code'], '', -2, 2));
+	}
+	
+	/**
+	 * Format help file
+	 * @return nothing
+	 */
+	
+	private function format_help() {
+		
+		$this->plugin['help'] = $this->read($this->path);
+		
+		if(
+			$this->pathinfo['extension'] == 'textile' ||
+			preg_match('/h1(\(.*\))?\./', $this->plugin['help'])
+		) {
+			$this->plugin['help'] = self::$classTextile->TextileThis($this->plugin['help']);
+		}
+	}
+	
+	/**
+	 * Source code
+	 * @param string $file
+	 * @return string
+	 */
+	
+	private function read($file) {
+		
+		if(strpos($file, './') === 0 || strpos($file, '../') === 0)
+			$file = $this->source . '/' . $file;
+	
+		if(!file_exists($file) || !is_file($file) || !is_readable($file))
+			return false;
+		
+		return file_get_contents($file);
+	}
+	
+	/**
+	 * Package code
+	 * @return obj
+	 */
+	
+	public function package() {
+		
+		$this->collect_sources();
+	
+		if(!$this->plugin['code'])
+			return $this;
+		
+		$header = $this->read( dirname(self::$rundir) . '/header.txt');
+		
+		foreach($this->plugin as $tag => $value)
+			$header = str_replace('{'.$tag.'}', $value, $header);
+		
+		if(!$this->plugin['name']) {
+			$this->plugin['name'] = basename(dirname(dirname($this->path)));
+		}
+		
+		if(!$this->plugin['version']) {
+			$this->plugin['version'] = basename(dirname($this->path));
+		}
+		
+		if($this->cache($this->plugin['name'], $this->plugin['version']))
+			return $this;
+		
+		if($this->plugin['load_order'] !== NULL) {
+			$this->plugin['order'] = $this->plugin['load_order'];
+			unset($this->plugin['load_order']);
+		}
+		
+		$this->plugin['md5'] = md5($this->plugin['code']);
+		
+		$filename = $this->plugin['name'] . '_v' . $this->plugin['version'];
+		
+		$this->package[$filename.'_zip.txt'] = 
+			$header . chunk_split(base64_encode(gzencode(serialize($this->plugin))), 72);
+		
+		$this->package[$filename.'.txt'] = 
+			$header . chunk_split(base64_encode(serialize($this->plugin)), 72);
+			
+		return $this;
+	}
+	
+	/**
+	 * Write current packages to the cache directory
+	 * @return obj
+	 */
+
+	public function write() {
+	
+		if(!file_exists($this->cache) || !is_dir($this->cache) || !is_writable($this->cache))
+			return $this;
+		
+		foreach($this->package as $name => $package) {
+			file_put_contents(
+				$this->cache . '/' . $name, $package
+			);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Get last compiled installer
+	 * @param int $offset
+	 * @return string Installer package
+	 */
+	
+	public function get($offset=self::GET_NORMAL) {
+		return implode('', array_slice($this->package, $offset, 1));
+	}
+
+	/**
+	 * Collect files from a directory
+	 * @return nothing
+	 */
+	
+	private function collect_sources() {
+
+		foreach(glob($this->glob_escape($this->source).'/*', GLOB_NOSORT) as $path) {
+			
+			$this->path = $path;
+			$this->pathinfo = pathinfo($path);
+			
+			if(!isset($this->plugin[$this->pathinfo['filename']])) {
+				
+				if($this->pathinfo['filename'] == 'manifest') {
+					$this->format_manifest();
+				}
+				
+				if(!isset($this->pathinfo['extension']))
+					continue;
+			
+				if($this->pathinfo['extension'] == 'php') {
+					$this->format_code();
+				}
+				
+				if($this->pathinfo['extension'] == 'textpack' && ($r = $this->read($path))) {
+					$this->plugin['textpack'] .= $r . "\n";
+				}
+			
+				continue;
+			}
+			
+			$method = 'format_'. $this->pathinfo['filename'];
+			
+			if(method_exists($this, $method)) {
+				$this->$method();
+			}
+		
+			$this->plugin[$this->pathinfo['filename']] = $this->read($path);
+		}
+		
+	}
+	
+	/**
+	 * Check whether compiled installer file is located in the cache dir
+	 * @param string $name
+	 * @param string $version
+	 * @return bool
+	 */
+	
+	private function cache($name, $version) {
+		
+		if(!file_exists($this->cache) || !is_dir($this->cache) || !is_readable($this->cache))
+			return false;
+		
+		if(self::$package_cache === NULL) {
+
+			self::$package_cache = array();
+
+			foreach(glob($this->glob_escape($this->cache) . '/*', GLOB_NOSORT) as $f) {
+				$n = explode('_v', basename($f));
+				self::$package_cache[$n[0]][current(explode('_', end($n)))] = true;
+			}
+		}
+		
+		return isset(self::$package_cache[$name][$version]);
+	}
+	
+	/**
+	 * Escape glob wildcard characters
+	 * @param string $filename
+	 * @return string
+	 */
+
+	private function glob_escape($filename) {
+		return preg_replace('/(\*|\?|\[)/', '[$1]', $filename);
+	}
+}
+
 ?>

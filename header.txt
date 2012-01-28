@@ -1,0 +1,12 @@
+# Name: {name} v{version}
+# Type: {type} plugin
+# {description}
+# Author: {author}
+# URL: {author_uri}
+# Recommended load order: {order}
+# .....................................................................
+# This is a plugin for Textpattern - http://textpattern.com/
+# To install: textpattern > admin > plugins
+# Paste the following text into the 'Install plugin' box:
+# .....................................................................
+
