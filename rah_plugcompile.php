@@ -279,7 +279,7 @@ class rah_plugcompile {
 		if(!$this->plugin['code'])
 			return $this;
 		
-		$header = $this->read( dirname(self::$rundir) . '/header.txt');
+		$header = $this->read(self::$rundir.'/header.txt');
 		
 		foreach($this->plugin as $tag => $value)
 			$header = str_replace('{'.$tag.'}', $value, $header);
