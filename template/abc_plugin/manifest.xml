@@ -1,0 +1,17 @@
+<manifest>
+
+	<name>abc_plugin</name>
+	<description>This is an example plugin</description>
+	
+	<version format="0.x">0.1</version>
+	<type public="0" pub-admin="1" library="2" admin-only="3">0</type>
+	
+	<author>Jukka Svahn</author>
+	<author_uri>http://rahforum.biz</author_uri>
+	
+	<order>5</order>
+	<flags>0</flags>
+	
+	<help file="./README.textile" />
+
+</manifest>
