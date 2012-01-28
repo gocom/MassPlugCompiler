@@ -3,7 +3,7 @@
 	<name>rah_plugcompile</name>
 	<description>Compile plugin installation files from sources</description>
 	
-	<version format="0.x">0.1</version>
+	<version>0.1</version>
 	<type public="0" pub-admin="1" library="2" admin-only="3">1</type>
 	
 	<author>Jukka Svahn</author>
@@ -12,6 +12,6 @@
 	<order>5</order>
 	<flags>0</flags>
 	
-	<help format="textile" file="./README.textile" />
+	<help file="./README.textile" />
 
 </manifest>
