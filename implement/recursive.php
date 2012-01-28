@@ -17,7 +17,7 @@
  * Requires PHP 5.2.0
  */
  
- 	include 'rah_plugcompile.php';
+ 	include dirname(dirname(__FILE__)) . '/rah_plugcompile.php';
  
  	rah_plugcompile::instance()
  		->set('cache', dirname(dirname(dirname(__FILE__))) . '/packages');
