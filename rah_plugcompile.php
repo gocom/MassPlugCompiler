@@ -88,6 +88,7 @@ class rah_plugcompile {
 	static public $plugin_types = array();
 	static public $instance;
 	static public $rundir;
+	static public $header;
 	
 	/**
 	 * Constructor
@@ -115,6 +116,10 @@ class rah_plugcompile {
 		
 		if(!self::$rundir) {
 			self::$rundir = dirname(__FILE__);
+		}
+		
+		if(!self::$header) {
+			self::$header = $this->read(self::$rundir.'/header.txt');
 		}
 	}
 	
@@ -289,7 +294,7 @@ class rah_plugcompile {
 		if(!$this->plugin['code'])
 			return $this;
 		
-		$header = $this->read(self::$rundir.'/header.txt');
+		$header = self::$header;
 		
 		foreach($this->plugin as $tag => $value) {
 			if(strpos($header, '{'.$tag.'}') !== false) {
