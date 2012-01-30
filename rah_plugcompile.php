@@ -159,15 +159,25 @@ class rah_plugcompile {
 		
 		if(!is_readable($this->path))
 			return;
+		
+		if(is_file($this->path)) {
+			$this->plugin['textpack'][] = $this->read($this->path);
+			return;
+		}
 	
 		if(is_dir($this->path)) {
 			foreach(glob($this->glob_escape($this->path) . '/*.textpack', GLOB_NOSORT) as $file) {
-				$this->plugin['textpack'] = $this->read($file)."\n";
+				
+				if($file = $this->read($file)) {
+					
+					if(strpos($file, '#@language') === false) {
+						array_unshift($this->plugin['textpack'], $file);
+						continue;
+					}
+					
+					$this->plugin['textpack'][] =  $file;
+				}
 			}
-		}
-		
-		elseif(is_file($this->path)) {
-			$this->plugin['textpack'] = $this->read($this->path);
 		}
 	}
 	
@@ -271,7 +281,7 @@ class rah_plugcompile {
 			'order' => 5,
 			'load_order' => NULL,
 			'flags' => '',
-			'textpack' => '',
+			'textpack' => array(),
 		);
 		
 		$this->collect_sources();
@@ -281,8 +291,11 @@ class rah_plugcompile {
 		
 		$header = $this->read(self::$rundir.'/header.txt');
 		
-		foreach($this->plugin as $tag => $value)
-			$header = str_replace('{'.$tag.'}', $value, $header);
+		foreach($this->plugin as $tag => $value) {
+			if(strpos($header, '{'.$tag.'}') !== false) {
+				$header = str_replace('{'.$tag.'}', (string) $value, $header);
+			}
+		}
 		
 		if(!$this->plugin['name']) {
 			$this->plugin['name'] = basename(dirname(dirname($this->path)));
@@ -300,6 +313,7 @@ class rah_plugcompile {
 			unset($this->plugin['load_order']);
 		}
 		
+		$this->plugin['textpack'] = implode("\n", $this->plugin['textpack']);
 		$this->plugin['md5'] = md5($this->plugin['code']);
 		
 		$filename = $this->plugin['name'] . '_v' . $this->plugin['version'];
@@ -368,7 +382,7 @@ class rah_plugcompile {
 				}
 				
 				if($this->pathinfo['extension'] == 'textpack' && ($r = $this->read($path))) {
-					$this->plugin['textpack'] .= $r . "\n";
+					$this->plugin['textpack'][] = $r;
 				}
 			
 				continue;
