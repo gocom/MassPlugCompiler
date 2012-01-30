@@ -370,20 +370,20 @@ class rah_plugcompile {
 			
 			if(!isset($this->plugin[$this->pathinfo['filename']])) {
 				
-				if($this->pathinfo['filename'] == 'manifest') {
+				if($this->pathinfo['filename'] == 'manifest')
 					$this->format_manifest();
-				}
+				
+				if($this->pathinfo['filename'] == 'textpacks')
+					$this->format_textpack();
 				
 				if(!isset($this->pathinfo['extension']))
 					continue;
 			
-				if($this->pathinfo['extension'] == 'php') {
+				if($this->pathinfo['extension'] == 'php')
 					$this->format_code();
-				}
 				
-				if($this->pathinfo['extension'] == 'textpack' && ($r = $this->read($path))) {
+				if($this->pathinfo['extension'] == 'textpack' && ($r = $this->read($path)))
 					$this->plugin['textpack'][] = $r;
-				}
 			
 				continue;
 			}
