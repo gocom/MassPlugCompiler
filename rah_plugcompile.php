@@ -279,7 +279,7 @@ class rah_plugcompile {
 			'code' => '',
 			'type' => 0,
 			'order' => 5,
-			'load_order' => NULL,
+			'load_order' => false,
 			'flags' => '',
 			'textpack' => array(),
 		);
@@ -308,7 +308,7 @@ class rah_plugcompile {
 		if($this->cache($this->plugin['name'], $this->plugin['version']))
 			return $this;
 		
-		if($this->plugin['load_order'] !== NULL)
+		if($this->plugin['load_order'] !== false)
 			$this->plugin['order'] = $this->plugin['load_order'];
 		
 		unset($this->plugin['load_order']);
