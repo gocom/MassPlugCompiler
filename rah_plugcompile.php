@@ -247,13 +247,19 @@ class rah_plugcompile {
 		$this->plugin['help'] = $this->read($this->path);
 		
 		if(
-			self::$classTextile && 
-			(
-				$this->pathinfo['extension'] == 'textile' ||
-				preg_match('/h1(\(.*\))?\./', $this->plugin['help'])
-			)
+			$this->pathinfo['extension'] == 'textile' ||
+			preg_match('/h1(\(.*\))?\./', $this->plugin['help'])
 		) {
-			$this->plugin['help'] = self::$classTextile->TextileThis($this->plugin['help']);
+		
+			if(self::$classTextile) {
+				$this->plugin['help'] = self::$classTextile->TextileThis($this->plugin['help']);
+			}
+			
+			else {
+				$this->plugin['help_raw'] = $this->plugin['help'];
+				$this->plugin['allow_html_help'] = 0;
+				$this->plugin['help'] = '';
+			}
 		}
 	}
 	
@@ -294,6 +300,7 @@ class rah_plugcompile {
 			'load_order' => false,
 			'flags' => '',
 			'textpack' => array(),
+			'allow_html_help' => 1,
 		);
 		
 		$this->collect_sources();
