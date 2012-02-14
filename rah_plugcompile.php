@@ -98,6 +98,8 @@ class rah_plugcompile {
 		
 		if(self::$classTextile === NULL) {
 			
+			self::$classTextile = false;
+			
 			if(!class_exists('Textile') && defined('txpath')) {
 				@include_once txpath.'/lib/classTextile.php';
 			}
@@ -105,8 +107,6 @@ class rah_plugcompile {
 			if(class_exists('Textile')) {
 				self::$classTextile = new Textile();
 			}
-			
-			self::$classTextile = false;
 		}
 		
 		if(!self::$plugin_types) {
