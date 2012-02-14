@@ -30,28 +30,16 @@ class rah_plugcompile {
 	const INSTANCE_NEW = true;
 
 	/**
-	 * @var string Source directory.
+	 * @var string Path to source directory.
 	 */
 	
 	public $source;
 	
 	/**
-	 * @var string Cache directory.
+	 * @var string Path to cache directory.
 	 */
 	
 	public $cache;
-	
-	/**
-	 * @var bool Compress
-	 */
-	
-	public $compress = false;
-	
-	/**
-	 * @var
-	 */
-	
-	public $output = 'package';
 	
 	/**
 	 * @var array Plugin data
@@ -60,25 +48,25 @@ class rah_plugcompile {
 	protected $plugin;
 	
 	/**
-	 * @var obj Manifest file
+	 * @var obj Parsed XML manifest file
 	 */
 	
 	protected $manifest;
 	
 	/**
-	 * @var string $path Details of the current file.
+	 * @var string Details of the current file.
 	 */
 	
 	protected $path;
 	
 	/**
-	 * @var array $pathinfo
+	 * @var array
 	 */
 	
 	protected $pathinfo;
 	
 	/**
-	 * @var array Packages
+	 * @var array Compiled packages
 	 */
 	
 	protected $package = array();
