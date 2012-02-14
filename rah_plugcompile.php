@@ -98,11 +98,15 @@ class rah_plugcompile {
 		
 		if(self::$classTextile === NULL) {
 			
-			if(!class_exists('Textile')) {
+			if(!class_exists('Textile') && defined('txpath')) {
 				@include_once txpath.'/lib/classTextile.php';
 			}
 			
-			self::$classTextile = new Textile();
+			if(class_exists('Textile')) {
+				self::$classTextile = new Textile();
+			}
+			
+			self::$classTextile = false;
 		}
 		
 		if(!self::$plugin_types) {
@@ -243,8 +247,11 @@ class rah_plugcompile {
 		$this->plugin['help'] = $this->read($this->path);
 		
 		if(
-			$this->pathinfo['extension'] == 'textile' ||
-			preg_match('/h1(\(.*\))?\./', $this->plugin['help'])
+			self::$classTextile && 
+			(
+				$this->pathinfo['extension'] == 'textile' ||
+				preg_match('/h1(\(.*\))?\./', $this->plugin['help'])
+			)
 		) {
 			$this->plugin['help'] = self::$classTextile->TextileThis($this->plugin['help']);
 		}
