@@ -324,13 +324,14 @@ class rah_plugcompile {
 		$this->plugin['md5'] = md5($this->plugin['code']);
 		
 		$filename = $this->plugin['name'] . '_v' . $this->plugin['version'];
+		$packed = serialize($this->plugin);
 		
 		$this->package[$filename.'_zip.txt'] = 
-			$header . chunk_split(base64_encode(gzencode(serialize($this->plugin))), 72);
+			$header . chunk_split(base64_encode(gzencode($packed)), 72);
 		
 		$this->package[$filename.'.txt'] = 
-			$header . chunk_split(base64_encode(serialize($this->plugin)), 72);
-			
+			$header . chunk_split(base64_encode($packed), 72);
+		
 		return $this;
 	}
 	
