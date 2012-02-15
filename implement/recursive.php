@@ -20,7 +20,7 @@
  	include dirname(dirname(__FILE__)) . '/rah_plugcompile.php';
  
  	rah_plugcompile::instance()
- 		->set('cache', dirname(dirname(dirname(__FILE__))) . '/packages');
+ 		->set('cache', dirname(dirname(__FILE__)) . '/packages');
 
 	foreach(
 		array_merge(
