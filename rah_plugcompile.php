@@ -293,8 +293,9 @@ class rah_plugcompile {
 		
 		$this->collect_sources();
 	
-		if(!$this->plugin['code'])
+		if(!$this->plugin['code']) {
 			return $this;
+		}
 		
 		$header = self::$header;
 		
@@ -312,11 +313,13 @@ class rah_plugcompile {
 			$this->plugin['version'] = basename(dirname($this->path));
 		}
 		
-		if($this->cache($this->plugin['name'], $this->plugin['version']))
+		if($this->cache($this->plugin['name'], $this->plugin['version'])) {
 			return $this;
+		}
 		
-		if($this->plugin['load_order'] !== false)
+		if($this->plugin['load_order'] !== false) {
 			$this->plugin['order'] = $this->plugin['load_order'];
+		}
 		
 		unset($this->plugin['load_order']);
 		
