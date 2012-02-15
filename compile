@@ -43,7 +43,7 @@
 
 	include $rundir . '/rah_plugcompile.php';
 	
-	$cache = $rundir . '/_packages';
+	$cache = $rundir . '/packages';
 	
 	if(!empty($argv[2])) {
 		$cache = $argv[2];
