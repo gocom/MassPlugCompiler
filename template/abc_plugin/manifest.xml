@@ -6,8 +6,8 @@
 	<version format="0.x">0.1</version>
 	<type public="0" pub-admin="1" library="2" admin-only="3">0</type>
 	
-	<author>Jukka Svahn</author>
-	<author_uri>http://rahforum.biz</author_uri>
+	<author>John Doe</author>
+	<author_uri>http://example.com</author_uri>
 	
 	<order>5</order>
 	<flags>0</flags>
