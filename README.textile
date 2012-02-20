@@ -4,5 +4,80 @@ p. Compiles "Textpattern's":http://www.textpattern.com plugin installer packages
 
 h2. Requirements
 
-* PHP 5.2 or newer
-* Textile class.
+p. At minimum rah_plugcompiler requires:
+
+* PHP 5.2 or newer.
+* "SimpleXML":http://php.net/manual/en/book.simplexml.php extension.
+
+p. Recommended:
+
+* "Textile":https://github.com/netcarver/textile markup class. Textile is used to parse help files. If no Textile class is provided, plugin installer's restricted raw Textile support is used as a fallback.
+
+h2. Files explained
+
+p. The repository contains three files that make the compiler:
+
+* "rah_plugcompile.php":https://github.com/gocom/MassPlugCompiler/blob/master/rah_plugcompile.php - is the actual compiler class.
+* "header.txt":https://github.com/gocom/MassPlugCompiler/blob/master/header.txt - packaged installer files header template.
+* "compile":https://github.com/gocom/MassPlugCompiler/blob/master/compile - command line wrapper for the class.
+
+p. The "template":https://github.com/gocom/MassPlugCompiler/tree/master/template directory hosts an example plugin, a plugin template (named _abc_plugin_). The "implement":https://github.com/gocom/MassPlugCompiler/tree/master/implement directory hosts some (or just one) implementation examples.
+
+h2. Plugin template
+
+p. The main difference compared to Textpattern's official plugin template and compiler is how the plugins are constructed. Textpattern's official template (by default) hosts everything in a single file. Rah_plugcompiler splits the sources to separate files: translations (i.e. textpacks), readme (i.e. help file), manifest (XML formatted meta file) and the actual source code.
+
+p. See "abc_plugin":https://github.com/gocom/MassPlugCompiler/tree/master/template/abc_plugin for an example. It showcases all available features from textpacks to manifest's options.
+
+h3. Textpacks
+
+p. Textpacks, Textpattern's plugin localization files, can be stored as a single file, or as separate files, each file storing a different language. Compiler searches Textpacks from:
+
+* Plugin template's root directory with the name of @textpack@ (e.g. @textpack.txt@).
+* Sub-directory named as @textpacks@ with the extension of @.textpack@
+
+h4. Default language and multi-file format
+
+p. In multi-file format, where textpacks are stored in the @textpacks@ directory, Textpacks are recognized by the extension @.textpack@. The file follow Textpattern's "language":http://rpc.textpattern.com/lang/ file format.
+
+p. Textpattern offers a way to set the default language which is used as the fallback when the plugin doesn't include user's language. The default language is chosen based on #@language keyword. Language files that do not define the language, are treated as the default language. Compare the example "en-gb.textile":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/en-gb.textpack and "fi-fi.textpack":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/fi-fi.textpack. The en-gb (English) doesn't define the language code, and is set as the default fallback.
+
+p. The language code (i.e. #@language line) found in the @fi-fi.textile@ is required in all but the the default language file (that's one file). If you don't want to set a default language, then include a language code in all files. See "rpc.textpattern.com/lang/":http://rpc.textpattern.com/lang/ for list of supported language by Textpattern.
+
+h3. Manifest and help file
+
+p. The manifest file, @manifest.xml@, contains all plugin's meta data. That's the rest of the stuff plugin template contains of, including plugin's version number, author, url, special flags, type, and recommended loading order. The manifest file can also be used to specify help file's location. By default help file is expected to be named as @help@ (with any extension), but different location/name can be chosen by placing @<help file="./path/to/help/file" />@ to the manifest file.
+
+h2. Installation
+
+p. Rah_plugcompiler is portable, and doesn't need specific extra configuration or installation. It's just a class, with two example implementations. The compiler can also be run as Textpattern plugin by placing the compiler class (@rah_plugcompile.php@, @header.txt@) to Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path where then other plugins could use the class as fit.
+
+h2. Usage
+
+p. The compiler is a class, with couple implementation examples; "CLI":":https://github.com/gocom/MassPlugCompiler/blob/master/compile and "recursive mass compiler, recursive.php":https://github.com/gocom/MassPlugCompiler/blob/master/implement/recursive.php. The "recursive.php":https://github.com/gocom/MassPlugCompiler/blob/master/implement/recursive.php showcases how the class can be used.
+
+h3. Using command line
+
+p. The @compile@ file brings the compiler to command-line.
+
+bc. compile
+compile /source/dir
+compile /source/dir /output/dir
+
+p. The command-line script compiles plugins and writes the installer packages to "packages":https://github.com/gocom/MassPlugCompiler/tree/master/packages directory. The script takes zero, one or two arguments. If the script is executed with out arguments it waits for the user to input (type, drag, copy) in path to the plugin directory.
+
+p. If no path is provided at all (script is executed and then Enter ⏎ is pressed), the compiler searches plugin files from the current directory the @compile@ file is in. This means that the compiler can be dragged and dropped to plugin's directory and simply executed, if @include $rundir . '/rah_plugcompile.php';@ line in compile file is changed to absolute path).
+
+p. Note that in CLI all provided paths should be absolute (expect strdout).
+
+h4. Some usable examples
+
+p. Specifying only plugin's source directory (only one argument) will make the plugin to write the installer packages to the /packages directory (located in same directory as the compile file).
+
+bc. compile /absolute/path/to/templates/abc_plugin
+
+p. Output directory can be changed by sepecifying second argument. Path arguments should be absolute paths, point to a directory.
+
+bc. compile /absolute/path/to/templates/abc_plugin /absolute/path/to/packages
+
+p. On unix platforms (Linux, Mac OS) it's also possible to simply execute the @compile@ file (in file browser, e.g. Finder, double click the icon) and then drag and drop the plugin directories to the terminal window.
