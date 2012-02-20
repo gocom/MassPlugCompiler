@@ -1,6 +1,6 @@
 h1. MassPlugCompiler/rah_plugcompiler
 
-p. Compiles "Textpattern's":http://www.textpattern.com plugin installer packages from separate source files. Sports XML-formatted meta files, automatic-textile detection and localization file joining.
+p. Compiles "Textpattern's":http://www.textpattern.com plugin installer packages from separate source files. Sports XML-formatted meta files, automatic textile detection and localization file joining.
 
 h2. Requirements
 
@@ -27,36 +27,40 @@ h2. Plugin template
 
 p. The main difference compared to Textpattern's official plugin template and compiler is how the plugins are constructed. Textpattern's official template (by default) hosts everything in a single file. Rah_plugcompiler splits the sources to separate files: translations (i.e. textpacks), readme (i.e. help file), manifest (XML formatted meta file) and the actual source code.
 
-p. See "abc_plugin":https://github.com/gocom/MassPlugCompiler/tree/master/template/abc_plugin for an example. It showcases all available features from textpacks to manifest's options.
+p. See "abc_plugin":https://github.com/gocom/MassPlugCompiler/tree/master/template/abc_plugin for an example template. Cleverly named abc_plugin showcases all available features from textpacks to manifest's options.
 
 h3. Textpacks
 
-p. Textpacks, Textpattern's plugin localization files, can be stored as a single file, or as separate files, each file storing a different language. Compiler searches Textpacks from:
+p. "Textpacks":http://forum.textpattern.com/viewtopic.php?id=33182, Textpattern's plugin localization files, can be stored in a single file, or as separate files, each file storing a different language. Compiler searches textpacks from:
 
-* Plugin template's root directory with the name of @textpack@ (e.g. @textpack.txt@).
-* Sub-directory named as @textpacks@ with the extension of @.textpack@
+* Plugin template's root directory with the name of @textpack@ (e.g. @textpack.txt@, only allows single file).
+* From a sub-directory named as @textpacks@ with the extension of @.textpack@
 
 h4. Default language and multi-file format
 
-p. In multi-file format, where textpacks are stored in the @textpacks@ directory, Textpacks are recognized by the extension @.textpack@. The file follow Textpattern's "language":http://rpc.textpattern.com/lang/ file format.
+p. In multi-file format, where textpacks are stored in the @textpacks@ directory, textpacks are recognized by the extension, @.textpack@. These textpack files follow Textpattern's "language file":http://rpc.textpattern.com/lang/ syntax.
 
-p. Textpattern offers a way to set the default language which is used as the fallback when the plugin doesn't include user's language. The default language is chosen based on #@language keyword. Language files that do not define the language, are treated as the default language. Compare the example "en-gb.textile":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/en-gb.textpack and "fi-fi.textpack":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/fi-fi.textpack. The en-gb (English) doesn't define the language code, and is set as the default fallback.
+p. Textpattern offers a way to set the default language which is used as the fallback when the plugin doesn't come with user's language. The default language is chosen based on #@language keyword, or lack of. Textpack files that do not define the language, are treated as the default language. Compare abc_plugin's "en-gb.textile":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/en-gb.textpack and "fi-fi.textpack":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/fi-fi.textpack files. The en-gb doesn't define the language code and is set as the default.
 
-p. The language code (i.e. #@language line) found in the @fi-fi.textile@ is required in all but the the default language file (that's one file). If you don't want to set a default language, then include a language code in all files. See "rpc.textpattern.com/lang/":http://rpc.textpattern.com/lang/ for list of supported language by Textpattern.
+p. The language code (i.e. #@language line), as found in the @fi-fi.textile@, is required in all but the default textpack file (that's one file). If language code is included in all files, no default language is set, and user will see raw language strings if language isn't provided.
+
+p. Refer to "rpc.textpattern.com/lang/":http://rpc.textpattern.com/lang/ for list of supported languages by Textpattern.
 
 h3. Manifest and help file
 
-p. The manifest file, @manifest.xml@, contains all plugin's meta data. That's the rest of the stuff plugin template contains of, including plugin's version number, author, url, special flags, type, and recommended loading order. The manifest file can also be used to specify help file's location. By default help file is expected to be named as @help@ (with any extension), but different location/name can be chosen by placing @<help file="./path/to/help/file" />@ to the manifest file.
+p. The manifest file, @manifest.xml@, contains all plugin's meta data. That's the rest of the stuff a plugin is made of, including plugin's version number, author, url, special flags, type, and recommended loading order. The manifest file can also be used to specify help file's location. By default help file is expected to be named as @help@ (with any extension), but different location/name can be chosen by placing @<help file="./path/to/help/file" />@ to the manifest file.
 
 h2. Installation
 
-p. Rah_plugcompiler is portable, and doesn't need specific extra configuration or installation. It's just a class, with two example implementations. The compiler can also be run as Textpattern plugin by placing the compiler class (@rah_plugcompile.php@, @header.txt@) to Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path where then other plugins could use the class as fit.
+p. Rah_plugcompiler is portable, and doesn't need specific extra configuring or installation. The whole thing is just a class, with two example implementations. The compiler can also be run as Textpattern plugin by placing the compiler class (@rah_plugcompile.php@, @header.txt@) to Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path, where then other plugins could use the class as fits.
+
+p. Textile class can be installed by saving "classTextile.php":https://github.com/netcarver/textile to the rah_plugcompile's directory (to same directory as @rah_plugcompile.php@). If the compiler is loaded as Textpattern plugin, the Textile class included with Textpattern is used.
 
 h2. Usage
 
-p. The compiler is a class, with couple implementation examples; "CLI":":https://github.com/gocom/MassPlugCompiler/blob/master/compile and "recursive mass compiler, recursive.php":https://github.com/gocom/MassPlugCompiler/blob/master/implement/recursive.php. The "recursive.php":https://github.com/gocom/MassPlugCompiler/blob/master/implement/recursive.php showcases how the class can be used.
+p. The compiler is a class, with couple implementation examples; "CLI":https://github.com/gocom/MassPlugCompiler/blob/master/compile and recursive mass-compiler. The "recursive.php":https://github.com/gocom/MassPlugCompiler/blob/master/implement/recursive.php showcases how the class can be used in it's simplest form.
 
-h3. Using command line
+h2. CLI -- using command line
 
 p. The @compile@ file brings the compiler to command-line.
 
@@ -70,14 +74,20 @@ p. If no path is provided at all (script is executed and then Enter ⏎ is press
 
 p. Note that in CLI all provided paths should be absolute (expect strdout).
 
-h4. Some usable examples
+h3. CLI examples
+
+h4. Single arguments
 
 p. Specifying only plugin's source directory (only one argument) will make the plugin to write the installer packages to the /packages directory (located in same directory as the compile file).
 
 bc. compile /absolute/path/to/templates/abc_plugin
 
-p. Output directory can be changed by sepecifying second argument. Path arguments should be absolute paths, point to a directory.
+h4. Two arguments
+
+p. Output directory can be changed by specifying second argument. Path arguments should be absolute paths, point to a directory.
 
 bc. compile /absolute/path/to/templates/abc_plugin /absolute/path/to/packages
+
+h4. Click and execute
 
 p. On unix platforms (Linux, Mac OS) it's also possible to simply execute the @compile@ file (in file browser, e.g. Finder, double click the icon) and then drag and drop the plugin directories to the terminal window.
