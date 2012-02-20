@@ -1,8 +1,9 @@
 <?php
 
 /**
- * Implementation example. Searches plugin directories from parent directory
- * and tries to write compiled installer packages to "../../packages" directory.
+ * Implementation example. Searches plugin directories from the parent directory
+ * two levels above (../../) and tries to write compiled installer packages 
+ * to "../packages" directory.
  *
  * @package rah_plugcompiler
  * @author Jukka Svahn
@@ -14,7 +15,7 @@
  * Licensed under GNU Genral Public License version 2
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * Requires PHP 5.2.0
+ * Requires PHP 5.2.0 or newer.
  */
  
  	include dirname(dirname(__FILE__)) . '/rah_plugcompile.php';
