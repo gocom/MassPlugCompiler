@@ -83,10 +83,18 @@ class rah_plugcompile {
 	 */
 	
 	public function __construct() {
+	
+		if(!self::$rundir) {
+			self::$rundir = dirname(__FILE__);
+		}
 		
 		if(self::$classTextile === NULL) {
 			
 			self::$classTextile = false;
+			
+			if(!class_exists('Textile') && file_exists(self::$rundir.'/classTextile.php')) {
+				@include_once self::$rundir.'/classTextile.php';
+			}
 			
 			if(!class_exists('Textile') && defined('txpath')) {
 				@include_once txpath.'/lib/classTextile.php';
@@ -104,10 +112,6 @@ class rah_plugcompile {
 				'Library',
 				'Admin only',
 			);
-		}
-		
-		if(!self::$rundir) {
-			self::$rundir = dirname(__FILE__);
 		}
 		
 		if(!self::$header) {
