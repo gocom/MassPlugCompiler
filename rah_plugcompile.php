@@ -120,7 +120,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Get instance
+	 * Gets an instance
 	 * @param bool $new_instance
 	 */
 	
@@ -135,7 +135,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Set a property
+	 * Sets a property
 	 * @param string $name
 	 * @param mixed $value
 	 * @return obj
@@ -152,7 +152,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Build plugin's Textpack
+	 * Builds plugin's Textpack
 	 * @return nothing
 	 */
 	
@@ -183,7 +183,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Build plugin's meta data from manifest file
+	 * Builds plugin's meta data from a manifest file
 	 * @return nothing
 	 */
 	
@@ -214,7 +214,7 @@ class rah_plugcompile {
 	}
 
 	/**
-	 * Format source code. Removes PHP tags and so on.
+	 * Formats source code. Removes PHP tags and so on.
 	 * @return nothing
 	 */
 	
@@ -230,7 +230,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Format help file
+	 * Formats help file
 	 * @return nothing
 	 */
 	
@@ -256,7 +256,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Source code
+	 * Reads a file's contents
 	 * @param string $file
 	 * @return string
 	 */
@@ -273,7 +273,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Package code
+	 * Packages the plugin
 	 * @return obj
 	 */
 	
@@ -343,7 +343,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Write current packages to the cache directory
+	 * Writes current packages to the cache directory
 	 * @return obj
 	 */
 
@@ -362,7 +362,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Get last compiled installer
+	 * Gets last compiled installer
 	 * @param int $offset
 	 * @return string Installer package
 	 */
@@ -372,7 +372,7 @@ class rah_plugcompile {
 	}
 
 	/**
-	 * Collect files from a directory
+	 * Collects files from a directory
 	 * @return nothing
 	 */
 	
@@ -415,7 +415,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Check whether compiled installer file is located in the cache dir
+	 * Checks whether compiled installer file is located in the cache dir
 	 * @param string $name
 	 * @param string $version
 	 * @return bool
@@ -440,7 +440,7 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Escape glob wildcard characters
+	 * Escapes glob wildcard characters
 	 * @param string $filename
 	 * @return string
 	 */
