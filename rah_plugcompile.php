@@ -122,6 +122,7 @@ class rah_plugcompile {
 	/**
 	 * Gets an instance
 	 * @param bool $new_instance
+	 * @return obj
 	 */
 	
 	static public function instance($new_instance=false) {
