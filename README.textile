@@ -42,7 +42,7 @@ p. In multi-file format, where textpacks are stored in the @textpacks@ directory
 
 p. Textpattern offers a way to set the default language which is used as the fallback when the plugin doesn't come with user's language. The default language is chosen based on #@language keyword, or lack of. Textpack files that do not define the language, are treated as the default language. Compare abc_plugin's "en-gb.textile":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/en-gb.textpack and "fi-fi.textpack":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/fi-fi.textpack files. The en-gb doesn't define the language code and is set as the default.
 
-p. The language code (i.e. #@language line), as found in the @fi-fi.textile@, is required in all but the default textpack file (that's one file). If language code is included in all files, no default language is set, and user will see raw language strings if language isn't provided.
+p. The language code (i.e. ==#@language== line), as found in the @fi-fi.textile@, is required in all but the default textpack file (that's one file). If language code is included in all files, no default language is set, and user will see raw language strings if site's language isn't provided.
 
 p. Refer to "rpc.textpattern.com/lang/":http://rpc.textpattern.com/lang/ for list of supported languages by Textpattern.
 
@@ -72,11 +72,11 @@ p. The command-line script compiles plugins and writes the installer packages to
 
 p. If no path is provided at all (script is executed and then Enter ⏎ is pressed), the compiler searches plugin files from the current directory the @compile@ file is in. This means that the compiler can be dragged and dropped to plugin's directory and simply executed, if @include $rundir . '/rah_plugcompile.php';@ line in compile file is changed to absolute path).
 
-p. Note that in CLI all provided paths should be absolute (expect strdout).
+p. Note that in CLI all provided paths should be absolute (except stdout).
 
 h3. CLI examples
 
-h4. Single arguments
+h4. Single argument
 
 p. Specifying only plugin's source directory (only one argument) will make the plugin to write the installer packages to the /packages directory (located in same directory as the compile file).
 
