@@ -73,7 +73,6 @@ class rah_plugcompile {
 	
 	static public $package_cache = NULL;
 	static public $classTextile = NULL;
-	static public $plugin_types = array();
 	static public $instance;
 	static public $rundir;
 	static public $header;
@@ -103,15 +102,6 @@ class rah_plugcompile {
 			if(class_exists('Textile')) {
 				self::$classTextile = new Textile();
 			}
-		}
-		
-		if(!self::$plugin_types) {
-			self::$plugin_types = array(
-				'Client side',
-				'Admin/Client side',
-				'Library',
-				'Admin only',
-			);
 		}
 		
 		if(!self::$header) {
