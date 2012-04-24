@@ -1,5 +1,4 @@
 # Name: {name} v{version}
-# Type: {type} plugin
 # {description}
 # Author: {author}
 # URL: {author_uri}
