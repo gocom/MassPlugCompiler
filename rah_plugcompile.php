@@ -71,12 +71,17 @@ class rah_plugcompile {
 	
 	protected $package = array();
 	
+	/**
+	 * @var string Plugin header meta
+	 */
+	
+	protected $header = NULL;
+	
 	static public $package_cache = NULL;
 	static public $classTextile = NULL;
 	static public $instance;
 	static public $rundir;
-	static public $header;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -104,8 +109,21 @@ class rah_plugcompile {
 			}
 		}
 		
-		if(!self::$header) {
-			self::$header = $this->read(self::$rundir.'/header.txt');
+		if($this->header === NULL) {
+			$this->header = implode("\n", array(
+				'# Name: {name} v{version}',
+				'# {description}',
+				'# Author: {author}',
+				'# URL: {author_uri}',
+				'# Recommended load order: {order}',
+				'# .....................................................................',
+				'# This is a plugin for Textpattern - http://textpattern.com/',
+				'# To install: textpattern > admin > plugins',
+				'# Paste the following text into the "Install plugin" box:',
+				'# .....................................................................',
+				'',
+				'',
+			));
 		}
 	}
 	
@@ -292,7 +310,7 @@ class rah_plugcompile {
 			return $this;
 		}
 		
-		$header = self::$header;
+		$header = $this->header;
 		
 		foreach($this->plugin as $tag => $value) {
 			if(strpos($header, '{'.$tag.'}') !== false) {

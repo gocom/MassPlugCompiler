@@ -18,7 +18,6 @@ h2. Files explained
 p. The repository contains three files that make the compiler:
 
 * "rah_plugcompile.php":https://github.com/gocom/MassPlugCompiler/blob/master/rah_plugcompile.php - is the actual compiler class.
-* "header.txt":https://github.com/gocom/MassPlugCompiler/blob/master/header.txt - packaged installer files header template.
 * "compile":https://github.com/gocom/MassPlugCompiler/blob/master/compile - command line wrapper for the class.
 
 p. The "template":https://github.com/gocom/MassPlugCompiler/tree/master/template directory hosts an example plugin, a plugin template (named _abc_plugin_). The "implement":https://github.com/gocom/MassPlugCompiler/tree/master/implement directory hosts some (or just one) implementation examples.
@@ -52,7 +51,7 @@ p. The manifest file, @manifest.xml@, contains all plugin's meta data. That's th
 
 h2. Installation
 
-p. Rah_plugcompiler is portable, and doesn't need specific extra configuring or installation. The whole thing is just a class, with two example implementations. The compiler can also be run as Textpattern plugin by placing the compiler class (@rah_plugcompile.php@, @header.txt@) to Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path, where then other plugins could use the class as fits.
+p. Rah_plugcompiler is portable, and doesn't need specific extra configuring or installation. The whole thing is just a class, with two example implementations. The compiler can also be run as Textpattern plugin by placing the compiler class (@rah_plugcompile.php@) to Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path, where then other plugins could use the class as fits.
 
 p. Textile class can be installed by saving "classTextile.php":https://github.com/netcarver/textile to the rah_plugcompile's directory (to same directory as @rah_plugcompile.php@). If the compiler is loaded as Textpattern plugin, the Textile class included with Textpattern is used.
 
