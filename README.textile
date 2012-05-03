@@ -75,7 +75,7 @@ p. The command-line script compiles plugins and writes the installer packages to
 
 p. If no path is provided at all (script is executed and then Enter ⏎ is pressed), the compiler searches plugin files from the current directory the @compile@ file is in. This means that the compiler can be dragged and dropped to plugin's directory and simply executed, if @include $rundir . '/rah_plugcompile.php';@ line in compile file is changed to absolute path).
 
-p. Note that in CLI all provided paths should be absolute (except standard input).
+p. Note that in CLI all provided paths should be absolute (except standard output).
 
 h3. CLI examples
 
