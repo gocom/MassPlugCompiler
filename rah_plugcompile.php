@@ -176,7 +176,7 @@ class rah_plugcompile {
 		}
 	
 		if(is_dir($this->path)) {
-			foreach(glob($this->glob_escape($this->path) . '/*.textpack', GLOB_NOSORT) as $file) {
+			foreach((array) glob($this->glob_escape($this->path) . '/*.textpack', GLOB_NOSORT) as $file) {
 				
 				if($file = $this->read($file)) {
 					
@@ -275,7 +275,7 @@ class rah_plugcompile {
 		if(strpos($file, './') === 0 || strpos($file, '../') === 0)
 			$file = $this->source . '/' . $file;
 	
-		if(!file_exists($file) || !is_file($file) || !is_readable($file))
+		if(empty($file) || !file_exists($file) || !is_file($file) || !is_readable($file))
 			return false;
 		
 		return file_get_contents($file);
@@ -387,7 +387,7 @@ class rah_plugcompile {
 	
 	private function collect_sources() {
 
-		foreach(glob($this->glob_escape($this->source).'/*', GLOB_NOSORT) as $path) {
+		foreach((array) glob($this->glob_escape($this->source).'/*', GLOB_NOSORT) as $path) {
 			
 			$this->path = $path;
 			$this->pathinfo = pathinfo($path);
@@ -439,9 +439,11 @@ class rah_plugcompile {
 
 			self::$package_cache = array();
 
-			foreach(glob($this->glob_escape($this->cache) . '/*', GLOB_NOSORT) as $f) {
-				$n = explode('_v', basename($f));
-				self::$package_cache[$n[0]][current(explode('_', end($n)))] = true;
+			foreach((array) glob($this->glob_escape($this->cache) . '/*', GLOB_NOSORT) as $f) {
+				if($f) {
+					$n = explode('_v', basename($f));
+					self::$package_cache[$n[0]][current(explode('_', end($n)))] = true;
+				}
 			}
 		}
 		
