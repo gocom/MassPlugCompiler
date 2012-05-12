@@ -165,7 +165,7 @@ class rah_plugcompile {
 	 * @return nothing
 	 */
 	
-	private function format_textpack() {
+	protected function format_textpack() {
 		
 		if(!is_readable($this->path))
 			return;
@@ -196,7 +196,7 @@ class rah_plugcompile {
 	 * @return nothing
 	 */
 	
-	private function format_manifest() {
+	protected function format_manifest() {
 		$file = $this->read($this->path);
 		
 		if($file) {
@@ -227,7 +227,7 @@ class rah_plugcompile {
 	 * @return nothing
 	 */
 	
-	private function format_code() {
+	protected function format_code() {
 		
 		$this->plugin['code'] = $this->read($this->path);
 	
@@ -243,7 +243,7 @@ class rah_plugcompile {
 	 * @return nothing
 	 */
 	
-	private function format_help() {
+	protected function format_help() {
 		
 		$this->plugin['help'] = $this->read($this->path);
 		
