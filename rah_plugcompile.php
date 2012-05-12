@@ -310,16 +310,16 @@ class rah_plugcompile {
 			return $this;
 		}
 		
+		if(!$this->plugin['version']) {
+			$this->plugin['version'] = basename(dirname($this->path));
+		}
+		
 		$header = $this->header;
 		
 		foreach($this->plugin as $tag => $value) {
 			if(strpos($header, '{'.$tag.'}') !== false) {
 				$header = str_replace('{'.$tag.'}', (string) $value, $header);
 			}
-		}
-		
-		if(!$this->plugin['version']) {
-			$this->plugin['version'] = basename(dirname($this->path));
 		}
 		
 		if($this->cache($this->plugin['name'], $this->plugin['version'])) {
