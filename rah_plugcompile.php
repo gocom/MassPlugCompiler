@@ -318,10 +318,6 @@ class rah_plugcompile {
 			}
 		}
 		
-		if(!$this->plugin['name']) {
-			$this->plugin['name'] = basename(dirname(dirname($this->path)));
-		}
-		
 		if(!$this->plugin['version']) {
 			$this->plugin['version'] = basename(dirname($this->path));
 		}
