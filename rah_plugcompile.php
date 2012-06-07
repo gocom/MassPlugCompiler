@@ -206,8 +206,9 @@ class rah_plugcompile {
 				
 				$name = (string) $name;
 				
-				if(!isset($this->plugin[$name]))	
+				if(!isset($this->plugin[$name])) {
 					continue;
+				}
 				
 				$method = 'format_'.$name;
 				
@@ -233,11 +234,13 @@ class rah_plugcompile {
 		
 		$this->plugin['code'] = $this->read($this->path);
 	
-		if(substr($this->plugin['code'], 0, 5) == '<?php')
+		if(substr($this->plugin['code'], 0, 5) == '<?php') {
 			$this->plugin['code'] = substr_replace($this->plugin['code'], '', 0, 5);
+		}
 		
-		if(substr($this->plugin['code'], -2, 2) == '?>')
+		if(substr($this->plugin['code'], -2, 2) == '?>') {
 			$this->plugin['code'] = rtrim(substr_replace($this->plugin['code'], '', -2, 2));
+		}
 	}
 	
 	/**
@@ -274,11 +277,13 @@ class rah_plugcompile {
 	
 	protected function read($file) {
 		
-		if(strpos($file, './') === 0 || strpos($file, '../') === 0)
+		if(strpos($file, './') === 0 || strpos($file, '../') === 0) {
 			$file = $this->source . '/' . $file;
+		}
 	
-		if(empty($file) || !file_exists($file) || !is_file($file) || !is_readable($file))
+		if(empty($file) || !file_exists($file) || !is_file($file) || !is_readable($file)) {
 			return false;
+		}
 		
 		return file_get_contents($file);
 	}
@@ -392,20 +397,25 @@ class rah_plugcompile {
 			
 			if(!isset($this->plugin[$this->pathinfo['filename']])) {
 				
-				if($this->pathinfo['filename'] == 'manifest')
+				if($this->pathinfo['filename'] == 'manifest') {
 					$this->format_manifest();
+				}
 				
-				if($this->pathinfo['filename'] == 'textpacks')
+				if($this->pathinfo['filename'] == 'textpacks') {
 					$this->format_textpack();
+				}
 				
-				if(!isset($this->pathinfo['extension']))
+				if(!isset($this->pathinfo['extension'])) {
 					continue;
-			
-				if($this->pathinfo['extension'] == 'php')
-					$this->format_code();
+				}
 				
-				if($this->pathinfo['extension'] == 'textpack' && ($r = $this->read($path)))
+				if($this->pathinfo['extension'] == 'php') {
+					$this->format_code();
+				}
+				
+				if($this->pathinfo['extension'] == 'textpack' && ($r = $this->read($path))) {
 					$this->plugin['textpack'][] = $r;
+				}
 			
 				continue;
 			}
