@@ -270,7 +270,7 @@ class rah_plugcompile {
 	 * @return string
 	 */
 	
-	private function read($file) {
+	protected function read($file) {
 		
 		if(strpos($file, './') === 0 || strpos($file, '../') === 0)
 			$file = $this->source . '/' . $file;
@@ -381,7 +381,7 @@ class rah_plugcompile {
 	 * @return nothing
 	 */
 	
-	private function collect_sources() {
+	protected function collect_sources() {
 
 		foreach((array) glob($this->glob_escape($this->source).'/*', GLOB_NOSORT) as $path) {
 			
@@ -426,7 +426,7 @@ class rah_plugcompile {
 	 * @return bool
 	 */
 	
-	private function cache($name, $version) {
+	public function cache($name, $version) {
 		
 		if(!file_exists($this->cache) || !is_dir($this->cache) || !is_readable($this->cache))
 			return false;
@@ -452,7 +452,7 @@ class rah_plugcompile {
 	 * @return string
 	 */
 
-	private function glob_escape($filename) {
+	public function glob_escape($filename) {
 		return preg_replace('/(\*|\?|\[)/', '[$1]', $filename);
 	}
 }
