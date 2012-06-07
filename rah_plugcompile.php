@@ -75,7 +75,7 @@ class rah_plugcompile {
 	 * @var string Plugin header meta
 	 */
 	
-	protected $header = NULL;
+	public $header = NULL;
 	
 	static public $package_cache = NULL;
 	static public $classTextile = NULL;
