@@ -48,12 +48,6 @@ class rah_plugcompile {
 	protected $plugin;
 	
 	/**
-	 * @var obj Parsed XML manifest file
-	 */
-	
-	protected $manifest;
-	
-	/**
 	 * @var string Current file's location.
 	 */
 	
@@ -200,9 +194,9 @@ class rah_plugcompile {
 		$file = $this->read($this->path);
 		
 		if($file) {
-			$this->manifest = new SimpleXMLElement($file, LIBXML_NOCDATA);
+			$manifest = new SimpleXMLElement($file, LIBXML_NOCDATA);
 			
-			foreach($this->manifest as $name => $value) {
+			foreach($manifest as $name => $value) {
 				
 				$name = (string) $name;
 				
