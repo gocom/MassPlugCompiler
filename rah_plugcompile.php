@@ -54,13 +54,13 @@ class rah_plugcompile {
 	protected $manifest;
 	
 	/**
-	 * @var string Details of the current file.
+	 * @var string Current file's location.
 	 */
 	
 	protected $path;
 	
 	/**
-	 * @var array
+	 * @var array Current filepath's information.
 	 */
 	
 	protected $pathinfo;
