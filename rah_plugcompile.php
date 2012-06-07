@@ -194,9 +194,15 @@ class rah_plugcompile {
 		$file = $this->read($this->path);
 		
 		if($file) {
-			$manifest = new SimpleXMLElement($file, LIBXML_NOCDATA);
 			
-			foreach($manifest as $name => $value) {
+			try {
+				@$manifest = new SimpleXMLElement($file, LIBXML_NOCDATA);
+			}
+			catch(Exception $exception) {
+				return;
+			}
+			
+			foreach((array) $manifest as $name => $value) {
 				
 				$name = (string) $name;
 				
@@ -211,7 +217,9 @@ class rah_plugcompile {
 					$this->$method();
 				}
 				
-				else $this->plugin[$name] = (string) $value;
+				else {
+					$this->plugin[$name] = (string) $value;
+				}
 			}
 		}
 	}
