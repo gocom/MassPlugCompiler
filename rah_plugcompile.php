@@ -435,10 +435,10 @@ class rah_plugcompile {
 	 * Checks whether compiled installer file is located in the cache dir
 	 * @param string $name
 	 * @param string $version
-	 * @return bool
+	 * @return bool|obj
 	 */
 	
-	public function cache($name, $version) {
+	public function cache($name=NULL, $version=NULL) {
 		
 		if(!file_exists($this->cache) || !is_dir($this->cache) || !is_readable($this->cache))
 			return false;
@@ -447,15 +447,25 @@ class rah_plugcompile {
 
 			self::$package_cache = array();
 
-			foreach((array) glob($this->glob_escape($this->cache) . '/*', GLOB_NOSORT) as $f) {
+			foreach((array) glob($this->glob_escape($this->cache) . '/*.txt', GLOB_NOSORT) as $f) {
 				if($f && is_file($f)) {
-					$n = explode('_v', basename($f));
-					self::$package_cache[$n[0]][current(explode('_', end($n)))] = true;
+					
+					$n = explode('_', basename($f, '.txt'));
+					
+					if(end($n) == 'zip') {
+						unset($n[count($n)-1]);
+					}
+					
+					self::$package_cache[implode('_', array_slice($n, 0, -1))][ltrim(end($n), 'v')] = true;
 				}
 			}
 		}
 		
-		return isset(self::$package_cache[$name][$version]);
+		if($name !== NULL && $version !== NULL) {
+			return isset(self::$package_cache[$name][$version]);
+		}
+		
+		return $this;
 	}
 	
 	/**
