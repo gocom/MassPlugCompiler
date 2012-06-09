@@ -202,7 +202,7 @@ class rah_plugcompile {
 				return;
 			}
 			
-			foreach((array) $manifest as $name => $value) {
+			foreach($manifest as $name => $value) {
 				
 				$name = (string) $name;
 				
