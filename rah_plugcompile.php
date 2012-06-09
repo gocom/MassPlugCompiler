@@ -412,10 +412,6 @@ class rah_plugcompile {
 				if($this->pathinfo['extension'] == 'php') {
 					$this->format_code();
 				}
-				
-				if($this->pathinfo['extension'] == 'textpack' && ($r = $this->read($path))) {
-					$this->plugin['textpack'][] = $r;
-				}
 			
 				continue;
 			}
