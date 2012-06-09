@@ -448,7 +448,7 @@ class rah_plugcompile {
 			self::$package_cache = array();
 
 			foreach((array) glob($this->glob_escape($this->cache) . '/*', GLOB_NOSORT) as $f) {
-				if($f) {
+				if($f && is_file($f)) {
 					$n = explode('_v', basename($f));
 					self::$package_cache[$n[0]][current(explode('_', end($n)))] = true;
 				}
