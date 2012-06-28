@@ -421,8 +421,10 @@ class rah_plugcompile {
 			if(method_exists($this, $method)) {
 				$this->$method();
 			}
-		
-			$this->plugin[$this->pathinfo['filename']] = $this->read($path);
+			
+			else {
+				$this->plugin[$this->pathinfo['filename']] = $this->read($path);
+			}
 		}
 		
 	}
