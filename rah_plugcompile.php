@@ -234,12 +234,12 @@ class rah_plugcompile {
 		
 		$this->plugin['code'] = $this->read($this->path);
 	
-		if(substr($this->plugin['code'], 0, 5) == '<?php') {
-			$this->plugin['code'] = substr_replace($this->plugin['code'], '', 0, 5);
+		if(substr(ltrim($this->plugin['code']), 0, 5) == '<?php') {
+			$this->plugin['code'] = substr_replace(ltrim($this->plugin['code']), '', 0, 5);
 		}
 		
-		if(substr($this->plugin['code'], -2, 2) == '?>') {
-			$this->plugin['code'] = rtrim(substr_replace($this->plugin['code'], '', -2, 2));
+		if(substr(rtrim($this->plugin['code']), -2, 2) == '?>') {
+			$this->plugin['code'] = substr_replace(rtrim($this->plugin['code']), '', -2, 2);
 		}
 	}
 	
