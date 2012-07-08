@@ -170,17 +170,14 @@ class rah_plugcompile {
 		}
 	
 		if(is_dir($this->path)) {
-			foreach((array) glob($this->glob_escape($this->path) . '/*.textpack', GLOB_NOSORT) as $file) {
+			foreach($this->read((array) glob($this->glob_escape($this->path) . '/*.textpack', GLOB_NOSORT)) as $file) {
 				
-				if($file = $this->read($file)) {
-					
-					if(strpos($file, '#@language') === false) {
-						array_unshift($this->plugin['textpack'], $file);
-						continue;
-					}
-					
-					$this->plugin['textpack'][] =  $file;
+				if(strpos($file, '#@language') === false) {
+					array_unshift($this->plugin['textpack'], $file);
+					continue;
 				}
+					
+				$this->plugin['textpack'][] =  $file;
 			}
 		}
 	}
@@ -272,12 +269,16 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Reads a file's contents
-	 * @param string $file
-	 * @return string
+	 * Reads contents of file(s)
+	 * @param string|array $file
+	 * @return mixed
 	 */
 	
-	protected function read($file) {
+	public function read($file) {
+	
+		if(is_array($file)) {
+			return array_filter(array_map(array($this, 'read'), $file), 'is_string');
+		}
 		
 		if(strpos($file, './') === 0 || strpos($file, '../') === 0) {
 			$file = $this->source . '/' . $file;
