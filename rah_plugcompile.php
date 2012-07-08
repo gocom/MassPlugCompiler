@@ -210,7 +210,8 @@ class rah_plugcompile {
 				$method = 'format_'.$name;
 				
 				if(isset($value->attributes()->file) && method_exists($this, $method)) {
-					$this->path = (string) $value->attributes()->file;
+					$path = (string) $value->attributes()->file;
+					$this->path = $this->path($path);
 					$this->pathinfo = pathinfo($this->path);
 					$this->$method();
 				}
@@ -269,6 +270,21 @@ class rah_plugcompile {
 	}
 	
 	/**
+	 * Forms absolute file path
+	 * @param string $path
+	 * @return string
+	 */
+	
+	public function path($path) {
+		
+		if(strpos($path, './') === 0 || strpos($path, '../') === 0) {
+			$path = $this->source . '/' . $path;
+		}
+		
+		return $path;
+	}
+	
+	/**
 	 * Reads contents of file(s)
 	 * @param string|array $file
 	 * @return mixed
@@ -280,11 +296,9 @@ class rah_plugcompile {
 			return array_filter(array_map(array($this, 'read'), $file), 'is_string');
 		}
 		
-		if(strpos($file, './') === 0 || strpos($file, '../') === 0) {
-			$file = $this->source . '/' . $file;
-		}
+		$file = $this->path($file);
 	
-		if(empty($file) || !file_exists($file) || !is_file($file) || !is_readable($file)) {
+		if(!$file || !file_exists($file) || !is_file($file) || !is_readable($file)) {
 			return false;
 		}
 		
