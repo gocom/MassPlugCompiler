@@ -232,15 +232,17 @@ class rah_plugcompile {
 	
 	protected function format_code() {
 		
-		$this->plugin['code'] = $this->read($this->path);
+		$code = $this->read($this->path);
 	
-		if(substr(ltrim($this->plugin['code']), 0, 5) == '<?php') {
-			$this->plugin['code'] = substr_replace(ltrim($this->plugin['code']), '', 0, 5);
+		if(substr(ltrim($code), 0, 5) == '<?php') {
+			$code = substr_replace(ltrim($code), '', 0, 5);
 		}
 		
-		if(substr(rtrim($this->plugin['code']), -2, 2) == '?>') {
-			$this->plugin['code'] = substr_replace(rtrim($this->plugin['code']), '', -2, 2);
+		if(substr(rtrim($code), -2, 2) == '?>') {
+			$code = substr_replace(rtrim($code), '', -2, 2);
 		}
+		
+		$this->plugin['code'][] = $code;
 	}
 	
 	/**
@@ -302,7 +304,7 @@ class rah_plugcompile {
 			'author_uri' => '',
 			'description' => '',
 			'help' => '',
-			'code' => '',
+			'code' => array(),
 			'type' => 0,
 			'order' => 5,
 			'load_order' => false,
@@ -339,6 +341,7 @@ class rah_plugcompile {
 		
 		unset($this->plugin['load_order']);
 		
+		$this->plugin['code'] = implode("\n", $this->plugin['code']);
 		$this->plugin['textpack'] = implode("\n", $this->plugin['textpack']);
 		$this->plugin['md5'] = md5($this->plugin['code']);
 		
