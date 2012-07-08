@@ -210,10 +210,11 @@ class rah_plugcompile {
 				$method = 'format_'.$name;
 				
 				if(isset($value->attributes()->file) && method_exists($this, $method)) {
-					$path = (string) $value->attributes()->file;
-					$this->path = $this->path($path);
-					$this->pathinfo = pathinfo($this->path);
-					$this->$method();
+					foreach(do_list((string) $value->attributes()->file) as $path) {
+						$this->path = $this->path($path);
+						$this->pathinfo = pathinfo($this->path);
+						$this->$method();
+					}
 				}
 				
 				else {
