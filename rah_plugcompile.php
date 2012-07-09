@@ -323,7 +323,6 @@ class rah_plugcompile {
 			'code' => array(),
 			'type' => 0,
 			'order' => 5,
-			'load_order' => false,
 			'flags' => '',
 			'textpack' => array(),
 			'allow_html_help' => 1,
@@ -350,12 +349,6 @@ class rah_plugcompile {
 		if($this->cache($this->plugin['name'], $this->plugin['version'])) {
 			return $this;
 		}
-		
-		if($this->plugin['load_order'] !== false) {
-			$this->plugin['order'] = $this->plugin['load_order'];
-		}
-		
-		unset($this->plugin['load_order']);
 		
 		$this->plugin['code'] = implode("\n", $this->plugin['code']);
 		$this->plugin['textpack'] = implode("\n", $this->plugin['textpack']);
