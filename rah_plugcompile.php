@@ -338,6 +338,10 @@ class rah_plugcompile {
 			$this->plugin['version'] = basename(dirname($this->path));
 		}
 		
+		$this->plugin['code'] = implode("\n", $this->plugin['code']);
+		$this->plugin['textpack'] = implode("\n", $this->plugin['textpack']);
+		$this->plugin['md5'] = md5($this->plugin['code']);
+		
 		$header = $this->header;
 		
 		foreach($this->plugin as $tag => $value) {
@@ -349,10 +353,6 @@ class rah_plugcompile {
 		if($this->cache($this->plugin['name'], $this->plugin['version'])) {
 			return $this;
 		}
-		
-		$this->plugin['code'] = implode("\n", $this->plugin['code']);
-		$this->plugin['textpack'] = implode("\n", $this->plugin['textpack']);
-		$this->plugin['md5'] = md5($this->plugin['code']);
 		
 		$filename = $this->plugin['name'] . '_v' . $this->plugin['version'];
 		$packed = serialize($this->plugin);
