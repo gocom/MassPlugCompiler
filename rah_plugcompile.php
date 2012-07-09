@@ -66,6 +66,12 @@ class rah_plugcompile {
 	protected $package = array();
 	
 	/**
+	 * @var array File writing queue
+	 */
+	
+	protected $write_queue = array();
+	
+	/**
 	 * @var string Plugin header meta
 	 */
 	
@@ -350,10 +356,6 @@ class rah_plugcompile {
 			}
 		}
 		
-		if($this->cache($this->plugin['name'], $this->plugin['version'])) {
-			return $this;
-		}
-		
 		$filename = $this->plugin['name'] . '_v' . $this->plugin['version'];
 		$packed = serialize($this->plugin);
 		
@@ -362,6 +364,11 @@ class rah_plugcompile {
 		
 		$this->package[$filename.'.txt'] = 
 			$header . chunk_split(base64_encode($packed), 72);
+		
+		if(!$this->cache($this->plugin['name'], $this->plugin['version'])) {
+			$this->write_queue[] = $filename.'.txt';
+			$this->write_queue[] = $filename.'_zip.txt';
+		}
 		
 		return $this;
 	}
@@ -376,9 +383,9 @@ class rah_plugcompile {
 		if(!file_exists($this->cache) || !is_dir($this->cache) || !is_writable($this->cache))
 			return $this;
 		
-		foreach($this->package as $name => $package) {
+		foreach($this->write_queue as $name) {
 			file_put_contents(
-				$this->cache . '/' . $name, $package
+				$this->cache . '/' . $name, $this->package[$name]
 			);
 		}
 		
