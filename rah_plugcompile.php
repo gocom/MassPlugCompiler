@@ -247,7 +247,7 @@ class rah_plugcompile {
 			$code = substr_replace(rtrim($code), '', -2, 2);
 		}
 		
-		$this->plugin['code'][] = $code;
+		$this->plugin['code'][$this->path] = $code;
 	}
 	
 	/**
