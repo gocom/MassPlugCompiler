@@ -44,7 +44,7 @@ while(1) {
 	
 	$rundir = dirname(__FILE__);
 
-	include $rundir . '/rah_plugcompile.php';
+	include_once $rundir . '/rah_plugcompile.php';
 	
 	$cache = $rundir . '/packages';
 	
