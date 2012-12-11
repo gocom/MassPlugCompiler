@@ -1,91 +1,153 @@
 <?php
 
 /**
- * MassPlugCompiler/rah_plugcompiler - Compiles Textpattern's plugin installer packages from sources.
+ * MassPlugCompiler
  *
- * @author Jukka Svahn
+ * Compiles Textpattern's plugin installer packages from sources.
+ *
+ * @author    Jukka Svahn
  * @copyright (c) 2011 Jukka Svahn
- * @license GNU GPLv2
- * @link https://github.com/gocom/MassPlugCompiler
- *
- * Copyright (c) 2011 Jukka Svahn <http://rahforum.biz>
+ * @license   GNU GPLv2
+ * @link      https://github.com/gocom/MassPlugCompiler
+ */
+
+/*
+ * Copyright (c) 2011 Jukka Svahn http://rahforum.biz
  * Licensed under GNU Genral Public License version 2
  * http://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+/**
+ * The compiler.
  *
- * Requires PHP 5.2.0
- *
- * <code>
- *		rah_plugcompile::instance()
- *			->set('cache', '/path/to');
- *			->set('source', '/path/to')
- *			->package()
- *			->get();
- * </code>
+ * @example
+ * rah_plugcompile::instance()
+ * 	->set('cache', '/path/to');
+ * 	->set('source', '/path/to')
+ * 	->package()
+ * 	->get();
  */
 
 class rah_plugcompile {
 
+	/**
+	 * Get normal package.
+	 */
+
 	const GET_NORMAL = -1;
+
+	/**
+	 * Get compressed package.
+	 */
+
 	const GET_COMPRESSED = -2;
+
+	/**
+	 * Create new instance.
+	 */
+
 	const INSTANCE_NEW = true;
 
 	/**
-	 * @var string Path to source directory.
+	 * Path to source directory.
+	 *
+	 * @var string 
 	 */
-	
+
 	public $source;
-	
+
 	/**
-	 * @var string Path to cache directory.
+	 * Path to cache directory.
+	 *
+	 * @var string
 	 */
-	
+
 	public $cache;
-	
+
 	/**
-	 * @var array Plugin data
+	 * Plugin data.
+	 *
+	 * @var array
 	 */
-	
+
 	protected $plugin;
-	
+
 	/**
-	 * @var string Current file's location.
+	 * Current file's location.
+	 *
+	 * @var string 
 	 */
-	
+
 	protected $path;
-	
+
 	/**
-	 * @var array Current filepath's information.
+	 * Current filepath's information.
+	 *
+	 * @var array
 	 */
-	
+
 	protected $pathinfo;
-	
+
 	/**
-	 * @var array Compiled packages
+	 * Compiled packages.
+	 *
+	 * @var array
 	 */
-	
+
 	protected $package = array();
-	
+
 	/**
-	 * @var array File writing queue
+	 * File writing queue.
+	 *
+	 * @var array
 	 */
-	
+
 	protected $write_queue = array();
-	
+
 	/**
-	 * @var string Plugin header meta
+	 * Plugin header meta.
+	 *
+	 * @var string
 	 */
-	
+
 	public $header = NULL;
-	
+
+	/**
+	 * Stores Package cache.
+	 *
+	 * @var array
+	 */
+
 	static public $package_cache = NULL;
+
+	/**
+	 * Stores Textile instance.
+	 *
+	 * @var Textile
+	 */
+
 	static public $classTextile = NULL;
+
+	/**
+	 * Stores class instances.
+	 *
+	 * @var rah_plugcompile
+	 */
+
 	static public $instance;
+
+	/**
+	 * Current running directory.
+	 *
+	 * @var string
+	 */
+
 	static public $rundir;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
-	
+
 	public function __construct() {
 	
 		if(!self::$rundir) {
@@ -126,13 +188,14 @@ class rah_plugcompile {
 			));
 		}
 	}
-	
+
 	/**
-	 * Gets an instance
-	 * @param bool $new_instance
-	 * @return obj
+	 * Gets an instance.
+	 *
+	 * @param  bool $new_instance
+	 * @return rah_plugcompile
 	 */
-	
+
 	static public function instance($new_instance=false) {
 		
 		if(!self::$instance || $new_instance == true) {
@@ -142,14 +205,15 @@ class rah_plugcompile {
 		
 		return self::$instance;
 	}
-	
+
 	/**
-	 * Sets a property
-	 * @param string $name
-	 * @param mixed $value
+	 * Sets a property.
+	 *
+	 * @param  string $name
+	 * @param  mixed $value
 	 * @return obj
 	 */
-	
+
 	public function set($name, $value) {
 		
 		if(!property_exists($this, $name)) {
@@ -159,12 +223,11 @@ class rah_plugcompile {
 		$this->$name = $value;
 		return $this;
 	}
-	
+
 	/**
-	 * Builds plugin's Textpack
-	 * @return nothing
+	 * Builds plugin's Textpack.
 	 */
-	
+
 	protected function format_textpack() {
 		
 		if(!is_readable($this->path))
@@ -187,12 +250,11 @@ class rah_plugcompile {
 			}
 		}
 	}
-	
+
 	/**
-	 * Builds plugin's meta data from a manifest file
-	 * @return nothing
+	 * Builds plugin's meta data from a manifest file.
 	 */
-	
+
 	protected function format_manifest() {
 		$file = $this->read($this->path);
 		
@@ -232,9 +294,8 @@ class rah_plugcompile {
 
 	/**
 	 * Formats source code. Removes PHP tags and so on.
-	 * @return nothing
 	 */
-	
+
 	protected function format_code() {
 		
 		$code = $this->read($this->path);
@@ -249,12 +310,11 @@ class rah_plugcompile {
 		
 		$this->plugin['code'][basename($this->path).':'.md5($code)] = $code;
 	}
-	
+
 	/**
-	 * Formats help file
-	 * @return nothing
+	 * Formats help file.
 	 */
-	
+
 	protected function format_help() {
 		
 		$this->plugin['help'] = $this->read($this->path);
@@ -275,13 +335,14 @@ class rah_plugcompile {
 			}
 		}
 	}
-	
+
 	/**
-	 * Forms absolute file path
-	 * @param string $path
+	 * Forms absolute file path.
+	 *
+	 * @param  string $path
 	 * @return string
 	 */
-	
+
 	public function path($path) {
 		
 		if(strpos($path, './') === 0 || strpos($path, '../') === 0) {
@@ -290,13 +351,14 @@ class rah_plugcompile {
 		
 		return $path;
 	}
-	
+
 	/**
-	 * Reads contents of file(s)
-	 * @param string|array $file
+	 * Reads contents of file(s).
+	 *
+	 * @param  string|array $file
 	 * @return mixed
 	 */
-	
+
 	public function read($file) {
 	
 		if(is_array($file)) {
@@ -313,7 +375,8 @@ class rah_plugcompile {
 	}
 	
 	/**
-	 * Packages the plugin
+	 * Packages the plugin.
+	 *
 	 * @return obj
 	 */
 	
@@ -372,10 +435,11 @@ class rah_plugcompile {
 		
 		return $this;
 	}
-	
+
 	/**
-	 * Writes current packages to the cache directory
-	 * @return obj
+	 * Writes current packages to the cache directory.
+	 *
+	 * @return rah_plugcompile
 	 */
 
 	public function write() {
@@ -391,22 +455,22 @@ class rah_plugcompile {
 		
 		return $this;
 	}
-	
+
 	/**
-	 * Gets last compiled installer
-	 * @param int $offset
+	 * Gets last compiled installer.
+	 *
+	 * @param  int    $offset
 	 * @return string Installer package
 	 */
-	
+
 	public function get($offset=self::GET_NORMAL) {
 		return implode('', array_slice($this->package, $offset, 1));
 	}
 
 	/**
-	 * Collects files from a directory
-	 * @return nothing
+	 * Collects files from a directory.
 	 */
-	
+
 	protected function collect_sources() {
 
 		foreach((array) glob($this->glob_escape($this->source).'/*', GLOB_NOSORT) as $path) {
@@ -447,14 +511,15 @@ class rah_plugcompile {
 		}
 		
 	}
-	
+
 	/**
-	 * Checks whether compiled installer file is located in the cache dir
-	 * @param string $name
-	 * @param string $version
-	 * @return bool|obj
+	 * Checks whether compiled installer file is located in the cache dir.
+	 *
+	 * @param  string $name
+	 * @param  string $version
+	 * @return bool|rah_plugcompile
 	 */
-	
+
 	public function cache($name=NULL, $version=NULL) {
 		
 		if(!file_exists($this->cache) || !is_dir($this->cache) || !is_readable($this->cache))
@@ -484,10 +549,11 @@ class rah_plugcompile {
 		
 		return $this;
 	}
-	
+
 	/**
-	 * Escapes glob wildcard characters
-	 * @param string $filename
+	 * Escapes glob wildcard characters.
+	 *
+	 * @param  string $filename
 	 * @return string
 	 */
 
