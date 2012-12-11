@@ -561,5 +561,3 @@ class rah_plugcompile {
 		return preg_replace('/(\*|\?|\[)/', '[$1]', $filename);
 	}
 }
-
-?>
