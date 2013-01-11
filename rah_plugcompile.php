@@ -121,14 +121,6 @@ class rah_plugcompile {
 	static public $package_cache = NULL;
 
 	/**
-	 * Stores Textile instance.
-	 *
-	 * @var Textile
-	 */
-
-	static public $classTextile = NULL;
-
-	/**
 	 * Stores class instances.
 	 *
 	 * @var rah_plugcompile
@@ -152,23 +144,6 @@ class rah_plugcompile {
 	
 		if(!self::$rundir) {
 			self::$rundir = dirname(__FILE__);
-		}
-		
-		if(self::$classTextile === NULL) {
-			
-			self::$classTextile = false;
-			
-			if(!class_exists('Textile') && file_exists(self::$rundir.'/classTextile.php')) {
-				@include_once self::$rundir.'/classTextile.php';
-			}
-			
-			if(!class_exists('Textile') && defined('txpath')) {
-				@include_once txpath.'/lib/classTextile.php';
-			}
-			
-			if(class_exists('Textile')) {
-				self::$classTextile = new Textile();
-			}
 		}
 		
 		if($this->header === NULL) {
@@ -323,16 +298,9 @@ class rah_plugcompile {
 			$this->pathinfo['extension'] == 'textile' ||
 			preg_match('/h1(\(.*\))?\./', $this->plugin['help'])
 		) {
-		
-			if(self::$classTextile) {
-				$this->plugin['help'] = self::$classTextile->TextileThis($this->plugin['help']);
-			}
-			
-			else {
-				$this->plugin['help_raw'] = $this->plugin['help'];
-				$this->plugin['allow_html_help'] = 0;
-				$this->plugin['help'] = '';
-			}
+			$this->plugin['help_raw'] = $this->plugin['help'];
+			$this->plugin['allow_html_help'] = 0;
+			$this->plugin['help'] = '';
 		}
 	}
 
