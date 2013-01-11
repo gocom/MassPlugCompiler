@@ -9,10 +9,6 @@ p. At minimum rah_plugcompiler requires:
 * PHP 5.2 or newer.
 * "SimpleXML":http://php.net/manual/en/book.simplexml.php extension.
 
-p. Recommended:
-
-* "Textile":https://github.com/netcarver/textile markup class. Textile is used to parse help files. If no Textile class is provided, plugin installer's restricted raw Textile support is used as a fallback.
-
 h2. Files explained
 
 p. The repository contains three files that make the compiler:
@@ -54,10 +50,6 @@ p. Textile markup can be used in the help file. If the help file's filename ends
 h2. Installation
 
 p. Rah_plugcompiler is portable, and doesn't need specific extra configuring or installation. The whole thing is just a class, with two example implementations. The compiler can also be run as Textpattern plugin by placing the compiler class (@rah_plugcompile.php@) to Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path, where then other plugins could use the class as fits.
-
-p. Textile class that is used to parse help files can be installed by saving "classTextile.php":https://github.com/netcarver/textile to the rah_plugcompile's directory (to same directory as @rah_plugcompile.php@). If the compiler is loaded as Textpattern plugin, the Textile class included with Textpattern is used.
-
-p. If no Textile class is provided, target Textpattern installation's plugin installer's restricted raw Textile support is used as a fallback.
 
 h2. Usage
 
