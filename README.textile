@@ -16,13 +16,13 @@ p. The repository contains three files that make the compiler:
 * "rah_plugcompile.php":https://github.com/gocom/MassPlugCompiler/blob/master/rah_plugcompile.php - is the actual compiler class.
 * "compile":https://github.com/gocom/MassPlugCompiler/blob/master/compile - command line wrapper for the class.
 
-p. The "template":https://github.com/gocom/MassPlugCompiler/tree/master/template directory hosts an example plugin, a plugin template (named _abc_plugin_). The "implement":https://github.com/gocom/MassPlugCompiler/tree/master/implement directory hosts some (or just one) implementation examples.
+p. The "implement":https://github.com/gocom/MassPlugCompiler/tree/master/implement directory hosts some (or just one) implementation examples.
 
 h2. Plugin template
 
 p. The main difference compared to Textpattern's official plugin template and compiler is how the plugins are constructed. Textpattern's official template (by default) hosts everything in a single file. Rah_plugcompiler splits the sources to separate files: translations (i.e. textpacks), readme (i.e. help file), manifest (XML formatted meta file) and the actual source code.
 
-p. See "abc_plugin":https://github.com/gocom/MassPlugCompiler/tree/master/template/abc_plugin for an example template. Cleverly named abc_plugin showcases all available features from textpacks to manifest's options.
+p. See "abc_plugin":https://github.com/gocom/abc_plugin repository for an example template. Cleverly named abc_plugin showcases all available features from textpacks to manifest's options.
 
 h3. Textpacks
 
@@ -35,7 +35,7 @@ h4. Default language and multi-file format
 
 p. In multi-file format, where textpacks are stored in the @textpacks@ directory, textpacks are recognized by the extension, @.textpack@. These textpack files follow Textpattern's "language file":http://rpc.textpattern.com/lang/ syntax.
 
-p. Textpattern offers a way to set the default language which is used as the fallback when the plugin doesn't come with user's language. The default language is chosen based on #@language keyword, or lack of. Textpack files that do not define the language, are treated as the default language. Compare abc_plugin's "en-gb.texpack":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/en-gb.textpack and "fi-fi.textpack":https://github.com/gocom/MassPlugCompiler/blob/master/template/abc_plugin/textpacks/fi-fi.textpack files. The en-gb doesn't define the language code and is set as the default.
+p. Textpattern offers a way to set the default language which is used as the fallback when the plugin doesn't come with user's language. The default language is chosen based on #@language keyword, or lack of. Textpack files that do not define the language, are treated as the default language. Compare abc_plugin's "en-gb.texpack":https://github.com/gocom/abc_plugin/blob/master/textpack/en-gb.textpack and "fi-fi.textpack":https://github.com/gocom/abc_plugin/blob/master/textpack/fi-fi.textpack files. The en-gb doesn't define the language code and is set as the default.
 
 p. The language code (i.e. ==#@language== line), as found in the @fi-fi.textpack@, is required in all but the default textpack file (that's one file). If language code is included in all files, no default language is set, and user will see raw language strings if site's language isn't provided.
 
@@ -75,7 +75,7 @@ h4. Single argument
 
 p. Specifying only plugin's source directory (only one argument) will make the plugin to write the installer packages to the /packages directory (located in same directory as the compile file).
 
-bc. compile /absolute/path/to/templates/abc_plugin
+bc. compile /absolute/path/to/abc_plugin
 
 h4. Two arguments
 
