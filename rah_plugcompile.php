@@ -232,37 +232,66 @@ class rah_plugcompile {
 
 	protected function format_manifest() {
 		$file = $this->read($this->path);
-		
-		if($file) {
-			
-			try {
-				@$manifest = new SimpleXMLElement($file, LIBXML_NOCDATA);
-			}
-			catch(Exception $exception) {
-				return;
-			}
-			
-			foreach($manifest as $name => $value) {
-				
+
+		if (!$file) {
+			return;
+		}
+
+		if ($this->pathinfo['extension'] == 'json') {
+			$manifest = json_decode($file);
+
+			foreach ($manifest as $name => $value) {
+
 				$name = (string) $name;
-				
-				if(!isset($this->plugin[$name])) {
+
+				if (!isset($this->plugin[$name])) {
 					continue;
 				}
-				
-				$method = 'format_'.$name;
-				
-				if(isset($value->attributes()->file) && method_exists($this, $method)) {
-					foreach(explode(',', (string) $value->attributes()->file) as $path) {
+
+				$method = 'format_' . $name;
+
+				if (isset($value->file) && method_exists($this, $method)) {
+					foreach ((array) $value->file as $path)
+					{
 						$this->path = $this->path(trim($path));
 						$this->pathinfo = pathinfo($this->path);
 						$this->$method();
 					}
 				}
-				
 				else {
 					$this->plugin[$name] = (string) $value;
 				}
+			}
+
+			return;
+		}
+
+		try {
+			@$manifest = new SimpleXMLElement($file, LIBXML_NOCDATA);
+		}
+		catch (Exception $exception) {
+			return;
+		}
+
+		foreach ($manifest as $name => $value) {
+
+			$name = (string) $name;
+				
+			if (!isset($this->plugin[$name])) {
+				continue;
+			}
+
+			$method = 'format_'.$name;
+
+			if (isset($value->attributes()->file) && method_exists($this, $method)) {
+				foreach (explode(',', (string) $value->attributes()->file) as $path) {
+					$this->path = $this->path(trim($path));
+					$this->pathinfo = pathinfo($this->path);
+					$this->$method();
+				}
+			}
+			else {
+				$this->plugin[$name] = (string) $value;
 			}
 		}
 	}
