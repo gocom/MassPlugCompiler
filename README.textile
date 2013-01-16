@@ -7,7 +7,6 @@ h2. Requirements
 p. At minimum rah_plugcompiler requires:
 
 * PHP 5.2 or newer.
-* "SimpleXML":http://php.net/manual/en/book.simplexml.php extension.
 
 h2. Files explained
 
