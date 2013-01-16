@@ -20,7 +20,7 @@ p. The "implement":https://github.com/gocom/MassPlugCompiler/tree/master/impleme
 
 h2. Plugin template
 
-p. The main difference compared to Textpattern's official plugin template and compiler is how the plugins are constructed. Textpattern's official template (by default) hosts everything in a single file. Rah_plugcompiler splits the sources to separate files: translations (i.e. textpacks), readme (i.e. help file), manifest (XML formatted meta file) and the actual source code.
+p. The main difference compared to Textpattern's official plugin template and compiler is how the plugins are constructed. Textpattern's official template (by default) hosts everything in a single file. Rah_plugcompiler splits the sources to separate files: translations (i.e. textpacks), readme (i.e. help file), manifest (meta file) and the actual source code.
 
 p. See "abc_plugin":https://github.com/gocom/abc_plugin repository for an example template. Cleverly named abc_plugin showcases all available features from textpacks to manifest's options.
 
@@ -43,7 +43,9 @@ p. Refer to "rpc.textpattern.com/lang/":http://rpc.textpattern.com/lang/ for lis
 
 h3. Manifest and help file
 
-p. The manifest file, @manifest.xml@, contains all plugin's meta data. That's the rest of the stuff a plugin is made of, including plugin's version number, author, url, special flags, type, and recommended loading order. The manifest file can also be used to specify help file's location. By default help file is expected to be named as @help@ (with any extension), but different location/name can be chosen by placing @<help file="./path/to/help/file" />@ to the manifest file.
+p. The manifest file, @manifest.json@, contains all plugin's meta data. That's the rest of the stuff a plugin is made of, including plugin's version number, author, url, special flags, type, and recommended loading order. The manifest file can also be used to specify help file's location. By default help file is expected to be named as @help@ (with any extension), but different location/name can be chosen with a file option:
+
+bc. "help" : {"file" : "./path/to/help/file"}
 
 p. Textile markup can be used in the help file. If the help file's filename ends with @.textile@ extension, or the file contents start with @h1.@ tag, the file is treated as it contained Textile markup.
 
