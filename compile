@@ -66,6 +66,10 @@ while(1) {
 	
 	rah_plugcompile::instance()
 		->write();
+
+	if ($argc > 1) {
+		exit;
+	}
 }
 
 exit;
