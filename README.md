@@ -35,6 +35,13 @@ echo $plugin->getInstaller();
 $ vendor/bin/mtxpc [[-h|--help][-c|--compress]] <file>
 ```
 
+Example:
+
+```shell
+$ vendor/bin/mtxpc path/to/abc_plugin > abc_plugin_v0.1.0.txt
+$ vendor/bin/mtxpc -c path/to/abc_plugin > abc_plugin_v0.1.0_zip.txt
+```
+
 Example Plugin Template
 -----
 
