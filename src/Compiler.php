@@ -26,16 +26,19 @@ declare(strict_types=1);
 namespace Rah\Mtxpc;
 
 use Rah\Mtxpc\Api\CompilerInterface;
+use Rah\Mtxpc\Api\PackageInterface;
 
 /**
- * The compiler.
+ * Plugin compiler.
  *
  * ```
  * use Rah\Mtxpc\Compiler;
  *
  * $compiler = new Compiler();
  *
- * echo $compiler->compile('/path/to/the/plugin/source');
+ * $plugin = $compiler->compile('/path/to/the/plugin/source');
+ *
+ * echo $plugin->getInstaller();
  * ```
  */
 final class Compiler implements CompilerInterface
@@ -96,7 +99,7 @@ final class Compiler implements CompilerInterface
     /**
      * {@inheritdoc}
      */
-    public function compile(string $path): string
+    public function compile(string $path): PackageInterface
     {
         $this->setSourcePath($path);
         $this->plugin = $this->getPluginTemplate();
@@ -137,7 +140,10 @@ final class Compiler implements CompilerInterface
             $packed = \gzencode($packed);
         }
 
-        return $header . \chunk_split(\base64_encode($packed), 72);
+        return new Package(
+            $this->plugin,
+            $header . \chunk_split(\base64_encode($packed), 72, "\n")
+        );
     }
 
     /**
@@ -293,7 +299,7 @@ final class Compiler implements CompilerInterface
                     $this->process($name);
                 }
             } elseif (\is_scalar($value)) {
-                $this->plugin[$name] = (string) $value;
+                $this->plugin[$name] = $value;
             }
         }
     }

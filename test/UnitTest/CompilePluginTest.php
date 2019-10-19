@@ -40,10 +40,12 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
     ) {
         $compiler = new Compiler();
 
-        $compressed = $compiler
+        $plugin = $compiler
             ->compile($source->getPathname());
 
-        $this->assertEquals($expectCompressed, $compressed);
+        $this->assertEquals($expectCompressed, $plugin->getInstaller());
+
+        $this->assertEquals($source->getBasename(), $plugin->getName());
     }
 
     /**
@@ -56,11 +58,13 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
     ) {
         $compiler = new Compiler();
 
-        $uncompressed = $compiler
+        $plugin = $compiler
             ->useCompression(false)
             ->compile($source->getPathname());
 
-        $this->assertEquals($expectUncompressed, $uncompressed);
+        $this->assertEquals($expectUncompressed, $plugin->getInstaller());
+
+        $this->assertEquals($source->getBasename(), $plugin->getName());
     }
 
     public function provider()
@@ -74,7 +78,7 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
                 $out[] = [
                     $file,
                     \file_get_contents($file->getPathname() . '/expect/compressed.txt'),
-                    \file_get_contents($file->getPathname() . '/expect/uncompressed.txt')
+                    \file_get_contents($file->getPathname() . '/expect/uncompressed.txt'),
                 ];
             }
         }

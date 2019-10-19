@@ -20,11 +20,13 @@ Usage
 ### As a Library
 
 ```php
-use Rah\mtxpc\Compiler;
+use Rah\Mtxpc\Compiler;
 
 $compiler = new Compiler();
 
-echo $compiler->compile('path/to/plugin/source/directory');
+$plugin = $compiler->compile('path/to/plugin/source/directory');
+
+echo $plugin->getInstaller();
 ```
 
 ### Via Command Line

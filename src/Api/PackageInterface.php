@@ -26,48 +26,28 @@ declare(strict_types=1);
 namespace Rah\Mtxpc\Api;
 
 /**
- * Compiler.
+ * Packaged installer.
  */
-interface CompilerInterface
+interface PackageInterface
 {
     /**
-     * Compiles the given plugin.
+     * Gets the name of the plugin.
      *
-     * @param string $path Path to the plugin source directory
-     *
-     * @return PackageInterface
+     * @return string|null
      */
-    public function compile(string $path): PackageInterface;
+    public function getName(): ?string;
 
     /**
-     * Whether the output file will be compressed.
+     * Gets the version number of the plugin.
      *
-     * @param bool $compress
-     *
-     * @return $this
+     * @return string|null
      */
-    public function useCompression(bool $compress): CompilerInterface;
+    public function getVersion(): ?string;
 
     /**
-     * Whether compression is enabled.
-     *
-     * @return bool
-     */
-    public function isCompressionEnabled(): bool;
-
-    /**
-     * Sets version number.
-     *
-     * @param string $version
-     *
-     * @return $this
-     */
-    public function setVersion(string $version): CompilerInterface;
-
-    /**
-     * Gets version number.
+     * Gets the package installer code.
      *
      * @return string
      */
-    public function getVersion(): string;
+    public function getInstaller(): string;
 }

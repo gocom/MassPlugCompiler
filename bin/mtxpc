@@ -57,4 +57,4 @@ $plugin = $compiler
     ->useCompression(isset($options['c']) || isset($options['compress']))
     ->compile($source);
 
-fwrite(\STDOUT, $plugin);
+fwrite(\STDOUT, $plugin->getInstaller());
