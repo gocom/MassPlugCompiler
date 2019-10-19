@@ -22,6 +22,18 @@
  * along with MassPlugCompiler. If not, see <http://www.gnu.org/licenses/>.
  */
 
+\set_error_handler(static function ($errno, $errstr, $errfile, $errline) {
+    \fwrite(\STDERR, "$errno: $errstr in $errfile on line $errline\n");
+
+    exit(1);
+});
+
+\set_exception_handler(static function ($exception) {
+    \fwrite(\STDERR, $exception->getMessage() . "\n");
+
+    exit(1);
+});
+
 $autoloader = \dirname(__DIR__) . '/vendor/autoload.php';
 
 if (\file_exists($autoloader)) {
@@ -31,14 +43,15 @@ if (\file_exists($autoloader)) {
 }
 
 $offset = 0;
-$options = getopt('hc', ['help', 'compress'], $offset);
+$options = \getopt('hc', ['help', 'compress', 'outdir::'], $offset);
 
 if (isset($options['h']) || isset($options['help'])) {
-    fwrite(\STDOUT, '$ mtxpc [[-h|--help][-c|--compress]] <source>' . "\n");
+    \fwrite(\STDOUT, '$ mtxpc [[-h|--help][-c|--compress][--outdir=<path>]] <source>' . "\n");
 
     exit(0);
 }
 
+$outdir = $options['outdir'] ?? null;
 $source = $argv[$offset] ?? null;
 
 if (!$source ||
@@ -46,7 +59,7 @@ if (!$source ||
 	!\is_dir($source) ||
 	!\is_readable($source)
 ) {
-    fwrite(\STDERR, "'$source' is not a valid directory.\n");
+    \fwrite(\STDERR, "'$source' is not a valid directory.\n");
 
     exit(1);
 }
@@ -57,4 +70,24 @@ $plugin = $compiler
     ->useCompression(isset($options['c']) || isset($options['compress']))
     ->compile($source);
 
-fwrite(\STDOUT, $plugin->getInstaller());
+if ($outdir) {
+    if (!\is_dir($outdir)) {
+        \mkdir($outdir, 0755, true);
+    }
+
+    if ($compiler->isCompressionEnabled()) {
+        \file_put_contents(
+            $outdir . '/' . $plugin->getName() . '_' . $plugin->getVersion() . '_zip.txt',
+            $plugin->getInstaller()
+        );
+    } else {
+        \file_put_contents(
+            $outdir . '/' . $plugin->getName() . '_' . $plugin->getVersion() . '.txt',
+            $plugin->getInstaller()
+        );
+    }
+
+    exit(0);
+}
+
+\fwrite(\STDOUT, $plugin->getInstaller());
