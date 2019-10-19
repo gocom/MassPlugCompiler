@@ -35,9 +35,9 @@ use Rah\Mtxpc\Api\PackageInterface;
 final class Package implements PackageInterface
 {
     /**
-     * Name of the plugin.
+     * Plugin data.
      *
-     * @var string
+     * @var array
      */
     private $plugin;
 
