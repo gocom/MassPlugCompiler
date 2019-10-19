@@ -1,6 +1,8 @@
 mtxpc
 =====
 
+[![Packagist Version](https://img.shields.io/packagist/v/rah/mtxpc)](https://packagist.org/packages/rah/mtxpc)
+
 **mtxpc** compiles [Textpattern CMS](https://textpattern.com) plugin sources into installer packages. Supports multi-file structure and a JSON manifest file.
 
 Install
