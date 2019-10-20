@@ -11,6 +11,6 @@
     "order": 5,
     "flags": 0,
     "textpack": "#@public\nabc_legacy_greeting => Hello World!\n#@public\n#@language fi-fi\nabc_legacy_greeting => Moi maailma!\n",
-    "allow_html_help": 1,
+    "allow_html_help": true,
     "md5": "b5ac75e2df6e58c500983b7f1c9326fe"
 }

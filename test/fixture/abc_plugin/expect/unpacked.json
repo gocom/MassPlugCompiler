@@ -10,7 +10,7 @@
     "type": 3,
     "order": 5,
     "flags": 0,
-    "textpack": "\n",
-    "allow_html_help": 0,
+    "textpack": "#@public\nabc_plugin_greeting => Hello World!\n\n#@public\n#@language aa-aa\nabc_plugin_greeting => Hello World!\n\n#@public\n#@language fi-fi\nabc_plugin_greeting => Moi maailma!\n",
+    "allow_html_help": false,
     "md5": "6c99444b9f2d8892cdf2796e9dab1355"
 }

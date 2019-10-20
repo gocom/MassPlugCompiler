@@ -268,7 +268,7 @@ final class Compiler implements CompilerInterface
                 continue;
             }
 
-            $content = $this->read($file);
+            $content = $this->read($file->getPathname());
 
             if (strpos($content, '#@language') === false) {
                 array_unshift($this->plugin['textpack'], $content);
@@ -333,11 +333,11 @@ final class Compiler implements CompilerInterface
             \preg_match('/h1(\(.*\))?\./', $help)
         ) {
             $this->plugin['help_raw'][] = $help;
-            $this->plugin['allow_html_help'] = 0;
+            $this->plugin['allow_html_help'] = false;
             $this->plugin['help'] = [];
         } else {
             $this->plugin['help_raw'] = [];
-            $this->plugin['allow_html_help'] = 1;
+            $this->plugin['allow_html_help'] = true;
             $this->plugin['help'][] = $help;
         }
     }
@@ -375,23 +375,21 @@ final class Compiler implements CompilerInterface
     }
 
     /**
-     * Reads an array of files.
+     * Reads a file.
      *
-     * @param  string|string[] $files
+     * @param  string $file
      *
      * @return string
      */
-    private function read($files): string
+    private function read(string $file): string
     {
-        $contents = [];
+        $contents = '';
 
-        foreach ((array) $files as $file) {
-            if ($file && \file_exists($file) && \is_file($file) && \is_readable($file)) {
-                $contents[] = \file_get_contents($file);
-            }
+        if ($file && \file_exists($file) && \is_file($file) && \is_readable($file)) {
+            $contents = \file_get_contents($file);
         }
 
-        return implode("\n", $contents);
+        return $contents;
     }
 
     /**
@@ -414,7 +412,7 @@ final class Compiler implements CompilerInterface
             'order' => 5,
             'flags' => '',
             'textpack' => [],
-            'allow_html_help' => 1,
+            'allow_html_help' => true,
         ];
     }
 }
