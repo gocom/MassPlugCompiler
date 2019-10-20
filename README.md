@@ -1,7 +1,7 @@
 mtxpc
 =====
 
-[![PHP Version](https://img.shields.io/packagist/php-v/rah/mtxpc)](https://packagist.org/packages/rah/mtxpc)
+[![Build Status](https://img.shields.io/travis/com/gocom/MassPlugCompiler/master)](https://travis-ci.com/gocom/MassPlugCompiler) [![Code Coverage](https://img.shields.io/coveralls/github/gocom/MassPlugCompiler/master)](https://coveralls.io/github/gocom/MassPlugCompiler) [![PHP Version](https://img.shields.io/packagist/php-v/rah/mtxpc)](https://packagist.org/packages/rah/mtxpc)
 
 **mtxpc** compiles [Textpattern CMS](https://textpattern.com) plugin sources into installer packages. Supports multi-file structure and a JSON manifest file.
 
