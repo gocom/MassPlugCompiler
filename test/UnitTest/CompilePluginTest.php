@@ -91,10 +91,26 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
             ->useCompression(false)
             ->compile($source->getPathname());
 
+        $unpacked = $plugin->getUnpacked();
+
         $this->assertJsonStringEqualsJsonString(
             $expectUnpacked,
-            \json_encode($plugin->getUnpacked())
+            \json_encode($unpacked)
         );
+
+        $this->assertTrue(\is_string($unpacked->getName()));
+        $this->assertTrue(\is_string($unpacked->getVersion()));
+        $this->assertTrue(\is_string($unpacked->getAuthor()));
+        $this->assertTrue(\is_string($unpacked->getAuthorUri()));
+        $this->assertTrue(\is_string($unpacked->getDescription()));
+        $this->assertTrue(\is_string($unpacked->getCode()));
+        $this->assertTrue(\is_string($unpacked->getHelp()));
+        $this->assertTrue(\is_string($unpacked->getHelpRaw()));
+        $this->assertTrue(\is_int($unpacked->getType()));
+        $this->assertTrue(\is_int($unpacked->getOrder()));
+        $this->assertTrue(\is_int($unpacked->getFlags()));
+        $this->assertTrue(\is_string($unpacked->getTextpack()));
+        $this->assertTrue(\is_bool($unpacked->isHtmlHelpAllowed()));
     }
 
     public function provider()

@@ -52,9 +52,9 @@ interface PackageInterface
     public function getInstaller(): string;
 
     /**
-     * Gets unpacked plugin contents as a field-content array map.
+     * Gets unpacked plugin contents.
      *
-     * @return array
+     * @return PluginInterface
      */
-    public function getUnpacked(): array;
+    public function getUnpacked(): PluginInterface;
 }

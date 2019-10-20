@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace Rah\Mtxpc;
 
 use Rah\Mtxpc\Api\PackageInterface;
+use Rah\Mtxpc\Api\PluginInterface;
 
 /**
  * Packaged plugin installer.
@@ -37,9 +38,9 @@ final class Package implements PackageInterface
     /**
      * Plugin data.
      *
-     * @var array
+     * @var PluginInterface
      */
-    private $plugin = [];
+    private $plugin;
 
     /**
      * Installer.
@@ -51,11 +52,11 @@ final class Package implements PackageInterface
     /**
      * Constructor.
      *
-     * @param array  $plugin
-     * @param string $installer
+     * @param PluginInterface  $plugin
+     * @param string           $installer
      */
     public function __construct(
-        array $plugin,
+        PluginInterface $plugin,
         string $installer
     ) {
         $this->plugin = $plugin;
@@ -67,7 +68,7 @@ final class Package implements PackageInterface
      */
     public function getName(): ?string
     {
-        return $this->plugin['name'] ?? null;
+        return $this->plugin->getName();
     }
 
     /**
@@ -75,7 +76,7 @@ final class Package implements PackageInterface
      */
     public function getVersion(): ?string
     {
-        return $this->plugin['version'] ?? null;
+        return $this->plugin->getVersion();
     }
 
     /**
@@ -89,7 +90,7 @@ final class Package implements PackageInterface
     /**
      * {@inheritdoc}
      */
-    public function getUnpacked(): array
+    public function getUnpacked(): PluginInterface
     {
         return $this->plugin;
     }

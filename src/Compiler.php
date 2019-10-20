@@ -140,9 +140,11 @@ final class Compiler implements CompilerInterface
             $packed = \gzencode($packed);
         }
 
+        $packed = $header . \chunk_split(\base64_encode($packed), 72, "\n");
+
         return new Package(
-            $this->plugin,
-            $header . \chunk_split(\base64_encode($packed), 72, "\n")
+            new Plugin($this->plugin),
+            $packed
         );
     }
 
