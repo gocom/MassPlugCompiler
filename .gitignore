@@ -1,6 +1,7 @@
 .*
 !.editorconfig
 !.gitignore
+!.travis
 /build/
 /dist/
 /vendor/
