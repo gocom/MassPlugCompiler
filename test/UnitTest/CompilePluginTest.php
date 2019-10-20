@@ -46,6 +46,8 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectCompressed, $plugin->getInstaller());
 
         $this->assertEquals($source->getBasename(), $plugin->getName());
+
+        $this->assertEquals('0.1.0', $plugin->getVersion());
     }
 
     /**
@@ -65,6 +67,8 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectUncompressed, $plugin->getInstaller());
 
         $this->assertEquals($source->getBasename(), $plugin->getName());
+
+        $this->assertEquals('0.1.0', $plugin->getVersion());
     }
 
     public function provider()
