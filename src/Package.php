@@ -39,7 +39,7 @@ final class Package implements PackageInterface
      *
      * @var array
      */
-    private $plugin;
+    private $plugin = [];
 
     /**
      * Installer.
@@ -84,5 +84,13 @@ final class Package implements PackageInterface
     public function getInstaller(): string
     {
         return $this->installer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUnpacked(): array
+    {
+        return $this->plugin;
     }
 }

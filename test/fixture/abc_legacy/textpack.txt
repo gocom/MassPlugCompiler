@@ -1,0 +1,5 @@
+#@public
+abc_legacy_greeting => Hello World!
+#@public
+#@language fi-fi
+abc_legacy_greeting => Moi maailma!

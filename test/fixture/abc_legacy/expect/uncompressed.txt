@@ -1,0 +1,36 @@
+# Name: abc_legacy v0.1.0
+# This is an example plugin
+# Author: John Doe
+# URL: https://textpattern.com/
+# Recommended load order: 5
+# .....................................................................
+# This is a plugin for Textpattern - https://textpattern.com/
+# To install: textpattern > admin > plugins
+# Paste the following text into the "Install plugin" box:
+# .....................................................................
+
+YToxNDp7czo0OiJuYW1lIjtzOjEwOiJhYmNfbGVnYWN5IjtzOjc6InZlcnNpb24iO3M6NToi
+MC4xLjAiO3M6NjoiYXV0aG9yIjtzOjg6IkpvaG4gRG9lIjtzOjEwOiJhdXRob3JfdXJpIjtz
+OjI0OiJodHRwczovL3RleHRwYXR0ZXJuLmNvbS8iO3M6MTE6ImRlc2NyaXB0aW9uIjtzOjI1
+OiJUaGlzIGlzIGFuIGV4YW1wbGUgcGx1Z2luIjtzOjQ6ImhlbHAiO3M6NTQ6IjxoMT5hYmNf
+bGVnYWN5PC9oMT4KCjxwPlRoaXMgaXMgYW4gZXhhbXBsZSBwbHVnaW4uPC9wPiI7czo4OiJo
+ZWxwX3JhdyI7czowOiIiO3M6NDoiY29kZSI7czo3ODY6IgoKLyoKICogbXR4cGMgLSBQbHVn
+aW4gY29tcGlsZXIgZm9yIFRleHRwYXR0ZXJuIENNUwogKiBodHRwczovL2dpdGh1Yi5jb20v
+Z29jb20vTWFzc1BsdWdDb21waWxlcgogKgogKiBDb3B5cmlnaHQgKEMpIDIwMTkgSnVra2Eg
+U3ZhaG4KICoKICogVGhpcyBmaWxlIGlzIHBhcnQgb2YgbXR4cGMuCiAqCiAqIHR4cG1wYyBp
+cyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IKICogbW9k
+aWZ5IGl0IHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vu
+c2UKICogYXMgcHVibGlzaGVkIGJ5IHRoZSBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24sIHZl
+cnNpb24gMi4KICoKICogbXR4cGMgaXMgZGlzdHJpYnV0ZWQgaW4gdGhlIGhvcGUgdGhhdCBp
+dCB3aWxsIGJlIHVzZWZ1bCwKICogYnV0IFdJVEhPVVQgQU5ZIFdBUlJBTlRZOyB3aXRob3V0
+IGV2ZW4gdGhlIGltcGxpZWQgd2FycmFudHkgb2YKICogTUVSQ0hBTlRBQklMSVRZIG9yIEZJ
+VE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFLiBTZWUgdGhlCiAqIEdOVSBHZW5lcmFs
+IFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFpbHMuCiAqCiAqIFlvdSBzaG91bGQgaGF2
+ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlCiAq
+IGFsb25nIHdpdGggbXR4cGMuIElmIG5vdCwgc2VlIDxodHRwOi8vd3d3LmdudS5vcmcvbGlj
+ZW5zZXMvPi4KICovCgpmdW5jdGlvbiBhYmNfbGVnYWN5KCkgewogICAgZWNobyAiSGVsbG8g
+V29ybGQhIjsKfSI7czo0OiJ0eXBlIjtpOjM7czo1OiJvcmRlciI7aTo1O3M6NToiZmxhZ3Mi
+O2k6MDtzOjg6InRleHRwYWNrIjtzOjEwNzoiI0BwdWJsaWMKYWJjX2xlZ2FjeV9ncmVldGlu
+ZyA9PiBIZWxsbyBXb3JsZCEKI0BwdWJsaWMKI0BsYW5ndWFnZSBmaS1maQphYmNfbGVnYWN5
+X2dyZWV0aW5nID0+IE1vaSBtYWFpbG1hIQoiO3M6MTU6ImFsbG93X2h0bWxfaGVscCI7aTox
+O3M6MzoibWQ1IjtzOjMyOiJiNWFjNzVlMmRmNmU1OGM1MDA5ODNiN2YxYzkzMjZmZSI7fQ==

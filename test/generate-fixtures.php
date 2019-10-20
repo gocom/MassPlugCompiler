@@ -39,12 +39,16 @@ foreach ($files as $file) {
     }
 
     $plugin = (new \Rah\Mtxpc\Compiler())
+        ->setVersion('0.1.0')
         ->useCompression(true)
         ->compile($file->getPathname());
 
     \file_put_contents($expect . '/compressed.txt', $plugin->getInstaller());
 
+    \file_put_contents($expect . '/unpacked.json', \json_encode($plugin->getUnpacked(), \JSON_PRETTY_PRINT));
+
     $plugin = (new \Rah\Mtxpc\Compiler())
+        ->setVersion('0.1.0')
         ->useCompression(false)
         ->compile($file->getPathname());
 

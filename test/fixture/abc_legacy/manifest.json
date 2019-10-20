@@ -1,0 +1,8 @@
+{
+    "description": "This is an example plugin",
+    "type": 3,
+    "author": "John Doe",
+    "author_uri": "https://textpattern.com/",
+    "order": 5,
+    "flags": 0
+}

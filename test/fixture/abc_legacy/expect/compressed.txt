@@ -1,0 +1,26 @@
+# Name: abc_legacy v0.1.0
+# This is an example plugin
+# Author: John Doe
+# URL: https://textpattern.com/
+# Recommended load order: 5
+# .....................................................................
+# This is a plugin for Textpattern - https://textpattern.com/
+# To install: textpattern > admin > plugins
+# Paste the following text into the "Install plugin" box:
+# .....................................................................
+
+H4sIAAAAAAAAA41U227iMBB9z1fMpi9t1RIupdDAorJsaakKRVxU9QkZx0msOnFkO1BU9d93
+nKTLvlRaFKGMc+bMOeOxid+48j+0f+W7KUmY29N+o+67ZEs3gkWEHuxKx3d3TGkuUxu1fbde
+a9Tq9v0aobmJpbJB13cfZZzCb3nkKT5ucsXtShOrxMZk2vc8w95NRoxhKq1RmXhFRsN3A6ap
+4pmpijWx2irmGvAhKbB3kmSCQSbyiBcAS8lEVgjD937cGBzF9z0MHaefDb7lqPW9bFCpt0Qb
+RfY2RPEVPZVB4afTRbeO4507cA6Jec8oXMK8IAF0kHHBFIRSwepoDUbTpYV/uY64ifNtYTiS
+9n9KtLYco4oAwRY/ktlB8Sg2cDo6g2a9cQOP+dsbgeWOxGkFKjyFmGWNZUQZkGEprFYh8D1B
+mRamGAMtQ7MnivXgIHOg2AvFAq6N4tvcIIvB9gSeVIVBGfDwYNfyNEBjJmaAjhJti9jgfraG
+e5YyRQTM863gFJ44ZalmNp2gIruoYxbA9lBkjK2GZaUBxhKJid3nC6imC5pfwsv2ou6jvACw
+z5YmlhlKiYmx4vZcCNgyyDULc3FhcxEML5PVw/N6BcPZK7wMF4vhbPXaQzBOI35lO1ZScRwE
+jswoSJHUHNCbZZjeLUYPmDL8NXmarF4B93Q8Wc3ulksYPy9gCPPhYjUZrZ+GC5ivF/Pn5V0N
+lsyqKsx/35piPhKJ9gNmCBf6y/ArbohGcSKAmOwYbgxlfIfSCM5WdvjPpguZRoXLagxgEkIq
+zQVoFNe3Q4gzuN/va1Ga16SKPFEma29ghXiOE+YptXsCx0N0egYfDuCP0ViC+8CEkPAilQh+
+uD3nszol5pDhKeF+q7whpMKhsXG7jENBIm3jennUyuNP38qLAi+Yk9tiXqhzLLyJcGAMR0s/
+B/BvWecv+ORWkDTKSYSd5Zch/y57KjkkBBuekB9OURM1EWTcb2KTiE15hXC/gZ9avpsEbQtq
+NX132ya002bNILxm7S5t1+s33da2EzboTat5HaLnzz+tyGm9RAUAAA==

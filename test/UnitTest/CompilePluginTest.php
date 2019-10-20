@@ -36,11 +36,13 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
     public function testCompressed(
         SplFileInfo $source,
         string $expectCompressed,
-        string $expectUncompressed
+        string $expectUncompressed,
+        string $expectUnpacked
     ) {
         $compiler = new Compiler();
 
         $plugin = $compiler
+            ->setVersion('0.1.0')
             ->compile($source->getPathname());
 
         $this->assertEquals($expectCompressed, $plugin->getInstaller());
@@ -56,11 +58,13 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
     public function testUncompressed(
         SplFileInfo $source,
         string $expectCompressed,
-        string $expectUncompressed
+        string $expectUncompressed,
+        string $expectUnpacked
     ) {
         $compiler = new Compiler();
 
         $plugin = $compiler
+            ->setVersion('0.1.0')
             ->useCompression(false)
             ->compile($source->getPathname());
 
@@ -69,6 +73,28 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($source->getBasename(), $plugin->getName());
 
         $this->assertEquals('0.1.0', $plugin->getVersion());
+    }
+
+    /**
+     * @dataProvider provider
+     */
+    public function testUnpacked(
+        SplFileInfo $source,
+        string $expectCompressed,
+        string $expectUncompressed,
+        string $expectUnpacked
+    ) {
+        $compiler = new Compiler();
+
+        $plugin = $compiler
+            ->setVersion('0.1.0')
+            ->useCompression(false)
+            ->compile($source->getPathname());
+
+        $this->assertJsonStringEqualsJsonString(
+            $expectUnpacked,
+            \json_encode($plugin->getUnpacked())
+        );
     }
 
     public function provider()
@@ -83,6 +109,7 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
                     $file,
                     \file_get_contents($file->getPathname() . '/expect/compressed.txt'),
                     \file_get_contents($file->getPathname() . '/expect/uncompressed.txt'),
+                    \file_get_contents($file->getPathname() . '/expect/unpacked.json'),
                 ];
             }
         }
