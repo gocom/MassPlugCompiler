@@ -261,15 +261,18 @@ final class Compiler implements CompilerInterface
         }
 
         $files = new \FilesystemIterator($this->getCurrentFile()->getPathname());
+        $textpacks = [];
 
         /** @var DirectoryIterator $file */
         foreach ($files as $file) {
-            if (!$file->isFile() || $file->getExtension() !== 'textpack') {
-                continue;
+            if ($file->isFile() && $file->getExtension() === 'textpack') {
+                $textpacks[$file->getBasename('.' . $file->getExtension())] = $this->read($file->getPathname());
             }
+        }
 
-            $content = $this->read($file->getPathname());
+        \ksort($textpacks);
 
+        foreach ($textpacks as $language => $content) {
             if (strpos($content, '#@language') === false) {
                 array_unshift($this->plugin['textpack'], $content);
                 continue;
