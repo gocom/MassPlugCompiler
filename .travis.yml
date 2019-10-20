@@ -11,6 +11,9 @@ script:
   - composer cs
   - composer test
 
+after_script:
+  - ./vendor/bin/php-coveralls -v
+
 matrix:
   allow_failures:
     - php: nightly
