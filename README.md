@@ -32,14 +32,15 @@ echo $plugin->getInstaller();
 ### Via Command Line
 
 ```shell
-$ vendor/bin/mtxpc [[-h|--help][-c|--compress]] <file>
+$ vendor/bin/mtxpc [[-h|--help][-c|--compress][--outdir=<path>]] <file>
 ```
 
-Example:
+Examples:
 
 ```shell
 $ vendor/bin/mtxpc path/to/abc_plugin > abc_plugin_v0.1.0.txt
 $ vendor/bin/mtxpc -c path/to/abc_plugin > abc_plugin_v0.1.0_zip.txt
+$ vendor/bin/mtxpc -c --outdir=dist/ .
 ```
 
 Example Plugin Template
@@ -47,10 +48,15 @@ Example Plugin Template
 
 See [abc_plugin](https://github.com/gocom/abc_plugin) repository for an example template.
 
+GitHub Action
+-----
+
+A [GitHub action](https://github.com/gocom/action-textpattern-package-plugin) is available to integrating plugin compilation to automated build chain.
+
 Plugin Template
 -----
 
-The main difference compared to Textpattern's vanilla plugin template and this compiler is how the plugins are constructed. Textpattern's official template hosts everything in a single file, while **mpc** splits the sources to separate files; translations, readme, manifest and the actual source code.
+The main difference compared to Textpattern's vanilla plugin template is how plugins are constructed. Textpattern's official template hosts everything in a single file, while **mtxpc** splits the sources to separate files; translations, readme, manifest and source code.
 
 ### Translations
 

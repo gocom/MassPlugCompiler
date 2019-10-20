@@ -23,6 +23,30 @@ declare(strict_types=1);
  * along with mtxpc. If not, see <http://www.gnu.org/licenses/>.
  */
 
-\ini_set('memory_limit', '512M');
-\error_reporting(E_ALL);
 require \dirname(__DIR__) . '/vendor/autoload.php';
+
+$files = new \FilesystemIterator(__DIR__ . '/fixture/');
+
+foreach ($files as $file) {
+    if (!$file->isDir()) {
+        continue;
+    }
+
+    $expect = $file->getPathname() . '/expect';
+
+    if (!\is_dir($expect)) {
+        \mkdir($expect, 0775, true);
+    }
+
+    $plugin = (new \Rah\Mtxpc\Compiler())
+        ->useCompression(true)
+        ->compile($file->getPathname());
+
+    \file_put_contents($expect . '/compressed.txt', $plugin->getInstaller());
+
+    $plugin = (new \Rah\Mtxpc\Compiler())
+        ->useCompression(false)
+        ->compile($file->getPathname());
+
+    \file_put_contents($expect . '/uncompressed.txt', $plugin->getInstaller());
+}

@@ -38,6 +38,7 @@
     },
     "scripts": {
         "cs": "./vendor/bin/phpcs",
-        "test": "./vendor/bin/phpunit"
+        "test": "./vendor/bin/phpunit",
+        "generate-fixtures": "@php ./test/generate-fixtures.php"
     }
 }
