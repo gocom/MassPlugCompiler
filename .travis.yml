@@ -8,8 +8,8 @@ before_script:
   - composer install
 
 script:
-  - ./vendor/bin/phpcs
-  - ./vendor/bin/phpunit
+  - composer cs
+  - composer test
 
 after_script:
   - ./vendor/bin/php-coveralls -v
