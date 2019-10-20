@@ -27,6 +27,8 @@ namespace Rah\Mtxpc;
 
 use Rah\Mtxpc\Api\CompilerInterface;
 use Rah\Mtxpc\Api\PackageInterface;
+use Rah\Mtxpc\Packer\CompressedPacker;
+use Rah\Mtxpc\Packer\Packer;
 
 /**
  * Plugin compiler.
@@ -134,13 +136,11 @@ final class Compiler implements CompilerInterface
 
         $header = \strtr($header, $variables) . "\n";
 
-        $packed = \serialize($this->plugin);
+        $packer = $this->isCompressionEnabled()
+            ? new CompressedPacker()
+            : new Packer();
 
-        if ($this->isCompressionEnabled()) {
-            $packed = \gzencode($packed);
-        }
-
-        $packed = $header . \chunk_split(\base64_encode($packed), 72, "\n");
+        $packed = $header . $packer->pack($this->plugin);
 
         return new Package(
             new Plugin($this->plugin),
