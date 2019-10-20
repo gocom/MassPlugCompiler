@@ -24,3 +24,5 @@
 function abc_legacy() {
     echo "Hello World!";
 }
+
+?>

@@ -322,7 +322,7 @@ final class Compiler implements CompilerInterface
             $code = \substr($code, 0, -2);
         }
 
-        $this->plugin['code'][] = $code;
+        $this->plugin['code'][] = \rtrim($code);
     }
 
     /**
