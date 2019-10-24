@@ -30,7 +30,11 @@
         "bin/mtxpc"
     ],
     "require": {
-        "php": ">=7.2.0"
+        "php": ">=7.2.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pcre": "*",
+        "ext-zlib": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "5.7.*",
