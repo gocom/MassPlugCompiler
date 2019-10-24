@@ -390,7 +390,7 @@ final class Compiler implements CompilerInterface
     private function read(SplFileInfo $file): string
     {
         return $file->isFile() && $file->isReadable()
-            ? $contents = \file_get_contents($file->getPathname())
+            ? \file_get_contents($file->getPathname())
             : '';
     }
 
