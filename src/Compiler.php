@@ -186,8 +186,8 @@ final class Compiler implements CompilerInterface
             return;
         }
 
-        if (\substr($method, -1) === 's') {
-            $method = \substr($method, 0, -1);
+        if (\mb_substr($method, -1) === 's') {
+            $method = \mb_substr($method, 0, -1);
         }
 
         if (\method_exists($this, $method)) {
@@ -273,7 +273,7 @@ final class Compiler implements CompilerInterface
         \ksort($textpacks);
 
         foreach ($textpacks as $language => $content) {
-            if (strpos($content, '#@language') === false) {
+            if (\mb_strpos($content, '#@language') === false) {
                 array_unshift($this->plugin['textpack'], $content);
                 continue;
             }
@@ -314,12 +314,12 @@ final class Compiler implements CompilerInterface
     {
         $code = \trim($this->getCurrentFileContent());
 
-        if (\substr($code, 0, 5) === '<?php') {
-            $code = \substr($code, 5);
+        if (\mb_substr($code, 0, 5) === '<?php') {
+            $code = \mb_substr($code, 5);
         }
 
-        if (\substr($code, -2, 2) === '?>') {
-            $code = \substr($code, 0, -2);
+        if (\mb_substr($code, -2, 2) === '?>') {
+            $code = \mb_substr($code, 0, -2);
         }
 
         $this->plugin['code'][] = \rtrim($code);
