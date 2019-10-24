@@ -208,9 +208,9 @@ final class Compiler implements CompilerInterface
     /**
      * Gets the current file.
      *
-     * @return \SplFileInfo|null
+     * @return SplFileInfo|null
      */
-    private function getCurrentFile(): ?\SplFileInfo
+    private function getCurrentFile(): ?SplFileInfo
     {
         return $this->currentFile;
     }
@@ -230,18 +230,15 @@ final class Compiler implements CompilerInterface
     /**
      * Gets a template contents.
      *
-     * @return string|null
+     * @return string
      */
-    private function getTemplate(string $name): ?string
+    private function getTemplate(string $name): string
     {
-        $file = __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR .
-            $name . '.txt';
+        $file = new SplFileInfo(
+            __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $name . '.txt'
+        );
 
-        if (\file_exists($file) && \is_readable($file)) {
-            return \file_get_contents($file);
-        }
-
-        return null;
+        return $this->read($file);
     }
 
     /**
