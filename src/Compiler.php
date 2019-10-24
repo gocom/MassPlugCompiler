@@ -29,6 +29,7 @@ use Rah\Mtxpc\Api\CompilerInterface;
 use Rah\Mtxpc\Api\PackageInterface;
 use Rah\Mtxpc\Packer\CompressedPacker;
 use Rah\Mtxpc\Packer\Packer;
+use SplFileInfo;
 
 /**
  * Plugin compiler.
@@ -62,7 +63,7 @@ final class Compiler implements CompilerInterface
     /**
      * Current file.
      *
-     * @var \SplFileInfo
+     * @var SplFileInfo
      */
     private $currentFile;
 
@@ -197,9 +198,9 @@ final class Compiler implements CompilerInterface
     /**
      * Set the current file.
      *
-     * @param string $path
+     * @param SplFileInfo $file
      */
-    private function setCurrentFile(\SplFileInfo $file): void
+    private function setCurrentFile(SplFileInfo $file): void
     {
         $this->currentFile = $file;
     }
@@ -222,7 +223,7 @@ final class Compiler implements CompilerInterface
     private function getCurrentFileContent(): ?string
     {
         return $this->getCurrentFile()
-            ? $this->read($this->getCurrentFile()->getPathname())
+            ? $this->read($this->getCurrentFile())
             : null;
     }
 
@@ -268,7 +269,7 @@ final class Compiler implements CompilerInterface
         /** @var DirectoryIterator $file */
         foreach ($files as $file) {
             if ($file->isFile() && $file->getExtension() === 'textpack') {
-                $textpacks[$file->getBasename('.' . $file->getExtension())] = $this->read($file->getPathname());
+                $textpacks[$file->getBasename('.' . $file->getExtension())] = $this->read($file);
             }
         }
 
@@ -382,19 +383,15 @@ final class Compiler implements CompilerInterface
     /**
      * Reads a file.
      *
-     * @param  string $file
+     * @param SplFileInfo $file
      *
      * @return string
      */
-    private function read(string $file): string
+    private function read(SplFileInfo $file): string
     {
-        $contents = '';
-
-        if ($file && \file_exists($file) && \is_file($file) && \is_readable($file)) {
-            $contents = \file_get_contents($file);
-        }
-
-        return $contents;
+        return $file->isFile() && $file->isReadable()
+            ? $contents = \file_get_contents($file->getPathname())
+            : '';
     }
 
     /**
