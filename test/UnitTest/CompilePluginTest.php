@@ -25,10 +25,11 @@ declare(strict_types=1);
 
 namespace Rah\Mtxpc\Test\UnitTest;
 
+use PHPUnit\Framework\TestCase;
 use Rah\Mtxpc\Compiler;
 use SplFileInfo;
 
-class CompilePluginTest extends \PHPUnit_Framework_TestCase
+final class CompilePluginTest extends TestCase
 {
     /**
      * @dataProvider provider
@@ -98,19 +99,19 @@ class CompilePluginTest extends \PHPUnit_Framework_TestCase
             \json_encode($unpacked)
         );
 
-        $this->assertTrue(\is_string($unpacked->getName()));
-        $this->assertTrue(\is_string($unpacked->getVersion()));
-        $this->assertTrue(\is_string($unpacked->getAuthor()));
-        $this->assertTrue(\is_string($unpacked->getAuthorUri()));
-        $this->assertTrue(\is_string($unpacked->getDescription()));
-        $this->assertTrue(\is_string($unpacked->getCode()));
-        $this->assertTrue(\is_string($unpacked->getHelp()));
-        $this->assertTrue(\is_string($unpacked->getHelpRaw()));
-        $this->assertTrue(\is_int($unpacked->getType()));
-        $this->assertTrue(\is_int($unpacked->getOrder()));
-        $this->assertTrue(\is_int($unpacked->getFlags()));
-        $this->assertTrue(\is_string($unpacked->getTextpack()));
-        $this->assertTrue(\is_bool($unpacked->isHtmlHelpAllowed()));
+        $this->assertIsString($unpacked->getName());
+        $this->assertIsString($unpacked->getVersion());
+        $this->assertIsString($unpacked->getAuthor());
+        $this->assertIsString($unpacked->getAuthorUri());
+        $this->assertIsString($unpacked->getDescription());
+        $this->assertIsString($unpacked->getCode());
+        $this->assertIsString($unpacked->getHelp());
+        $this->assertIsString($unpacked->getHelpRaw());
+        $this->assertIsInt($unpacked->getType());
+        $this->assertIsInt($unpacked->getOrder());
+        $this->assertIsInt($unpacked->getFlags());
+        $this->assertIsString($unpacked->getTextpack());
+        $this->assertIsBool($unpacked->isHtmlHelpAllowed());
     }
 
     public function provider()
