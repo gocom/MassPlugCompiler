@@ -1,0 +1,16 @@
+{
+    "name": "abc_psr0",
+    "version": "0.1.0",
+    "author": "John Doe",
+    "author_uri": "https:\/\/textpattern.com\/",
+    "description": "This is an example plugin",
+    "help": "",
+    "help_raw": "h1. abc_plugin\n\nThis is an example plugin.",
+    "code": "\\spl_autoload_register(static function ($class) {\n    static $map = null;\n\n    if ($map === null) {\n        $map = \\unserialize('a:1:{s:15:\\\"Abc\\\\Plugin\\\\Main\\\";s:1178:\\\"\n\n\/*\n * mtxpc - Plugin compiler for Textpattern CMS\n * https:\/\/github.com\/gocom\/MassPlugCompiler\n *\n * Copyright (C) 2019 Jukka Svahn\n *\n * This file is part of mtxpc.\n *\n * txpmpc is free software; you can redistribute it and\/or\n * modify it under the terms of the GNU General Public License\n * as published by the Free Software Foundation, version 2.\n *\n * mtxpc is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n * GNU General Public License for more details.\n *\n * You should have received a copy of the GNU General Public License\n * along with mtxpc. If not, see <http:\/\/www.gnu.org\/licenses\/>.\n *\/\n\nnamespace Abc\\\\Plugin;\n\n\/**\n * Main plugin class.\n *\/\nfinal class Main\n{\n    \/**\n     * Constructor.\n     *\/\n    public function __construct()\n    {\n        register_callback(array($this, \\'greeting\\'), \\'list\\', \\'\\', true);\n    }\n\n    \/**\n     * Adds the translation string to admin-side Articles panel.\n     *\/\n    public function greeting(): void\n    {\n        echo graf(gTxt(\\'abc_plugin_greeting\\'), \\' class=\\\"alert-block information\\\"\\');\n    }\n}\n\\\";}');\n    }\n\n    if (isset($map[$class])) {\n        eval($map[$class]);\n    }\n});\n\n\n\n\/*\n * mtxpc - Plugin compiler for Textpattern CMS\n * https:\/\/github.com\/gocom\/MassPlugCompiler\n *\n * Copyright (C) 2019 Jukka Svahn\n *\n * This file is part of mtxpc.\n *\n * txpmpc is free software; you can redistribute it and\/or\n * modify it under the terms of the GNU General Public License\n * as published by the Free Software Foundation, version 2.\n *\n * mtxpc is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n * GNU General Public License for more details.\n *\n * You should have received a copy of the GNU General Public License\n * along with mtxpc. If not, see <http:\/\/www.gnu.org\/licenses\/>.\n *\/\n\n\/**\n * This is an example plugin for Textpattern CMS.\n *\n * @link https:\/\/textpattern.com\/\n *\/\n\nnew \\Abc\\Plugin\\Main();",
+    "type": 3,
+    "order": 5,
+    "flags": 0,
+    "textpack": "#@public\nabc_plugin_greeting => Hello World!\n",
+    "allow_html_help": false,
+    "md5": "ef29ecf5aa68ca3b762c83c1c38d7597"
+}

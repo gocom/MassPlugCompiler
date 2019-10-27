@@ -126,16 +126,7 @@ final class Compiler implements CompilerInterface
         $this->plugin['textpack'] = \implode("\n", $this->plugin['textpack']);
         $this->plugin['md5'] = \md5($this->plugin['code']);
 
-        $header = $this->getTemplate('header');
-        $variables = [];
-
-        foreach ($this->plugin as $name => $value) {
-            if (\is_scalar($value)) {
-                $variables['{' . $name . '}'] = (string)$value;
-            }
-        }
-
-        $header = \strtr($header, $variables) . "\n";
+        $header = $this->getTemplate('header', $this->plugin) . "\n";
 
         $packer = $this->isCompressionEnabled()
             ? new CompressedPacker()
@@ -230,15 +221,28 @@ final class Compiler implements CompilerInterface
     /**
      * Gets a template contents.
      *
+     * @param string $name
+     * @param array  $data
+     *
      * @return string
      */
-    private function getTemplate(string $name): string
+    private function getTemplate(string $name, array $data = []): string
     {
         $file = new SplFileInfo(
             __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $name . '.txt'
         );
 
-        return $this->read($file);
+        $content = $this->read($file);
+
+        $variables = [];
+
+        foreach ($data as $name => $value) {
+            if (\is_scalar($value)) {
+                $variables['{' . $name . '}'] = (string)$value;
+            }
+        }
+
+        return \strtr($content, $variables);
     }
 
     /**
@@ -342,6 +346,33 @@ final class Compiler implements CompilerInterface
             $this->plugin['help_raw'] = [];
             $this->plugin['allow_html_help'] = true;
             $this->plugin['help'][] = $help;
+        }
+    }
+
+    /**
+     * Adds contents based on composer.json to the plugin installer.
+     */
+    private function addComposer(): void
+    {
+        $composer = \json_decode($this->getCurrentFileContent(), true);
+        $files = [];
+
+        if (isset($composer['autoload'], $composer['autoload']['psr-4'])) {
+            foreach ($composer['autoload']['psr-4'] as $ns => $path) {
+                $files = \array_merge($files, (new SourceCollector())->getFiles($this->getAbsolutePath($path), $ns));
+            }
+        }
+
+        if (isset($composer['autoload'], $composer['autoload']['psr-0'])) {
+            foreach ($composer['autoload']['psr-0'] as $ns => $path) {
+                $files = \array_merge($files, (new SourceCollector())->getFiles($this->getAbsolutePath($path)));
+            }
+        }
+
+        if ($files) {
+            \array_unshift($this->plugin['code'], $this->getTemplate('autoloader', [
+                'content' => \addslashes(\serialize($files)),
+            ]));
         }
     }
 

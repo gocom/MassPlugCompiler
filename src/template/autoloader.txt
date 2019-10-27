@@ -1,0 +1,11 @@
+\spl_autoload_register(static function ($class) {
+    static $map = null;
+
+    if ($map === null) {
+        $map = \unserialize('{content}');
+    }
+
+    if (isset($map[$class])) {
+        eval($map[$class]);
+    }
+});

@@ -1,0 +1,32 @@
+# Name: abc_psr4 v0.1.0
+# This is an example plugin
+# Author: John Doe
+# URL: https://textpattern.com/
+# Recommended load order: 5
+# .....................................................................
+# This is a plugin for Textpattern - https://textpattern.com/
+# To install: textpattern > admin > plugins
+# Paste the following text into the "Install plugin" box:
+# .....................................................................
+
+H4sIAAAAAAAAA+1W227bOBB911fMugFsF4mvcS7ypqjXmzQucoPtIAhWC4OmKIkwJQokZcdb
+5N93SMlNGzTFPi8qGLJIzgzP3A6G+N1D/4v2D/1aRlJWG2r/xK+RJV3kWh3a5bFfWzOluczs
+auDXOq1uq2O/j1CwMIlUldZnmWTwp3RGup3d4aJQ3O708IrEmFz77bZhTyYnxjCVtahM206j
+69dCpqniuaku6+Ft84RrwB/JgD2RNBcMclHE3AlYk0zk9hPvq2DYnYUiGyfQw3W3Bc4hp+Z5
+b1psVSapDJ0PvX4HMQU6Fwt0RQpJwoViMdeIu6ENMZxCVGTUwoXGHhVE6yZ88QCf6ngvJTmc
+QVYIMfTcAY9Q1O2elfs7DftU4kGRaaY4Efwf1qgTv2sz1B34QW20pEFw59AGwTXBdxm64xM8
+9Lz2ew/eQ2qecgoHUMoBBjjngimIpIL5S+RhfD2z4rukxNwkxdLlI5b2fY3+WBvjygAKW/mx
+zLeKx4mBxrgJvU73FD4XqxWB2ZokWSXkghyhlo10TpQBGZXAWpUEfqcI04opxkDLyGyIYkPY
+ygIoJkexEEOt+LIwaMVgvsK2VM5BGfJoa/eKLETHTMIAPUq1vcQuPt3cwyeWMUUE3BVLgZm4
+4pRhVK06QUR2UycshOXWaVxYDLMKA1xINExsXvehKn7o7YCX4UXcL/BCwDhbM4nMEUpCjAW3
+4ULAkkGhWVSIfauLwvAwmV/e3s9hdPMID6PpdHQzfxyiMDYLnrI1K01xrEyOlhGQIpnZom/W
+wvX5dHyJKqM/JleT+SNgTi8m85vz2QwubqcwgrvRdD4Z31+NpnB3P727nZ23YMYsKuf826Fx
+9ZFKdD9khnChdw4/YkI0ghMhJGTNMDGU8TVCI1hb+fY/Bl3ILHZeVmUAkwgyafZBI7jfbRFi
+DW42m1acFS2p4rYolXX7gwXS9jxLUDonlME3bTC0Ve9g2naoOhlcL5ZqEc8QkNtwIl7Zbk7J
+PragM0xkQY1UrWqv7f7z0ouvPb5Y0J1oo+kkXlp3RwwLSoRYErpq2LxtG3sGO2EfgnqMFWZ4
+Fgf1pl1i+Zmgbr/sG22y5tAZe/Ze4xuFoS5rHAtBC1eXYEsPA2okkDDl2YHmIcZFIekIZjsu
+Y+LnzuzwNJo+rCUPX/nDaCJRhkSNeP5kGkH9hUIXr1wpg3sW1AiShDlYCklX2BBYTqnDGtRQ
+cOfcs4eU9Vz/3llLilxrZhw1/lVS6d/Nb6mRrYn4/vSrRfzyfnHfL+77P3NfxXFvzi4/KvCd
+Dx8Fz1bw1uxVcSvbQGBptRouLFM2msNqIjLbHCci7vfLCVAqrDy7HpTrSJBY23WnnMDKK+jK
+aeP5u48l+Xg/4BA4+wCXTAgJD1KJ8DfPDTSohDQqN4vEpGJRznhLZ77v19JwYIX6ONuxqHfK
+aDQg5OiEkv7y+KhHT/q0S/sn4fHg9Bip5l9SgiSZ4goAAA==
