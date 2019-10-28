@@ -1,0 +1,88 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * mtxpc - Plugin compiler for Textpattern CMS
+ * https://github.com/gocom/MassPlugCompiler
+ *
+ * Copyright (C) 2019 Jukka Svahn
+ *
+ * This file is part of mtxpc.
+ *
+ * mtxpc is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, version 2.
+ *
+ * mtxpc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MassPlugCompiler. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+\set_error_handler(static function ($errno, $errstr, $errfile, $errline) {
+    \fwrite(\STDERR, "$errno: $errstr in $errfile on line $errline\n");
+
+    exit(1);
+});
+
+\set_exception_handler(static function ($exception) {
+    \fwrite(\STDERR, $exception->getMessage() . "\n");
+
+    exit(1);
+});
+
+$root = \dirname(__DIR__);
+
+$build = $root . \DIRECTORY_SEPARATOR . 'build';
+
+$file = $build . \DIRECTORY_SEPARATOR . 'mtxpc.phar';
+
+if (!\is_dir($build)) {
+    \mkdir($build, 0755, true);
+}
+
+if (\file_exists($file)) {
+    \unlink($file);
+}
+
+$stub = <<<'EOF'
+#!/usr/bin/env php
+<?php
+
+Phar::mapPhar('mtxpc.phar');
+
+require 'phar://mtxpc.phar/bin/mtxpc';
+
+__HALT_COMPILER();
+
+EOF;
+
+$autoload = <<<'EOF'
+<?php
+
+require __DIR__ . '/composer/ClassLoader.php';
+
+$loader = new \Composer\Autoload\ClassLoader();
+
+$loader->addPsr4('Rah\\Mtxpc\\', \dirname(__DIR__) . '/src');
+
+$loader->register();
+
+EOF;
+
+$classLoader = \file_get_contents($root . '/vendor/composer/ClassLoader.php');
+
+$phar = new \Phar($file, 0, 'mtxpc.phar');
+
+$phar->setSignatureAlgorithm(\Phar::SHA1);
+
+$phar->buildFromDirectory($root, '#^'.\preg_quote($root, '#').'/(bin|src)#');
+
+$phar->addFromString('/vendor/composer/ClassLoader.php', $classLoader);
+
+$phar->addFromString('/vendor/autoload.php', $autoload);
+
+$phar->setStub($stub);

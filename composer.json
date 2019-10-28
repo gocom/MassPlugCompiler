@@ -44,6 +44,7 @@
     "scripts": {
         "cs": "./vendor/bin/phpcs",
         "test": "./vendor/bin/phpunit",
-        "generate-fixtures": "@php ./test/generate-fixtures.php"
+        "generate-fixtures": "@php ./test/generate-fixtures.php",
+        "compile": "@php -dphar.readonly=0 bin/compile && chmod +x build/mtxpc.phar"
     }
 }
