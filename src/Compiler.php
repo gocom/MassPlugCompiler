@@ -378,10 +378,12 @@ final class Compiler implements CompilerInterface
 
     /**
      * Sets source path.
+     *
+     * @param string $path
      */
-    private function setSourcePath(string $string): void
+    private function setSourcePath(string $path): void
     {
-        $this->source = \realpath($string);
+        $this->source = \realpath($path);
     }
 
     /**
