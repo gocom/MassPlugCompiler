@@ -73,16 +73,20 @@ $loader->register();
 
 EOF;
 
+$mtxpc = \preg_replace('@^#!/usr/bin/env php\s+@', '', \file_get_contents($root . '/bin/mtxpc'));
+
 $classLoader = \file_get_contents($root . '/vendor/composer/ClassLoader.php');
 
 $phar = new \Phar($file, 0, 'mtxpc.phar');
 
 $phar->setSignatureAlgorithm(\Phar::SHA1);
 
-$phar->buildFromDirectory($root, '#^'.\preg_quote($root, '#').'/(bin|src)#');
+$phar->buildFromDirectory($root, '#^'.\preg_quote($root, '#').'/(src)#');
 
 $phar->addFromString('/vendor/composer/ClassLoader.php', $classLoader);
 
 $phar->addFromString('/vendor/autoload.php', $autoload);
+
+$phar->addFromString('/bin/mtxpc', $mtxpc);
 
 $phar->setStub($stub);
