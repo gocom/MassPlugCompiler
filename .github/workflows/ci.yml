@@ -14,10 +14,6 @@ jobs:
 
     - name: Build Phar
       run: |
-        apt-get install -y php git unzip zlib1g-dev libzip-dev
-        wget https://raw.githubusercontent.com/composer/getcomposer.org/76a7060ccb93902cd7576b67264ad91c8a2700e2/web/installer -O - -q | php -- --quiet
-        chmod +x composer.phar
-        mv composer.phar /usr/local/bin/composer
         composer install
         composer compile
 
