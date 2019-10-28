@@ -25,6 +25,11 @@ declare(strict_types=1);
 
 namespace Rah\Mtxpc;
 
+/**
+ * Collects source files.
+ *
+ * @internal
+ */
 final class SourceCollector
 {
     /**
