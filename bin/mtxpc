@@ -76,16 +76,14 @@ if ($outdir) {
     }
 
     if ($compiler->isCompressionEnabled()) {
-        \file_put_contents(
-            $outdir . '/' . $plugin->getName() . '_' . $plugin->getVersion() . '_zip.txt',
-            $plugin->getInstaller()
-        );
+        $path = $outdir . '/' . $plugin->getName() . '_' . $plugin->getVersion() . '_zip.txt';
     } else {
-        \file_put_contents(
-            $outdir . '/' . $plugin->getName() . '_' . $plugin->getVersion() . '.txt',
-            $plugin->getInstaller()
-        );
+        $path = $outdir . '/' . $plugin->getName() . '_' . $plugin->getVersion() . '.txt';
     }
+
+    \file_put_contents($path, $plugin->getInstaller());
+
+    \fwrite(\STDOUT, $path);
 
     exit(0);
 }
