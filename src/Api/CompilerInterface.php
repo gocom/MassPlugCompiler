@@ -58,6 +58,8 @@ interface CompilerInterface
     /**
      * Sets version number.
      *
+     * This overrides the version number set in the manifest.
+     *
      * @param string $version
      *
      * @return $this

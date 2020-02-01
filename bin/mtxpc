@@ -43,10 +43,10 @@ if (\file_exists($autoloader)) {
 }
 
 $offset = 0;
-$options = \getopt('hc', ['help', 'compress', 'outdir::'], $offset);
+$options = \getopt('hc', ['help', 'compress', 'outdir::', 'version::'], $offset);
 
 if (isset($options['h']) || isset($options['help'])) {
-    \fwrite(\STDOUT, '$ mtxpc [[-h|--help][-c|--compress][--outdir=<path>]] <source>' . "\n");
+    \fwrite(\STDOUT, '$ mtxpc [[-h|--help][-c|--compress][--outdir=<path>][--version=<number>]] <source>' . "\n");
 
     exit(0);
 }
@@ -65,6 +65,10 @@ if (!$source ||
 }
 
 $compiler = new \Rah\Mtxpc\Compiler();
+
+if (isset($options['version'])) {
+    $compiler->setVersion($options['version']);
+}
 
 $plugin = $compiler
     ->useCompression(isset($options['c']) || isset($options['compress']))

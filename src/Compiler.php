@@ -120,6 +120,10 @@ final class Compiler implements CompilerInterface
             $this->process();
         }
 
+        if ($this->version !== null) {
+            $this->plugin['version'] = $this->getVersion();
+        }
+
         $this->plugin['help'] = \implode("\n\n", $this->plugin['help']);
         $this->plugin['help_raw'] = \implode("\n\n", $this->plugin['help_raw']);
         $this->plugin['code'] = \implode("\n", $this->plugin['code']);
@@ -433,7 +437,7 @@ final class Compiler implements CompilerInterface
     {
         return [
             'name' => \basename($this->getSourcePath()),
-            'version' => $this->getVersion(),
+            'version' => '0.0.0',
             'author' => '',
             'author_uri' => '',
             'description' => '',
