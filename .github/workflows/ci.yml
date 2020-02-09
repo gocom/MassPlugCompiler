@@ -12,11 +12,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
-    - name: Clean
-      run: make clean
-
     - name: Build
       run: make build
+
+    - name: Clean
+      run: make clean
 
     - name: Install
       run: make install
