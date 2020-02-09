@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  latest:
+    build: ./docker/latest
+    volumes:
+      - .:/app
+      - ~/.composer:/tmp
+    working_dir: /app
+    environment:
+      - COMPOSER_HOME=/tmp

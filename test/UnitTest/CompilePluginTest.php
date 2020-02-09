@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace Rah\Mtxpc\Test\UnitTest;
 
+use FilesystemIterator;
 use PHPUnit\Framework\TestCase;
 use Rah\Mtxpc\Compiler;
 use SplFileInfo;
@@ -39,7 +40,7 @@ final class CompilePluginTest extends TestCase
         string $expectCompressed,
         string $expectUncompressed,
         string $expectUnpacked
-    ) {
+    ): void {
         $compiler = new Compiler();
 
         $plugin = $compiler
@@ -61,7 +62,7 @@ final class CompilePluginTest extends TestCase
         string $expectCompressed,
         string $expectUncompressed,
         string $expectUnpacked
-    ) {
+    ): void {
         $compiler = new Compiler();
 
         $plugin = $compiler
@@ -84,7 +85,7 @@ final class CompilePluginTest extends TestCase
         string $expectCompressed,
         string $expectUncompressed,
         string $expectUnpacked
-    ) {
+    ): void {
         $compiler = new Compiler();
 
         $plugin = $compiler
@@ -96,7 +97,7 @@ final class CompilePluginTest extends TestCase
 
         $this->assertJsonStringEqualsJsonString(
             $expectUnpacked,
-            \json_encode($unpacked)
+            (string) \json_encode($unpacked)
         );
 
         $this->assertIsString($unpacked->getName());
@@ -114,12 +115,16 @@ final class CompilePluginTest extends TestCase
         $this->assertIsBool($unpacked->isHtmlHelpAllowed());
     }
 
-    public function provider()
+    /**
+     * @return array<int, array<int, SplFileInfo|string|false>>
+     */
+    public function provider(): array
     {
-        $files = new \FilesystemIterator(dirname(__DIR__) . '/fixture');
+        $files = new FilesystemIterator(dirname(__DIR__) . '/fixture');
 
         $out = [];
 
+        /** @var SplFileInfo $file */
         foreach ($files as $file) {
             if ($file->isDir()) {
                 $out[] = [

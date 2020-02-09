@@ -27,6 +27,7 @@ namespace Rah\Mtxpc;
 
 use JsonSerializable;
 use Rah\Mtxpc\Api\PluginInterface;
+use Rah\Mtxpc\Converter\PluginDataConverter;
 
 /**
  * Plugin data.
@@ -36,28 +37,119 @@ use Rah\Mtxpc\Api\PluginInterface;
 final class Plugin implements PluginInterface, JsonSerializable
 {
     /**
-     * Plugin data.
+     * Name.
      *
-     * @var array
+     * @var string|null
      */
-    private $plugin = [];
+    private $name;
 
     /**
-     * Constructor.
+     * Version.
      *
-     * @param array $plugin Plugin data
+     * @var string|null
      */
-    public function __construct(array $plugin)
-    {
-        $this->plugin = $plugin;
-    }
+    private $version;
+
+    /**
+     * Author.
+     *
+     * @var string|null
+     */
+    private $author;
+
+    /**
+     * Author URI.
+     *
+     * @var string|null
+     */
+    private $authorUri;
+
+    /**
+     * Description.
+     *
+     * @var string|null
+     */
+    private $description;
+
+    /**
+     * Help contents.
+     *
+     * @var string|null
+     */
+    private $help;
+
+    /**
+     * Raw Help content.
+     *
+     * @var string|null
+     */
+    private $helpRaw;
+
+    /**
+     * Code.
+     *
+     * @var string|null
+     */
+    private $code;
+
+    /**
+     * Checksum.
+     *
+     * @var string|null
+     */
+    private $md5;
+
+    /**
+     * Type.
+     *
+     * @var int|null
+     */
+    private $type;
+
+    /**
+     * Order.
+     *
+     * @var int|null
+     */
+    private $order;
+
+    /**
+     * Flags.
+     *
+     * @var int|null
+     */
+    private $flags;
+
+    /**
+     * Textpack.
+     *
+     * @var string|null
+     */
+    private $textpack;
+
+    /**
+     * Whether HTML help is allowed.
+     *
+     * @var bool|null
+     */
+    private $isHtmlHelpAllowed;
 
     /**
      * {@inheritdoc}
      */
     public function getName(): ?string
     {
-        return $this->plugin['name'] ?? null;
+        return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setName(?string $name): PluginInterface
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -65,7 +157,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getVersion(): ?string
     {
-        return $this->plugin['version'] ?? null;
+        return $this->version;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setVersion(?string $version): PluginInterface
+    {
+        $this->version = $version;
+
+        return $this;
     }
 
     /**
@@ -73,7 +175,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getAuthor(): ?string
     {
-        return $this->plugin['author'] ?? null;
+        return $this->author;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthor(?string $author): PluginInterface
+    {
+        $this->author = $author;
+
+        return $this;
     }
 
     /**
@@ -81,7 +193,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getAuthorUri(): ?string
     {
-        return $this->plugin['author_uri'] ?? null;
+        return $this->authorUri;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setAuthorUri(?string $uri): PluginInterface
+    {
+        $this->authorUri = $uri;
+
+        return $this;
     }
 
     /**
@@ -89,7 +211,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getDescription(): ?string
     {
-        return $this->plugin['description'] ?? null;
+        return $this->description;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDescription(?string $description): PluginInterface
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -97,7 +229,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getHelp(): ?string
     {
-        return $this->plugin['help'] ?? null;
+        return $this->help;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setHelp(?string $help): PluginInterface
+    {
+        $this->help = $help;
+
+        return $this;
     }
 
     /**
@@ -105,7 +247,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getHelpRaw(): ?string
     {
-        return $this->plugin['help_raw'] ?? null;
+        return $this->helpRaw;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setHelpRaw(?string $help): PluginInterface
+    {
+        $this->helpRaw = $help;
+
+        return $this;
     }
 
     /**
@@ -113,7 +265,29 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getCode(): ?string
     {
-        return $this->plugin['code'] ?? null;
+        return $this->code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCode(?string $code): PluginInterface
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getMd5(): ?string
+    {
+        return $this->md5;
+    }
+
+    public function setMd5(?string $checksum): PluginInterface
+    {
+        $this->md5 = $checksum;
+
+        return $this;
     }
 
     /**
@@ -121,7 +295,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getType(): ?int
     {
-        return $this->plugin['type'] ?? null;
+        return $this->type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setType(?int $type): PluginInterface
+    {
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -129,7 +313,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getOrder(): ?int
     {
-        return $this->plugin['order'] ?? null;
+        return $this->order;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOrder(?int $order): PluginInterface
+    {
+        $this->order = $order;
+
+        return $this;
     }
 
     /**
@@ -137,7 +331,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getFlags(): ?int
     {
-        return $this->plugin['flags'] ?? null;
+        return $this->flags;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFlags(?int $flags): PluginInterface
+    {
+        $this->flags = $flags;
+
+        return $this;
     }
 
     /**
@@ -145,7 +349,17 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function getTextpack(): ?string
     {
-        return $this->plugin['textpack'] ?? null;
+        return $this->textpack;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTextpack(?string $contents): PluginInterface
+    {
+        $this->textpack = $contents;
+
+        return $this;
     }
 
     /**
@@ -153,14 +367,26 @@ final class Plugin implements PluginInterface, JsonSerializable
      */
     public function isHtmlHelpAllowed(): ?bool
     {
-        return $this->plugin['allow_html_help'] ?? null;
+        return $this->isHtmlHelpAllowed;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
+    public function setIsHtmlHelpAllowed(?bool $isHtmlHelpAllowed): PluginInterface
     {
-        return $this->plugin;
+        $this->isHtmlHelpAllowed = $isHtmlHelpAllowed;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return (new PluginDataConverter())->convert($this);
     }
 }

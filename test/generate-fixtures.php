@@ -27,6 +27,7 @@ require \dirname(__DIR__) . '/vendor/autoload.php';
 
 $files = new \FilesystemIterator(__DIR__ . '/fixture/');
 
+/** @var \SplFileInfo $file */
 foreach ($files as $file) {
     if (!$file->isDir()) {
         continue;

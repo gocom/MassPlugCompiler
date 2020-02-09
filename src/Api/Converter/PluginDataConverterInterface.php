@@ -10,7 +10,7 @@ declare(strict_types=1);
  *
  * This file is part of mtxpc.
  *
- * mtxpc is free software; you can redistribute it and/or
+ * txpmpc is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, version 2.
  *
@@ -20,22 +20,24 @@ declare(strict_types=1);
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with MassPlugCompiler. If not, see <http://www.gnu.org/licenses/>.
+ * along with mtxpc. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Rah\Mtxpc\Api;
+namespace Rah\Mtxpc\Api\Converter;
+
+use Rah\Mtxpc\Api\PluginInterface;
 
 /**
- * Data packer.
+ * Converts the given plugin package into a data map.
  */
-interface PackerInterface
+interface PluginDataConverterInterface
 {
     /**
-     * Packs the given key-value data array map.
+     * Converts the given plugin into a data map.
      *
-     * @param array<string|int, mixed> $data
+     * @param PluginInterface $plugin
      *
-     * @return string
+     * @return array<string, mixed>
      */
-    public function pack(array $data): string;
+    public function convert(PluginInterface $plugin): array;
 }

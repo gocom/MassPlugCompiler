@@ -36,12 +36,13 @@ final class SourceCollector
      * Gets matching files from the given path.
      *
      * @param string $path
+     * @param string $ns
      *
-     * @return array
+     * @return array<string, string>
      */
-    public function getFiles(string $path, $ns = '', $append = false): array
+    public function getFiles(string $path, string $ns = ''): array
     {
-        $path = \realpath(\rtrim($path, '\\/'));
+        $path = (string) \realpath(\rtrim($path, '\\/'));
         $directory = new \RecursiveDirectoryIterator($path);
         $files = new \RecursiveIteratorIterator($directory);
         $collection = [];
@@ -54,7 +55,7 @@ final class SourceCollector
             if ($file->isFile() && $file->getExtension() === 'php') {
                 $path = \substr($file->getPathname(), $offset, -4);
                 $path = \str_replace('/', '\\', $path);
-                $code = \file_get_contents($file->getPathname());
+                $code = (string) \file_get_contents($file->getPathname());
 
                 if (\mb_substr($code, 0, 5) === '<?php') {
                     $code = \mb_substr($code, 5);

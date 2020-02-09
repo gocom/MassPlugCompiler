@@ -37,6 +37,6 @@ final class CompressedPacker implements PackerInterface
      */
     public function pack(array $data): string
     {
-        return \chunk_split(\base64_encode(\gzencode(\serialize($data))), 72, "\n");
+        return \chunk_split(\base64_encode((string) \gzencode(\serialize($data))), 72, "\n");
     }
 }

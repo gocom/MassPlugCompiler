@@ -27,6 +27,8 @@ namespace Rah\Mtxpc;
 
 use Rah\Mtxpc\Api\CompilerInterface;
 use Rah\Mtxpc\Api\PackageInterface;
+use Rah\Mtxpc\Api\PluginInterface;
+use Rah\Mtxpc\Converter\PluginDataConverter;
 use Rah\Mtxpc\Packer\CompressedPacker;
 use Rah\Mtxpc\Packer\Packer;
 use SplFileInfo;
@@ -56,7 +58,7 @@ final class Compiler implements CompilerInterface
     /**
      * Plugin data.
      *
-     * @var array
+     * @var PluginInterface
      */
     private $plugin;
 
@@ -108,7 +110,7 @@ final class Compiler implements CompilerInterface
         $this->plugin = $this->getPluginTemplate();
         $files = new \FilesystemIterator($this->getSourcePath());
 
-        /** @var DirectoryIterator $file */
+        /** @var \DirectoryIterator $file */
         foreach ($files as $file) {
             $this->setCurrentFile($file);
 
@@ -121,25 +123,25 @@ final class Compiler implements CompilerInterface
         }
 
         if ($this->version !== null) {
-            $this->plugin['version'] = $this->getVersion();
+            $this->plugin->setVersion($this->getVersion());
         }
 
-        $this->plugin['help'] = \implode("\n\n", $this->plugin['help']);
-        $this->plugin['help_raw'] = \implode("\n\n", $this->plugin['help_raw']);
-        $this->plugin['code'] = \implode("\n", $this->plugin['code']);
-        $this->plugin['textpack'] = \implode("\n", $this->plugin['textpack']);
-        $this->plugin['md5'] = \md5($this->plugin['code']);
+        $this->plugin->setMd5(\md5((string) $this->plugin->getCode()));
 
-        $header = $this->getTemplate('header', $this->plugin) . "\n";
+        $converter = new PluginDataConverter();
+
+        $pluginDataArray = $converter->convert($this->plugin);
+
+        $header = $this->getTemplate('header', $pluginDataArray);
 
         $packer = $this->isCompressionEnabled()
             ? new CompressedPacker()
             : new Packer();
 
-        $packed = $header . $packer->pack($this->plugin);
+        $packed = $header . "\n" . $packer->pack($pluginDataArray);
 
         return new Package(
-            new Plugin($this->plugin),
+            $this->plugin,
             $packed
         );
     }
@@ -203,9 +205,9 @@ final class Compiler implements CompilerInterface
     /**
      * Gets the current file.
      *
-     * @return SplFileInfo|null
+     * @return SplFileInfo
      */
-    private function getCurrentFile(): ?SplFileInfo
+    private function getCurrentFile(): SplFileInfo
     {
         return $this->currentFile;
     }
@@ -213,20 +215,18 @@ final class Compiler implements CompilerInterface
     /**
      * Gets the current file contents.
      *
-     * @return string|null
+     * @return string
      */
-    private function getCurrentFileContent(): ?string
+    private function getCurrentFileContent(): string
     {
-        return $this->getCurrentFile()
-            ? $this->read($this->getCurrentFile())
-            : null;
+        return $this->read($this->getCurrentFile());
     }
 
     /**
      * Gets a template contents.
      *
      * @param string $name
-     * @param array  $data
+     * @param array<string, mixed> $data
      *
      * @return string
      */
@@ -259,7 +259,10 @@ final class Compiler implements CompilerInterface
         }
 
         if ($this->getCurrentFile()->isFile()) {
-            $this->plugin['textpack'][] = $this->getCurrentFileContent();
+            $this->plugin->setTextpack(\implode("\n\n", \array_filter([
+                $this->plugin->getTextpack(),
+                $this->getCurrentFileContent(),
+            ])));
 
             return;
         }
@@ -271,7 +274,7 @@ final class Compiler implements CompilerInterface
         $files = new \FilesystemIterator($this->getCurrentFile()->getPathname());
         $textpacks = [];
 
-        /** @var DirectoryIterator $file */
+        /** @var \DirectoryIterator $file */
         foreach ($files as $file) {
             if ($file->isFile() && $file->getExtension() === 'textpack') {
                 $textpacks[$file->getBasename('.' . $file->getExtension())] = $this->read($file);
@@ -280,14 +283,17 @@ final class Compiler implements CompilerInterface
 
         \ksort($textpacks);
 
+        $finalized = [];
+
         foreach ($textpacks as $language => $content) {
             if (\mb_strpos($content, '#@language') === false) {
-                array_unshift($this->plugin['textpack'], $content);
-                continue;
+                \array_unshift($finalized, $content);
+            } else {
+                $finalized[] =  $content;
             }
-
-            $this->plugin['textpack'][] =  $content;
         }
+
+        $this->plugin->setTextpack(\implode("\n", \array_filter($finalized)));
     }
 
     /**
@@ -310,7 +316,11 @@ final class Compiler implements CompilerInterface
                     $this->process($name);
                 }
             } elseif (\is_scalar($value)) {
-                $this->plugin[$name] = $value;
+                $method = 'set' . \implode('', \array_map('ucfirst', \explode('_', $name)));
+
+                if (\method_exists($this->plugin, $method)) {
+                    $this->plugin->$method($value);
+                }
             }
         }
     }
@@ -330,7 +340,10 @@ final class Compiler implements CompilerInterface
             $code = \mb_substr($code, 0, -2);
         }
 
-        $this->plugin['code'][] = \rtrim($code);
+        $this->plugin->setCode(\implode("\n", \array_filter([
+            $this->plugin->getCode(),
+            \rtrim($code),
+        ])));
     }
 
     /**
@@ -343,13 +356,21 @@ final class Compiler implements CompilerInterface
         if ($this->getCurrentFile()->getExtension() === 'textile' ||
             \preg_match('/h1(\(.*\))?\./', $help)
         ) {
-            $this->plugin['help_raw'][] = $help;
-            $this->plugin['allow_html_help'] = false;
-            $this->plugin['help'] = [];
+            $this->plugin
+                ->setHelpRaw(\implode("\n\n", \array_filter([
+                    $this->plugin->getHelpRaw(),
+                    $help,
+                ])))
+                ->setIsHtmlHelpAllowed(false)
+                ->setHelp('');
         } else {
-            $this->plugin['help_raw'] = [];
-            $this->plugin['allow_html_help'] = true;
-            $this->plugin['help'][] = $help;
+            $this->plugin
+                ->setHelp(\implode("\n\n", \array_filter([
+                    $this->plugin->getHelp(),
+                    $help,
+                ])))
+                ->setIsHtmlHelpAllowed(true)
+                ->setHelpRaw('');
         }
     }
 
@@ -374,9 +395,14 @@ final class Compiler implements CompilerInterface
         }
 
         if ($files) {
-            \array_unshift($this->plugin['code'], $this->getTemplate('autoloader', [
+            $autoloader = $this->getTemplate('autoloader', [
                 'content' => \addslashes(\serialize($files)),
-            ]));
+            ]);
+
+            $this->plugin->setCode(\implode("\n", \array_filter([
+                $autoloader,
+                $this->plugin->getCode(),
+            ])));
         }
     }
 
@@ -387,7 +413,7 @@ final class Compiler implements CompilerInterface
      */
     private function setSourcePath(string $path): void
     {
-        $this->source = \realpath($path);
+        $this->source = (string) \realpath($path);
     }
 
     /**
@@ -424,31 +450,26 @@ final class Compiler implements CompilerInterface
     private function read(SplFileInfo $file): string
     {
         return $file->isFile() && $file->isReadable()
-            ? \file_get_contents($file->getPathname())
+            ? (string) \file_get_contents($file->getPathname())
             : '';
     }
 
     /**
      * Gets plugin template.
      *
-     * @return array
+     * @return PluginInterface
      */
-    private function getPluginTemplate(): array
+    private function getPluginTemplate(): PluginInterface
     {
-        return [
-            'name' => \basename($this->getSourcePath()),
-            'version' => '0.0.0',
-            'author' => '',
-            'author_uri' => '',
-            'description' => '',
-            'help' => [],
-            'help_raw' => [],
-            'code' => [],
-            'type' => 0,
-            'order' => 5,
-            'flags' => '',
-            'textpack' => [],
-            'allow_html_help' => true,
-        ];
+        $plugin = new Plugin();
+
+        $plugin
+            ->setName(\basename($this->getSourcePath()))
+            ->setVersion('0.0.0')
+            ->setType(0)
+            ->setOrder(5)
+            ->setIsHtmlHelpAllowed(true);
+
+        return $plugin;
     }
 }
