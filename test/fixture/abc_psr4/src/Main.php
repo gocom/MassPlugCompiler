@@ -44,3 +44,4 @@ final class Main
         echo graf(gTxt('abc_plugin_greeting'), ' class="alert-block information"');
     }
 }
+?>

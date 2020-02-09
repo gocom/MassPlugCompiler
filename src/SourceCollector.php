@@ -56,16 +56,9 @@ final class SourceCollector
                 $path = \substr($file->getPathname(), $offset, -4);
                 $path = \str_replace('/', '\\', $path);
                 $code = (string) \file_get_contents($file->getPathname());
+                $code = \preg_replace('/^\s*<\?php|\?>\s*$/', '', $code);
 
-                if (\mb_substr($code, 0, 5) === '<?php') {
-                    $code = \mb_substr($code, 5);
-                }
-
-                if (\mb_substr($code, -2, 2) === '?>') {
-                    $code = \mb_substr($code, 0, -2);
-                }
-
-                $collection[$ns . $path] = $code;
+                $collection[$ns . $path] = (string) $code;
             }
         }
 
