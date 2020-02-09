@@ -1,4 +1,4 @@
-.PHONY: all build install cs csfix test unit static clean help githooks githooks-pre-push
+.PHONY: all build install cs csfix test unit static compile clean help githooks githooks-pre-push
 
 IMAGE?=latest
 
@@ -37,6 +37,10 @@ unit:
 static:
 	@$(MAKE) install
 	docker-compose run $(IMAGE) composer test:static
+
+compile:
+	@$(MAKE) install
+	docker-compose run $(IMAGE) composer compile
 
 clean:
 	docker-compose run $(IMAGE) rm -rf vendor composer.lock

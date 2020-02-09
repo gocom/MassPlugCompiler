@@ -1,6 +1,6 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -12,10 +12,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v1
 
+    - name: Clean
+      run: make clean
+
+    - name: Build
+      run: make build
+
+    - name: Install
+      run: make install
+
+    - name: Test
+      run: make test
+
     - name: Build Phar
-      run: |
-        composer install
-        composer compile
+      run: make compile
 
     - name: Upload Artifact
       uses: actions/upload-artifact@master
