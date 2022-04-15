@@ -1,4 +1,4 @@
-.PHONY: all build lint lint-fix test test-unit test-static compile clean help
+.PHONY: all build lint lint-fix test test-unit test-static generate-fixtures process-reports compile clean help
 
 IMAGE?=latest
 PHP=docker-compose run --rm $(IMAGE)
@@ -21,7 +21,7 @@ test: vendor
 	$(PHP) composer test
 
 test-unit: vendor
-	$(PHP) bash -c "composer test:unit || exit 1; test -e build/logs/clover.xml && sed -i 's/\/app\///' build/logs/clover.xml || true"
+	$(PHP) composer test:unit
 
 test-static: vendor
 	$(PHP) composer test:static
@@ -31,6 +31,12 @@ compile: vendor
 
 clean:
 	$(PHP) rm -rf vendor composer.lock
+
+generate-fixtures:
+	$(PHP) composer generate-fixtures
+
+process-reports:
+	$(PHP) bash -c "test -e build/logs/clover.xml && sed -i 's/\/app\///' build/logs/clover.xml"
 
 help:
 	@echo "Run mtxpc test suite"
@@ -69,6 +75,12 @@ help:
 	@echo ""
 	@echo "  $$ make test-static"
 	@echo "  Run only static tests"
+	@echo ""
+	@echo "  $$ make generate-fixtures"
+	@echo "  Generates test fixtures"
+	@echo ""
+	@echo "  $$ make process-reports"
+	@echo "  Formats test reports to use relative local file paths"
 	@echo ""
 	@echo "Images:"
 	@echo ""

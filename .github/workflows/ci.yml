@@ -17,6 +17,9 @@ jobs:
       - name: Test
         run: make test
 
+      - name: Process test reports
+        run: make process-reports
+
       - name: Build Phar
         run: make compile
 
