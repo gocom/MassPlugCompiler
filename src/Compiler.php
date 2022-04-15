@@ -285,7 +285,7 @@ final class Compiler implements CompilerInterface
 
         $finalized = [];
 
-        foreach ($textpacks as $language => $content) {
+        foreach ($textpacks as $content) {
             if (\mb_strpos($content, '#@language') === false) {
                 \array_unshift($finalized, $content);
             } else {
