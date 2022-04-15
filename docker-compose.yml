@@ -9,3 +9,9 @@ services:
     working_dir: /app
     environment:
       - COMPOSER_HOME=/tmp
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge

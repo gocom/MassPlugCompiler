@@ -90,3 +90,5 @@ $phar->addFromString('/vendor/autoload.php', $autoload);
 $phar->addFromString('/bin/mtxpc', $mtxpc);
 
 $phar->setStub($stub);
+
+\fwrite(\STDOUT, 'Built build/mtxpc.phar');
