@@ -1,9 +1,9 @@
 # Changelog
 
-## 0.8.1
+## 0.9.0
 
 * Fixed: PHP >= 8.0 compatibility.
-* Due to compatibility changes, `\Rah\Mtxpc\Plugin` class no longer implements `\JsonSerializable` interface, and can no longer be directly encoded with `\json_encode()`. Encoding the `Plugin` as JSON is still possible by passing the object to `\Rah\Mtxpc\Api\Converter\PluginDataConverterInterface::convert()` and passing its array-map result to `\json_encode()`.
+* Due to compatibility changes, `\Rah\Mtxpc\Plugin` class no longer implements `\JsonSerializable` interface, and can no longer be directly encoded with `\json_encode()`. Encoding the `Plugin` as JSON is still possible by passing the object to `\Rah\Mtxpc\Api\Converter\PluginDataConverterInterface::convert()` and passing its array-map result to `\json_encode()`. This wasn't part of the interface, but was only in the implementation, and doesn't affect normal usage.
 
 ## 0.8.0
 
