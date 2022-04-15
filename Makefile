@@ -21,7 +21,7 @@ test: vendor
 	$(PHP) composer test
 
 test-unit: vendor
-	$(PHP) composer test:unit
+	$(PHP) bash -c "composer test:unit || exit 1; test -e build/logs/clover.xml && sed -i 's/\/app\///' build/logs/clover.xml || true"
 
 test-static: vendor
 	$(PHP) composer test:static

@@ -81,3 +81,8 @@ Manifest file can also be used to specify help file's location. By default a hel
 ```
 
 Textile markup can be used in the help file. If the help file's filename ends with `.textile` extension, or the file contents start with `h1.` tag, the file is treated as if it contained Textile markup.
+
+Development
+-----
+
+See [CONTRIBUTING.md](https://github.com/gocom/MassPlugCompiler/blob/master/CONTRIBUTING.md).

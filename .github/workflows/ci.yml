@@ -26,9 +26,6 @@ jobs:
           name: mtxpc.phar
           path: ${{ github.workspace }}/build/mtxpc.phar
 
-      - name: Prepare reports for SonarCloud
-        run: sed -i 's/\/app\///' build/logs/clover.xml
-
       - name: SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
         env:
