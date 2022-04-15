@@ -1,7 +1,7 @@
 mtxpc
 =====
 
-[![Code Coverage](https://img.shields.io/coveralls/github/gocom/MassPlugCompiler/master)](https://coveralls.io/github/gocom/MassPlugCompiler) [![PHP Version](https://img.shields.io/packagist/php-v/rah/mtxpc)](https://packagist.org/packages/rah/mtxpc)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gocom_MassPlugCompiler&metric=coverage)](https://sonarcloud.io/dashboard?id=gocom_MassPlugCompiler) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gocom_MassPlugCompiler&metric=alert_status)](https://sonarcloud.io/dashboard?id=gocom_MassPlugCompiler)
 
 **mtxpc** compiles [Textpattern CMS](https://textpattern.com) plugin sources into installer packages. Supports multi-file structure and a JSON manifest file.
 
