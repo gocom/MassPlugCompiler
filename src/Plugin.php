@@ -6,7 +6,7 @@ declare(strict_types=1);
  * mtxpc - Plugin compiler for Textpattern CMS
  * https://github.com/gocom/MassPlugCompiler
  *
- * Copyright (C) 2019 Jukka Svahn
+ * Copyright (C) 2022 Jukka Svahn
  *
  * This file is part of mtxpc.
  *
@@ -25,16 +25,14 @@ declare(strict_types=1);
 
 namespace Rah\Mtxpc;
 
-use JsonSerializable;
 use Rah\Mtxpc\Api\PluginInterface;
-use Rah\Mtxpc\Converter\PluginDataConverter;
 
 /**
  * Plugin data.
  *
  * @internal
  */
-final class Plugin implements PluginInterface, JsonSerializable
+final class Plugin implements PluginInterface
 {
     /**
      * Name.
@@ -373,20 +371,10 @@ final class Plugin implements PluginInterface, JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function setIsHtmlHelpAllowed(?bool $isHtmlHelpAllowed): PluginInterface
+    public function setIsHtmlHelpAllowed(?bool $status): PluginInterface
     {
-        $this->isHtmlHelpAllowed = $isHtmlHelpAllowed;
+        $this->isHtmlHelpAllowed = $status;
 
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return array<string, mixed>
-     */
-    public function jsonSerialize(): array
-    {
-        return (new PluginDataConverter())->convert($this);
     }
 }

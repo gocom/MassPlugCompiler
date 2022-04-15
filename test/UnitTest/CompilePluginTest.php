@@ -6,7 +6,7 @@ declare(strict_types=1);
  * mtxpc - Plugin compiler for Textpattern CMS
  * https://github.com/gocom/MassPlugCompiler
  *
- * Copyright (C) 2019 Jukka Svahn
+ * Copyright (C) 2022 Jukka Svahn
  *
  * This file is part of mtxpc.
  *
@@ -28,6 +28,7 @@ namespace Rah\Mtxpc\Test\UnitTest;
 use FilesystemIterator;
 use PHPUnit\Framework\TestCase;
 use Rah\Mtxpc\Compiler;
+use Rah\Mtxpc\Converter\PluginDataConverter;
 use SplFileInfo;
 
 final class CompilePluginTest extends TestCase
@@ -87,6 +88,7 @@ final class CompilePluginTest extends TestCase
         string $expectUnpacked
     ): void {
         $compiler = new Compiler();
+        $converter = new PluginDataConverter();
 
         $plugin = $compiler
             ->setVersion('0.1.0')
@@ -94,10 +96,11 @@ final class CompilePluginTest extends TestCase
             ->compile($source->getPathname());
 
         $unpacked = $plugin->getUnpacked();
+        $map = $converter->convert($unpacked);
 
         $this->assertJsonStringEqualsJsonString(
             $expectUnpacked,
-            (string) \json_encode($unpacked)
+            (string) \json_encode($map)
         );
 
         $this->assertIsString($unpacked->getName());

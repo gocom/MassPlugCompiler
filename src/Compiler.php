@@ -6,7 +6,7 @@ declare(strict_types=1);
  * mtxpc - Plugin compiler for Textpattern CMS
  * https://github.com/gocom/MassPlugCompiler
  *
- * Copyright (C) 2019 Jukka Svahn
+ * Copyright (C) 2022 Jukka Svahn
  *
  * This file is part of mtxpc.
  *
@@ -72,7 +72,7 @@ final class Compiler implements CompilerInterface
     /**
      * Version number.
      *
-     * @var string
+     * @var string|null
      */
     private $version;
 

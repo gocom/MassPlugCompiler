@@ -10,7 +10,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Build
       run: make build
@@ -32,3 +32,9 @@ jobs:
       with:
         name: mtxpc.phar
         path: ${{ github.workspace }}/build/mtxpc.phar
+
+    - name: Submit coverage to Coveralls
+      continue-on-error: true
+      uses: coverallsapp/github-action@v1.1.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
