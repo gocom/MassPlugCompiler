@@ -54,4 +54,42 @@ final class CommandLineTest extends TestCase
 
         $this->assertEquals($expect, $result);
     }
+
+    public function testCompressedOutputDirectory(): void
+    {
+        $result = `bin/mtxpc -c --outdir=.test-result/ test/fixture/abc_plugin`;
+
+        $this->assertStringContainsString(
+            'abc_plugin_v0.1.0_zip.txt',
+            $result
+        );
+
+        $this->assertFileExists('.test-result/abc_plugin_v0.1.0_zip.txt');
+
+        $this->assertFileEquals(
+            'test/fixture/abc_plugin/expect/compressed.txt',
+            '.test-result/abc_plugin_v0.1.0_zip.txt'
+        );
+
+        \unlink('.test-result/abc_plugin_v0.1.0_zip.txt');
+    }
+
+    public function testUncompressedOutputDirectory(): void
+    {
+        $result = `bin/mtxpc --outdir=.test-result/ test/fixture/abc_plugin`;
+
+        $this->assertStringContainsString(
+            'abc_plugin_v0.1.0.txt',
+            $result
+        );
+
+        $this->assertFileExists('.test-result/abc_plugin_v0.1.0.txt');
+
+        $this->assertFileEquals(
+            'test/fixture/abc_plugin/expect/uncompressed.txt',
+            '.test-result/abc_plugin_v0.1.0.txt'
+        );
+
+        \unlink('.test-result/abc_plugin_v0.1.0.txt');
+    }
 }
