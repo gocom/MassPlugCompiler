@@ -4,15 +4,10 @@
         <include>
             <directory suffix=".php">./src/</directory>
         </include>
-        <report>
-            <clover outputFile="build/logs/clover.xml"/>
-            <html outputDirectory="build/logs/coverage"/>
-            <text outputFile="php://stdout" showOnlySummary="true"/>
-        </report>
     </coverage>
     <testsuites>
         <testsuite name="mtxpc Test Suite">
-            <directory>./test/Unit/</directory>
+            <directory>./test/Integration/</directory>
         </testsuite>
     </testsuites>
   <logging/>

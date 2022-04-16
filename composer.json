@@ -45,13 +45,15 @@
         "test": [
             "@composer lint",
             "@composer test:static",
-            "@composer test:unit"
+            "@composer test:unit",
+            "@composer test:integration"
         ],
         "lint": "phpcs",
         "lint-fix": "phpcbf",
-        "test:static": "phpstan analyse --level 8 src test/UnitTest",
+        "test:integration": "phpunit -c phpunit-integration.xml",
+        "test:static": "phpstan analyse --level 8 src test/Integration test/Unit",
         "test:unit": "XDEBUG_MODE=coverage phpunit",
-        "generate-fixtures": "@php ./test/generate-fixtures.php",
+        "generate-fixtures": "@php bin/generate-fixtures",
         "compile": "@php -dphar.readonly=0 bin/compile && chmod +x build/mtxpc.phar"
     }
 }

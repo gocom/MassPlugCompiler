@@ -1,4 +1,4 @@
-.PHONY: all build lint lint-fix test test-unit test-static generate-fixtures process-reports compile clean help
+.PHONY: all build lint lint-fix test test-integration test-unit test-static generate-fixtures process-reports compile clean help
 
 IMAGE?=latest
 PHP=docker-compose run --rm $(IMAGE)
@@ -19,6 +19,9 @@ lint-fix: vendor
 
 test: vendor
 	$(PHP) composer test
+
+test-integration: vendor
+	$(PHP) composer test:integration
 
 test-unit: vendor
 	$(PHP) composer test:unit

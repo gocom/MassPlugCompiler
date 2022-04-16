@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.1
+
+* Added: usage instruction to `mtxpc --help` output.
+* Added: line-feed (`LF`) at the end of the standard output when running `mtxpc` with `--outdir` option.
+
 ## 0.9.0
 
 * Fixed: PHP >= 8.0 compatibility.

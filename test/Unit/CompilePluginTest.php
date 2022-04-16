@@ -23,7 +23,7 @@ declare(strict_types=1);
  * along with mtxpc. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Rah\Mtxpc\Test\UnitTest;
+namespace Rah\Mtxpc\Test\Unit;
 
 use FilesystemIterator;
 use PHPUnit\Framework\TestCase;

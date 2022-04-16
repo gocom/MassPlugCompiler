@@ -46,7 +46,31 @@ $offset = 0;
 $options = \getopt('hc', ['help', 'compress', 'outdir::', 'version::'], $offset);
 
 if (isset($options['h']) || isset($options['help'])) {
-    \fwrite(\STDOUT, '$ mtxpc [[-h|--help][-c|--compress][--outdir=<path>][--version=<number>]] <source>' . "\n");
+    $help = <<<EOF
+mtxpc - Textpattern plugin compiler
+
+Usage:
+
+    $ mtxpc [[-h|--help][-c|--compress][--outdir=<path>][--version=<number>]] <source>
+
+Options:
+
+    -h, --help          Print this message
+
+    -c, --compress      Create compressed package
+    --outdir=<path>     Output directory where package are written
+    --version=<number>  Override package version number
+
+Examples:
+
+    $ mtxpc path/to/abc_plugin > abc_plugin_v0.1.0.txt
+    $ mtxpc -c path/to/abc_plugin > abc_plugin_v0.1.0_zip.txt
+    $ mtxpc --outdir=dist/ .
+    $ mtxpc -c --outdir=dist/ .
+
+EOF;
+
+    \fwrite(\STDOUT, $help);
 
     exit(0);
 }
@@ -75,19 +99,33 @@ $plugin = $compiler
     ->compile($source);
 
 if ($outdir) {
+    $outdir = \rtrim($outdir, '/\\');
+
     if (!\is_dir($outdir)) {
         \mkdir($outdir, 0755, true);
     }
 
-    if ($compiler->isCompressionEnabled()) {
-        $path = $outdir . '/' . $plugin->getName() . '_' . $plugin->getVersion() . '_zip.txt';
-    } else {
-        $path = $outdir . '/' . $plugin->getName() . '_' . $plugin->getVersion() . '.txt';
-    }
+    $name = \preg_replace(
+        '/[^a-z0-9-_]/i',
+        '',
+        (string) $plugin->getName()
+    );
+
+    $version = \preg_replace(
+        '/[^a-z0-9-.]/i',
+        '-',
+        (string) $plugin->getVersion()
+    );
+
+    $type = $compiler->isCompressionEnabled()
+        ? '_zip'
+        : '';
+
+    $path = \sprintf('%s/%s_v%s%s.txt', $outdir, $name, $version, $type);
 
     \file_put_contents($path, $plugin->getInstaller());
 
-    \fwrite(\STDOUT, $path);
+    \fwrite(\STDOUT, $path . "\n");
 
     exit(0);
 }

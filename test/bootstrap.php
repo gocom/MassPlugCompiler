@@ -6,7 +6,7 @@ declare(strict_types=1);
  * mtxpc - Plugin compiler for Textpattern CMS
  * https://github.com/gocom/MassPlugCompiler
  *
- * Copyright (C) 2019 Jukka Svahn
+ * Copyright (C) 2022 Jukka Svahn
  *
  * This file is part of mtxpc.
  *
@@ -23,6 +23,7 @@ declare(strict_types=1);
  * along with mtxpc. If not, see <http://www.gnu.org/licenses/>.
  */
 
+\chdir(\dirname(__DIR__));
 \ini_set('memory_limit', '512M');
 \error_reporting(E_ALL);
 require \dirname(__DIR__) . '/vendor/autoload.php';

@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 declare(strict_types=1);
@@ -6,7 +7,7 @@ declare(strict_types=1);
  * mtxpc - Plugin compiler for Textpattern CMS
  * https://github.com/gocom/MassPlugCompiler
  *
- * Copyright (C) 2019 Jukka Svahn
+ * Copyright (C) 2022 Jukka Svahn
  *
  * This file is part of mtxpc.
  *
@@ -25,7 +26,7 @@ declare(strict_types=1);
 
 require \dirname(__DIR__) . '/vendor/autoload.php';
 
-$files = new \FilesystemIterator(__DIR__ . '/fixture/');
+$files = new \FilesystemIterator(\dirname(__DIR__) . '/test/fixture/');
 
 /** @var \SplFileInfo $file */
 foreach ($files as $file) {
@@ -44,14 +45,24 @@ foreach ($files as $file) {
         ->useCompression(true)
         ->compile($file->getPathname());
 
+    $converter = new \Rah\Mtxpc\Converter\PluginDataConverter();
+
+    \fwrite(\STDOUT, "$expect/compressed.txt\n");
+
     \file_put_contents($expect . '/compressed.txt', $plugin->getInstaller());
 
-    \file_put_contents($expect . '/unpacked.json', \json_encode($plugin->getUnpacked(), \JSON_PRETTY_PRINT));
+    $data = $converter->convert($plugin->getUnpacked());
+
+    \fwrite(\STDOUT, "$expect/unpacked.json\n");
+
+    \file_put_contents($expect . '/unpacked.json', \json_encode($data, \JSON_PRETTY_PRINT));
 
     $plugin = (new \Rah\Mtxpc\Compiler())
         ->setVersion('0.1.0')
         ->useCompression(false)
         ->compile($file->getPathname());
+
+    \fwrite(\STDOUT, "$expect/uncompressed.txt\n");
 
     \file_put_contents($expect . '/uncompressed.txt', $plugin->getInstaller());
 }
