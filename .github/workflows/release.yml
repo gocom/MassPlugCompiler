@@ -9,6 +9,8 @@ jobs:
   build:
     name: Create Release
     runs-on: ubuntu-latest
+    env:
+      COMPOSER_HOME: ./.composer
 
     steps:
 

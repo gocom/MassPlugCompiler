@@ -1,17 +1,20 @@
 version: '3'
 
 services:
-  latest:
-    build: ./docker/latest
+  php:
+    build: ./docker/${IMAGE:-latest}
     volumes:
       - .:/app
-      - ~/.composer:/tmp
+      - ${COMPOSER_HOME:-$HOME/.composer}:/tmp
     working_dir: /app
     environment:
       - COMPOSER_HOME=/tmp
-    networks:
-      - app
+      - XDEBUG_CONFIG
+      - XDEBUG_MODE
+      - XDEBUG_TRIGGER
+      - PHP_IDE_CONFIG
+    network_mode: bridge
 
 networks:
-  app:
+  default:
     driver: bridge
