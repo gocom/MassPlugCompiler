@@ -1,4 +1,4 @@
-.PHONY: all build lint lint-fix test test-integration test-unit test-static generate-fixtures process-reports compile clean help
+.PHONY: all build lint lint-fix test test-integration test-unit test-static repl generate-fixtures process-reports compile clean help
 
 IMAGE?=latest
 PHP=docker-compose run --rm php
@@ -28,6 +28,9 @@ test-unit: vendor
 
 test-static: vendor
 	$(PHP) composer test:static
+
+repl: vendor
+	$(PHP) composer repl
 
 compile: vendor
 	$(PHP) composer compile
@@ -78,6 +81,9 @@ help:
 	@echo ""
 	@echo "  $$ make test-static"
 	@echo "  Run only static tests"
+	@echo ""
+	@echo "  $$ make repl"
+	@echo "  Start read-eval-print loop shell"
 	@echo ""
 	@echo "  $$ make generate-fixtures"
 	@echo "  Generates test fixtures"
