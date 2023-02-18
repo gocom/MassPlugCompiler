@@ -24,7 +24,7 @@ jobs:
         id: changelog
         run: |
           echo "contents<<CHANGELOGEOF" >> $GITHUB_OUTPUT
-          sed -e '1,/##/d' -e '/##/,$d' CHANGELOG.md
+          sed -e '1,/##/d' -e '/##/,$d' CHANGELOG.md >> $GITHUB_OUTPUT
           echo "CHANGELOGEOF" >> $GITHUB_OUTPUT
 
       - name: Create Release
