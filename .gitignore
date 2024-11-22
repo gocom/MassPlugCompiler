@@ -2,7 +2,6 @@
 !.editorconfig
 !.github
 !.gitignore
-!.travis.yml
 /build/
 /dist/
 /vendor/
