@@ -1,4 +1,4 @@
-FROM php:8.1-cli
+FROM php:8.4-cli
 
 RUN apt-get update && apt-get install -y \
   bash \
@@ -9,12 +9,13 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-install zip
 
-RUN pecl install xdebug
+RUN pecl install xdebug-3.4.0beta1
 
 RUN docker-php-ext-enable xdebug
 
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV COMPOSER_ROOT_VERSION dev-master
 
 WORKDIR /app

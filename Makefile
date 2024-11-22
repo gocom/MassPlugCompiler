@@ -1,7 +1,7 @@
 .PHONY: all build lint lint-fix test test-integration test-unit test-static repl generate-fixtures process-reports compile clean help
 
 IMAGE?=latest
-PHP=docker-compose run --rm php
+PHP=docker compose run --rm php
 
 all: test
 
