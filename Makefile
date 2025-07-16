@@ -1,7 +1,9 @@
 .PHONY: all build lint lint-fix test test-integration test-unit test-static repl generate-fixtures process-reports compile clean help
 
+HOST_UID ?= `id -u`
+HOST_GID ?= `id -g`
 IMAGE?=latest
-PHP=docker compose run --rm php
+PHP=docker compose run --rm -u $(HOST_UID):$(HOST_GID) php
 
 all: test
 
@@ -36,7 +38,7 @@ compile: vendor
 	$(PHP) composer compile
 
 clean:
-	$(PHP) rm -rf vendor composer.lock
+	$(PHP) rm -rf build composer.lock .phpunit.result.cache vendor .test-result
 
 generate-fixtures:
 	$(PHP) composer generate-fixtures
