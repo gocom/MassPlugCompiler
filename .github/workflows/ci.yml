@@ -31,8 +31,7 @@ jobs:
           name: mtxpc.phar
           path: ${{ github.workspace }}/build/mtxpc.phar
 
-      - name: SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
