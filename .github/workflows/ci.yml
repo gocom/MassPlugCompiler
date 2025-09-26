@@ -20,7 +20,11 @@ jobs:
         run: make test
 
       - name: Process test reports
+        id: report
         run: make process-reports
+        env:
+          SONAR_ENABLED: ${{ !!secrets.SONAR_TOKEN }}
+        if: ${{ env.SONAR_ENABLED == 'true' }}
 
       - name: Build Phar
         run: make compile
@@ -35,3 +39,4 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        if: ${{ steps.report.conclusion == 'success' }}
